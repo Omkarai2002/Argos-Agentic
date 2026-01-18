@@ -1,0 +1,2 @@
+import nltk
+#nltk.download("brown") ---->to be downloaded once when deploying to the production.

@@ -1,0 +1,27 @@
+prompt_to_fly/
+├── README.md
+├── requirements.txt
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   └── config.py
+├── suggestion_layer/
+│   ├── __init__.py
+│   ├── router.py
+│   ├── text_state/
+│   │   ├── __init__.py
+│   │   └── extractor.py
+│   ├── word_completion/
+│   │   ├── __init__.py
+│   │   └── engine.py
+│   ├── spell_check/
+│   │   ├── __init__.py
+│   │   └── engine.py
+│   ├── ngram/
+│   │   ├── __init__.py
+│   │   └── engine.py
+│   └── models/
+│       └── (later: neural models)
+└── data/
+    ├── words.txt
+    └── corpus.txt
