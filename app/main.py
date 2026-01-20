@@ -3,9 +3,16 @@ from suggestion_layer.router import SuggestionRouter
 from suggestion_layer.word_completion.engine import WordCompletionEngine
 from suggestion_layer.spell_check.engine import SpellCheckEngine
 from suggestion_layer.ngram.engine import NGramEngine
+from logging_config import LoggerFeature
+import logging
+
+LoggerFeature.setup_logging()
+
+logger = logging.getLogger(__name__)
+logger.info("App started")
 
 words = []
-sentences = ["general science", "good morning"]
+#sentences = ["general science", "good morning"]
 
 router = SuggestionRouter(
     WordCompletionEngine(words),
@@ -13,5 +20,5 @@ router = SuggestionRouter(
     NGramEngine(top_k=1)
 )
 
-ts = TextState("google ", 7)
+ts = TextState("good ", 5)
 print(router.suggest(ts))

@@ -2,6 +2,8 @@ import pickle
 import os
 from collections import defaultdict
 from nltk.corpus import brown
+import logging
+logger = logging.getLogger(__name__)
 
 class GramBuilder:
     CACHE_FILE = "bigram.pkl"
@@ -12,10 +14,10 @@ class GramBuilder:
         self.top_k = top_k
 
         if os.path.exists(self.CACHE_FILE):
-            print("Loading cached bigram model...")
+            logger.warning("Loading cached bigram model...")
             self._load_cache()
         else:
-            print("Cache not found. Building bigram model from corpus...")
+            logger.warning("Cache not found. Building bigram model from corpus...")
             self._build()
             self._save_cache()
 
@@ -35,7 +37,7 @@ class GramBuilder:
         for w1, nexts in self.bigram_model.items():
             self.top_next[w1] = sorted(nexts, key=nexts.get, reverse=True)[:self.top_k]
 
-        print("Bigram model built.")
+        logger.info("Bigram model built.")
 
     def _convert_to_dict(self):
         # Convert nested defaultdicts to normal dicts for pickling
@@ -46,15 +48,15 @@ class GramBuilder:
         with open(temp_file, "wb") as f:
             pickle.dump((self._convert_to_dict(), self.top_next), f)
         os.replace(temp_file, self.CACHE_FILE)
-        print(f"Bigram model cached to {self.CACHE_FILE}")
+        logger.info(f"Bigram model cached to {self.CACHE_FILE}")
 
     def _load_cache(self):
         try:
             with open(self.CACHE_FILE, "rb") as f:
                 self.bigram_model, self.top_next = pickle.load(f)
-            print("Cache loaded successfully.")
+            logger.info("Cache loaded successfully.")
         except (EOFError, pickle.UnpicklingError):
-            print("Cache broken or empty. Rebuilding model...")
+            logger.error("Cache broken or empty. Rebuilding model...")
             self._build()
             self._save_cache()
 
