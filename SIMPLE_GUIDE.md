@@ -206,7 +206,7 @@ TESTING YOUR SETUP
 ================================================================================
 
 1. Set your API key:
-   export OPENAI_API_KEY="sk-..."
+   export OPENAI_API_KEY=""
 
 2. Run the example:
    python example_usage.py
