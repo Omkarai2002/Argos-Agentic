@@ -1,0 +1,13 @@
+import os
+import dotenv
+dotenv.load_dotenv()
+DATABASE_CONFIG = {
+    "DB_NAME": os.getenv("DB_NAME"),
+    "DB_USER": os.getenv("DB_USER"),
+    "DB_PASSWORD": os.getenv("DB_PASSWORD"),
+    "DB_HOST": os.getenv("DB_HOST"),
+    "DB_PORT": int(os.getenv("DB_PORT"))
+}
+MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION = 8192
+MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION = 10
+MODEL_NAME_FOR_PROMPT_COMPLETION = "gpt-4o-mini"

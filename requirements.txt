@@ -2,3 +2,8 @@ wordfreq
 nltk
 logger
 logging
+emoji
+tiktoken
+psycopg
+dotenv
+langchain
