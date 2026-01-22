@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 *.pkl
 .DS_Store
+.env
+logs/
