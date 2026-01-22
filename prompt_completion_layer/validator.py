@@ -1,45 +1,70 @@
+"""
+Simple prompt validation - clean and count tokens.
+"""
 
 import tiktoken
 import emoji
 import re
-from app.config import MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION, MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION, MODEL_NAME_FOR_PROMPT_COMPLETION
+from app.config import (
+    MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION,
+    MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION,
+    MODEL_NAME_FOR_PROMPT_COMPLETION
+)
 from logging_config import LoggerFeature
+from .models import PromptValidationResult
 import logging
 
 LoggerFeature.setup_logging()
-
 logger = logging.getLogger(__name__)
-class PreCheckPrompt:
 
-    def __init__(self,prompt:str):
-        self.prompt=prompt
-        self.validated=False
-        self.error_message=""
+
+class PreCheckPrompt:
+    """Clean and validate prompts."""
+
+    def __init__(self, prompt: str):
+        self.prompt = prompt
         self.model = MODEL_NAME_FOR_PROMPT_COMPLETION
 
-    def remove_emojis(self, prompt: str) -> str:
-        return emoji.replace_emoji(prompt, replace="")
-    
-    def remove_white_spaces(self,) -> str:
-        return re.sub(r'\s+', ' ', self.remove_emojis(self.prompt)).strip()
-    
-    def count_tokens(self) -> int :
+    def clean_prompt(self) -> str:
+        """Remove emojis and extra spaces."""
+        # Remove emojis
+        text = emoji.replace_emoji(self.prompt, replace="")
+        # Remove extra spaces
+        text = re.sub(r'\s+', ' ', text).strip()
+        return text
+
+    def count_tokens(self) -> int:
+        """Count tokens in cleaned prompt."""
+        cleaned = self.clean_prompt()
         encoding = tiktoken.encoding_for_model(self.model)
-        tokens = encoding.encode(cleaned_prompt := self.remove_white_spaces())
-        print(f"Cleaned Prompt: {cleaned_prompt}")
+        tokens = encoding.encode(cleaned)
         return len(tokens)
 
-    def validate_token_limit(self):
+    def validate(self) -> PromptValidationResult:
+        """Validate prompt and return result."""
         token_count = self.count_tokens()
-        if token_count >= MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
-            self.validated = False
-            logger.error(f"Token count more than expected{token_count}.")
-            return self.validated
-        elif token_count <= MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
-            self.validated = False
-            logger.warning(f"Token count less than expected {token_count}.")
-            return self.validated
-        else:
-            self.validated = True
-            logger.info(f"token check passed successfully with {token_count} tokens.")
-        return self.validated
+        cleaned_prompt = self.clean_prompt()
+        errors = []
+
+        # Check if too many tokens
+        if token_count > MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
+            msg = f"Token count ({token_count}) exceeds limit ({MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION})"
+            errors.append(msg)
+            logger.error(msg)
+
+        # Check if too few tokens
+        if token_count < MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
+            msg = f"Token count ({token_count}) below limit ({MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION})"
+            errors.append(msg)
+            logger.warning(msg)
+
+        is_valid = len(errors) == 0
+        if is_valid:
+            logger.info(f"Validation passed: {token_count} tokens")
+
+        return PromptValidationResult(
+            is_valid=is_valid,
+            token_count=token_count,
+            cleaned_prompt=cleaned_prompt,
+            validation_errors=errors
+        )

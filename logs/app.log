@@ -21,3 +21,11 @@
 2026-01-21 17:06:13 | ERROR | __main__ | prompt_run.py:12 | Prompt validation failed: 
 2026-01-21 18:46:34 | WARNING | suggestion_layer.ngram.engine | engine.py:16 | Loading cached bigram model...
 2026-01-21 18:47:40 | WARNING | suggestion_layer.ngram.engine | engine.py:16 | Loading cached bigram model...
+2026-01-23 01:32:13 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:69 | Error processing request 10068d9e-e747-4328-9c52-3f801189cc66: module 'prompt_completion_layer.validator' has no attribute 'clean_prompt'
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 48, in process
+    cleaned_prompt = validator.clean_prompt()
+                     ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'prompt_completion_layer.validator' has no attribute 'clean_prompt'
+2026-01-23 01:34:40 | WARNING | prompt_completion_layer.validator | validator.py:59 | Token count (2) below limit (10)
+2026-01-23 01:34:43 | WARNING | prompt_completion_layer.validator | validator.py:59 | Token count (5) below limit (10)

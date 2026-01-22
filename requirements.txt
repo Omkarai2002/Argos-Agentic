@@ -5,5 +5,8 @@ logging
 emoji
 tiktoken
 psycopg
-dotenv
+python-dotenv
 langchain
+langchain_openai
+pydantic
+pydantic-settings
