@@ -2,6 +2,7 @@
 Prompt Completion Layer
 - Validates prompts (token limits, cleaning)
 - Checks if prompts are complete using LLM
+- Saves results to database
 - Returns detailed analysis and suggestions
 """
 
@@ -15,6 +16,7 @@ from .models import (
 from .validator import PreCheckPrompt
 from .prompt_completion_status import PromptCompletionChecker
 from .orchestrator import PromptCompletionPipeline
+from .db_manager import PromptCompletionDB
 
 __all__ = [
     "CompletionStatus",
@@ -25,4 +27,5 @@ __all__ = [
     "PreCheckPrompt",
     "PromptCompletionChecker",
     "PromptCompletionPipeline",
+    "PromptCompletionDB",
 ]

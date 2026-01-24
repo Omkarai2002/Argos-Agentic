@@ -43,34 +43,40 @@ class PromptCompletionChecker:
         Returns:
             CompletionCheckResult with status and confidence
         """
-        try:
-            logger.info(f"Checking prompt completion ({len(prompt)} chars)")
-            
-            # Create the prompt for LLM
-            analysis_prompt = f"""Analyze this prompt and decide if it's COMPLETE or NEEDS MORE INFO.
-
-Prompt: {prompt}
-
-Respond in JSON format with:
-- is_complete: true/false
-- status: "accepted" or "rejected"
-- confidence: 0.0 to 1.0
-
-
-JSON response:"""
-
-            # Call LLM
-            response = self.llm.invoke(analysis_prompt)
-            
-            # Parse response
-            result = self._parse_response(response.content)
-            
-            logger.info(f"Result: {result.status}")
+        if not prompt or prompt.strip() == "":
+            logger.error("Empty prompt provided")
+            result=dict({'is_complete': False, 'status': 'rejected', 'confidence': 0.0})
+            print("result from the empty prompt", result)
             return result
-            
-        except Exception as e:
-            logger.error(f"Error: {str(e)}")
-            return self._error_result(str(e))
+        else:
+            try:
+                logger.info(f"Checking prompt completion ({len(prompt)} chars)")
+                
+                # Create the prompt for LLM
+                analysis_prompt = f"""Analyze this prompt and decide if it's COMPLETE or NEEDS MORE INFO.
+
+    Prompt: {prompt}
+
+    Respond in JSON format with:
+    - is_complete: true/false
+    - status: "accepted" or "rejected"
+    - confidence: 0.0 to 1.0
+
+
+    JSON response:"""
+
+                # Call LLM
+                response = self.llm.invoke(analysis_prompt)
+                
+                # Parse response
+                result = self._parse_response(response.content)
+                print(result)
+                logger.info(f"Result: {result.status}")
+                return result
+                
+            except Exception as e:
+                logger.error(f"Error: {str(e)}")
+                return self._error_result(str(e))
 
     def _parse_response(self, response_text: str) -> CompletionCheckResult:
         """Parse LLM response."""
@@ -88,7 +94,7 @@ JSON response:"""
             is_complete = data.get("is_complete", True)
             status = data.get("status", "accepted")
             confidence = float(data.get("confidence", 0.0))
-            
+            print(data)
             return CompletionCheckResult(
                 status=status,
                 is_complete=is_complete,

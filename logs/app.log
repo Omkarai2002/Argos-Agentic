@@ -29,3 +29,249 @@ Traceback (most recent call last):
 AttributeError: module 'prompt_completion_layer.validator' has no attribute 'clean_prompt'
 2026-01-23 01:34:40 | WARNING | prompt_completion_layer.validator | validator.py:59 | Token count (2) below limit (10)
 2026-01-23 01:34:43 | WARNING | prompt_completion_layer.validator | validator.py:59 | Token count (5) below limit (10)
+2026-01-24 14:28:15 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (6) below limit (10)
+2026-01-24 14:28:15 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:139 | Error processing request 7ac01235-50f0-4e6c-bc13-46083c3f2449: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:28:15 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:35:16 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (6) below limit (10)
+2026-01-24 14:35:16 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:139 | Error processing request c5020955-1b5f-4340-8746-4d1a51f430af: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:35:16 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:43:32 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 14:43:32 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:139 | Error processing request 40f6960d-8e35-44d4-bc1e-6b85f6ba43e8: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:43:32 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:44:45 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 14:44:45 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:139 | Error processing request 273e4530-191b-471e-b46f-650c30bcca12: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:44:45 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:45:05 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 14:45:05 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:139 | Error processing request 152d05d8-07d4-4a3f-b304-fcdf2157f4e7: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:45:05 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:46:01 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 14:46:01 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:139 | Error processing request c3eecae2-29dc-4594-85ab-9ded47de2c52: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:46:01 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type

@@ -16,7 +16,7 @@ class CompletionStatus:
 # Validation Result
 class PromptValidationResult(BaseModel):
     is_valid: bool
-    token_count: int
+    acceptance_value: int
     cleaned_prompt: str
     validation_errors: list = []
 
@@ -26,12 +26,15 @@ class CompletionCheckResult(BaseModel):
     status: str  # "accepted" or "rejected"
     is_complete: bool
     confidence: float
-    
+    reasoning: Optional[str] = None
+    suggestions: Optional[str] = None
+    missing_elements: Optional[list] = None
+
 
 # Request
 class PromptCompletionRequest(BaseModel):
     prompt: str
-    user_id: Optional[str] = None
+    user_id: Optional[Any] = None  # Can be int or string
     context: Optional[Dict] = None
 
 

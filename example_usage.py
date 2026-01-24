@@ -33,7 +33,7 @@ def main():
     
     request1 = PromptCompletionRequest(
         prompt=prompt1,
-        user_id="user_123"
+        user_id=1
     )
     
     response1 = pipeline.process(request1)
@@ -48,7 +48,7 @@ def main():
     
     request2 = PromptCompletionRequest(
         prompt=prompt2,
-        user_id="user_456"
+        user_id=2
     )
     
     response2 = pipeline.process(request2)
@@ -63,7 +63,7 @@ def main():
     
     request3 = PromptCompletionRequest(
         prompt=prompt3,
-        user_id="user_789"
+        user_id=3
     )
     
     response3 = pipeline.process(request3)

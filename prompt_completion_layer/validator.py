@@ -47,24 +47,29 @@ class PreCheckPrompt:
         errors = []
 
         # Check if too many tokens
-        if token_count > MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
+        if token_count >= MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
             msg = f"Token count ({token_count}) exceeds limit ({MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION})"
+            acceptance_value=1
             errors.append(msg)
             logger.error(msg)
 
         # Check if too few tokens
-        if token_count < MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
+        if token_count <= MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
             msg = f"Token count ({token_count}) below limit ({MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION})"
+            acceptance_value=2
             errors.append(msg)
             logger.warning(msg)
-
+        if MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION<=token_count<=MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION:
+            msg = f"Token count ({token_count}) is within acceptable limits."
+            acceptance_value=3
+            logger.info(msg)
         is_valid = len(errors) == 0
         if is_valid:
             logger.info(f"Validation passed: {token_count} tokens")
 
         return PromptValidationResult(
             is_valid=is_valid,
-            token_count=token_count,
+            acceptance_value=acceptance_value,
             cleaned_prompt=cleaned_prompt,
             validation_errors=errors
         )

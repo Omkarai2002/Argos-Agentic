@@ -1,14 +1,13 @@
 import psycopg
-from app.config import DATABASE_CONFIG
+from app.config import PROMPT_COMPLETION_DATABASE_CONFIG
 
 class ConnectToDb:
     def __init__(self):
-        self.dbname = DATABASE_CONFIG["DB_NAME"]
-        self.user = DATABASE_CONFIG["DB_USER"]
-        self.password = DATABASE_CONFIG["DB_PASSWORD"]
-        self.host = DATABASE_CONFIG["DB_HOST"]
-        self.port = DATABASE_CONFIG["DB_PORT"]
-
+        self.dbname = PROMPT_COMPLETION_DATABASE_CONFIG["DB_NAME"]
+        self.user = PROMPT_COMPLETION_DATABASE_CONFIG["DB_USER"]
+        self.password = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PASSWORD"]
+        self.host = PROMPT_COMPLETION_DATABASE_CONFIG["DB_HOST"]
+        self.port = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PORT"]
     def get_connection(self):
         conn = psycopg.connect(
             dbname=self.dbname,
