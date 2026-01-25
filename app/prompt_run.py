@@ -102,13 +102,12 @@ class PromptRunner:
 
 def main():
     """Main entry point - process a test prompt."""
-    
     # Create runner with test user context
     runner = PromptRunner(user_id=1, org_id=1, site_id=1)
     
     # Test prompt
     prompt = """
-    Move to the warehouse loading area and loiter there at around 3 meters above the ground for about 5 minutes.
+    Go to the public park near the main gate on MG Road. Once you reach there, hover above the walking path at a height of around 12 metre and maintain a speed of 13 km/h. Stay in that position for about 3 before stopping .
     """
     
     # Process

@@ -54,6 +54,7 @@ Required parameters (in order):
      - Altitude or height (e.g., 10 m, 50 feet)
      - Distance or range (e.g., 3 m, 3 km)
      - Duration or time (e.g., 5 minutes, 10 seconds)
+4. Unit should be specified for each attribute (e.g., metres, m, km, minutes, etc.);it means unit should be assigned after every attribute.
 
 Evaluation rules:
 - The prompt is COMPLETE only if all required parameters are present.
@@ -61,6 +62,13 @@ Evaluation rules:
 - Do not add suggestions that are not directly related to missing parameters.
 - Suggestions MUST explicitly state what is missing and why the prompt is incomplete.
 - Suggestions must be short, factual, and parameter-focused.
+
+- Qualitative words like "slow", "fast" are NOT valid attributes unless accompanied by a numeric value AND unit like metre,min,km,m etc.
+- A numeric value WITHOUT a unit MUST be treated as MISSING.
+- Do NOT guess or normalize values.
+- If duration is mentioned without a unit, it is INVALID.
+- If speed is qualitative only, it is INVALID.
+- If ANY attribute violates these rules, the prompt MUST be marked INCOMPLETE.
 
 Output rules:
 - Respond ONLY in valid JSON.
@@ -170,7 +178,7 @@ Confidence scoring:
                 confidence=confidence,
                 #reasoning=reasoning,
                 suggestions=list[suggestions]))
-            return CompletionCheckResult(
+            return CompletionCheckResult(   
                 status=status,
                 is_complete=is_complete,
                 confidence=confidence,
