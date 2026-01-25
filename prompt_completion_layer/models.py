@@ -27,7 +27,7 @@ class CompletionCheckResult(BaseModel):
     is_complete: bool
     confidence: float
     reasoning: Optional[str] = None
-    suggestions: Optional[str] = None
+    suggestions: Optional[list]
     missing_elements: Optional[list] = None
 
 

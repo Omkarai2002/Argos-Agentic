@@ -275,3 +275,541 @@ pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompl
 completion_result
   Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
     For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:53:59 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 14:53:59 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:139 | Error processing request 1616ebbb-326c-4bac-85ec-9feebe3bd0b5: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 14:53:59 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 15:13:43 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 15:13:43 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:139 | Error processing request 310e4bcb-1d84-4d71-9938-ce8a43fe9371: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 15:13:43 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 109, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 15:16:44 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 15:16:44 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:141 | Error processing request 2b69380a-5bed-4ae1-8884-7c001724ea41: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 111, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 15:16:44 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 111, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 15:17:37 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 15:17:37 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:142 | Error processing request 2be34724-6302-4eb0-824e-45b75cd0bb50: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 112, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 15:17:37 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 112, in process
+    response = PromptCompletionResponse(
+        request_id=request_id,
+    ...<4 lines>...
+        processing_time_ms=processing_time
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PromptCompletionResponse
+completion_result
+  Input should be a valid dictionary or instance of CompletionCheckResult [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2026-01-24 15:26:08 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 15:27:41 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 15:31:32 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-24 15:32:03 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (14) below limit (100)
+2026-01-25 10:57:24 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (46) below limit (100)
+2026-01-25 12:40:49 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:114 | Prompt completion check failed
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 108, in check_completion
+    status=llm_result.status,
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'status'
+2026-01-25 12:43:49 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:112 | Prompt completion check failed
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 106, in check_completion
+    status=llm_result.status,
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'status'
+2026-01-25 12:55:17 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (46) below limit (100)
+2026-01-25 12:55:48 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (46) below limit (100)
+2026-01-25 14:03:58 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:143 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=['Specify the purpose of ...ints for the function.'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 14:12:07 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:141 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=['Specify the purpose of ...he function to return.'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 14:14:56 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:141 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=['Specify the purpose of ... of the JSON response.'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 14:18:16 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:141 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=['Specify the functionali...utput of the function.'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 14:21:11 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (6) below limit (100)
+2026-01-25 14:34:53 | WARNING | prompt_completion_layer.validator | validator.py:61 | Token count (6) below limit (100)
+2026-01-25 14:37:08 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:150 | Error in check_completion: 'Input to ChatPromptTemplate is missing variables {\'\\n  "is_complete"\'}.  Expected: [\'\\n  "is_complete"\', \'prompt\'] Received: [\'prompt\']\nNote: if you intended {\n  "is_complete"} to be part of the string and not a variable, please escape it with double curly braces like: \'{{\n  "is_complete"}}\'.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/INVALID_PROMPT_INPUT '
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 139, in check_completion
+    analysis_output = self.chain.invoke({"prompt": prompt})
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/runnables/base.py", line 3149, in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/prompts/base.py", line 217, in invoke
+    return self._call_with_config(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self._format_prompt_with_error_handling,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        serialized=self._serialized,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/runnables/base.py", line 2058, in _call_with_config
+    context.run(
+    ~~~~~~~~~~~^
+        call_func_with_variable_args,  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ),
+    ^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/runnables/config.py", line 435, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/prompts/base.py", line 190, in _format_prompt_with_error_handling
+    inner_input_ = self._validate_input(inner_input)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/prompts/base.py", line 184, in _validate_input
+    raise KeyError(
+        create_message(message=msg, error_code=ErrorCode.INVALID_PROMPT_INPUT)
+    )
+KeyError: 'Input to ChatPromptTemplate is missing variables {\'\\n  "is_complete"\'}.  Expected: [\'\\n  "is_complete"\', \'prompt\'] Received: [\'prompt\']\nNote: if you intended {\n  "is_complete"} to be part of the string and not a variable, please escape it with double curly braces like: \'{{\n  "is_complete"}}\'.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/INVALID_PROMPT_INPUT '
+2026-01-25 14:38:45 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:150 | Error in check_completion: 'Input to ChatPromptTemplate is missing variables {\'\\n  "is_complete"\'}.  Expected: [\'\\n  "is_complete"\', \'prompt\'] Received: [\'prompt\']\nNote: if you intended {\n  "is_complete"} to be part of the string and not a variable, please escape it with double curly braces like: \'{{\n  "is_complete"}}\'.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/INVALID_PROMPT_INPUT '
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 139, in check_completion
+    analysis_output = self.chain.invoke({"prompt": prompt})
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/runnables/base.py", line 3149, in invoke
+    input_ = context.run(step.invoke, input_, config, **kwargs)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/prompts/base.py", line 217, in invoke
+    return self._call_with_config(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self._format_prompt_with_error_handling,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        serialized=self._serialized,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/runnables/base.py", line 2058, in _call_with_config
+    context.run(
+    ~~~~~~~~~~~^
+        call_func_with_variable_args,  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ),
+    ^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/runnables/config.py", line 435, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/prompts/base.py", line 190, in _format_prompt_with_error_handling
+    inner_input_ = self._validate_input(inner_input)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/langchain_core/prompts/base.py", line 184, in _validate_input
+    raise KeyError(
+        create_message(message=msg, error_code=ErrorCode.INVALID_PROMPT_INPUT)
+    )
+KeyError: 'Input to ChatPromptTemplate is missing variables {\'\\n  "is_complete"\'}.  Expected: [\'\\n  "is_complete"\', \'prompt\'] Received: [\'prompt\']\nNote: if you intended {\n  "is_complete"} to be part of the string and not a variable, please escape it with double curly braces like: \'{{\n  "is_complete"}}\'.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/INVALID_PROMPT_INPUT '
+2026-01-25 14:41:38 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:177 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 14:50:32 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:177 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 14:52:11 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:177 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 14:53:08 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:179 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 14:58:43 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:181 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:00:20 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:181 | Error converting output: 2 validation errors for CompletionCheckResult
+is_complete
+  Input should be a valid string [type=string_type, input_value=True, input_type=bool]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:00:20 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:149 | Error in check_completion: 1 validation error for CompletionCheckResult
+is_complete
+  Input should be a valid string [type=string_type, input_value=False, input_type=bool]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 143, in check_completion
+    result = self._convert_output_to_result(analysis_output)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 182, in _convert_output_to_result
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 186, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions="Please try again or check your prompt"
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+is_complete
+  Input should be a valid string [type=string_type, input_value=False, input_type=bool]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:00:20 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:142 | Error processing request 39e8e8b9-4d5f-4b3d-b467-5af6754514c4: 1 validation error for CompletionCheckResult
+is_complete
+  Input should be a valid string [type=string_type, input_value=False, input_type=bool]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 75, in process
+    completion_result = self.checker.check_completion(cleaned_prompt)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 150, in check_completion
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 186, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions="Please try again or check your prompt"
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+is_complete
+  Input should be a valid string [type=string_type, input_value=False, input_type=bool]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:00:20 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for CompletionCheckResult
+is_complete
+  Input should be a valid string [type=string_type, input_value=False, input_type=bool]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 75, in process
+    completion_result = self.checker.check_completion(cleaned_prompt)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 150, in check_completion
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 186, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions="Please try again or check your prompt"
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+is_complete
+  Input should be a valid string [type=string_type, input_value=False, input_type=bool]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:01:04 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:181 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:02:04 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:181 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:03:13 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:181 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:03:49 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:181 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid string [type=string_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:10:56 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:181 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid list [type=list_type, input_value='Missing Action Attribute...hover is not specified.', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+2026-01-25 15:10:56 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:149 | Error in check_completion: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid list [type=list_type, input_value='Please try again or check your prompt', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 143, in check_completion
+    result = self._convert_output_to_result(analysis_output)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 183, in _convert_output_to_result
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 187, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions="Please try again or check your prompt"
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid list [type=list_type, input_value='Please try again or check your prompt', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+2026-01-25 15:10:56 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:142 | Error processing request 1d23a7f1-076d-4975-b168-c881d82f68d7: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid list [type=list_type, input_value='Please try again or check your prompt', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 75, in process
+    completion_result = self.checker.check_completion(cleaned_prompt)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 150, in check_completion
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 187, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions="Please try again or check your prompt"
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid list [type=list_type, input_value='Please try again or check your prompt', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+2026-01-25 15:10:56 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid list [type=list_type, input_value='Please try again or check your prompt', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 75, in process
+    completion_result = self.checker.check_completion(cleaned_prompt)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 150, in check_completion
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 187, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions="Please try again or check your prompt"
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid list [type=list_type, input_value='Please try again or check your prompt', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+2026-01-25 15:17:42 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:181 | Error converting output: 1 validation error for CompletionCheckResult
+suggestions
+  Input should be a valid list [type=list_type, input_value='Missing Action Attribute...hover is not specified.', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/list_type
+2026-01-25 15:17:42 | ERROR | prompt_completion_layer.prompt_completion_status | prompt_completion_status.py:149 | Error in check_completion: 1 validation error for CompletionCheckResult
+reasoning
+  Input should be a valid string [type=string_type, input_value=["Error during analysis: ...c.dev/2.12/v/list_type"], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 143, in check_completion
+    result = self._convert_output_to_result(analysis_output)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 183, in _convert_output_to_result
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 187, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions=["Please try again or check your prompt"]
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+reasoning
+  Input should be a valid string [type=string_type, input_value=["Error during analysis: ...c.dev/2.12/v/list_type"], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:17:42 | ERROR | prompt_completion_layer.orchestrator | orchestrator.py:142 | Error processing request 0fd20308-7c2e-4b8b-8eae-df045ca8b30b: 1 validation error for CompletionCheckResult
+reasoning
+  Input should be a valid string [type=string_type, input_value=['Error during analysis: ...dev/2.12/v/string_type'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 75, in process
+    completion_result = self.checker.check_completion(cleaned_prompt)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 150, in check_completion
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 187, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions=["Please try again or check your prompt"]
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+reasoning
+  Input should be a valid string [type=string_type, input_value=['Error during analysis: ...dev/2.12/v/string_type'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-25 15:17:42 | ERROR | __main__ | prompt_run.py:76 | Error processing prompt: 1 validation error for CompletionCheckResult
+reasoning
+  Input should be a valid string [type=string_type, input_value=['Error during analysis: ...dev/2.12/v/string_type'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+Traceback (most recent call last):
+  File "/home/ostajanpure/Desktop/prompt_to_fly/app/prompt_run.py", line 54, in process_prompt
+    response = self.pipeline.process(
+        request,
+    ...<2 lines>...
+        org_id=self.org_id
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/orchestrator.py", line 75, in process
+    completion_result = self.checker.check_completion(cleaned_prompt)
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 150, in check_completion
+    return self._error_result(str(e))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ostajanpure/Desktop/prompt_to_fly/prompt_completion_layer/prompt_completion_status.py", line 187, in _error_result
+    return CompletionCheckResult(
+        status="rejected",
+    ...<3 lines>...
+        suggestions=["Please try again or check your prompt"]
+    )
+  File "/home/ostajanpure/Desktop/prompt_to_fly/venv/lib64/python3.14/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CompletionCheckResult
+reasoning
+  Input should be a valid string [type=string_type, input_value=['Error during analysis: ...dev/2.12/v/string_type'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type

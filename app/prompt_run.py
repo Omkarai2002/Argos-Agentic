@@ -108,9 +108,7 @@ def main():
     
     # Test prompt
     prompt = """
-    Build a Python function that:
-    - Takes a list of numbers as input
-    
+    Move to the warehouse loading area and loiter there at around 3 meters above the ground for about 5 minutes.
     """
     
     # Process
@@ -136,8 +134,11 @@ def main():
             print(f"\n✗ Error: {result['error']}")
     
         print("="*60 + "\n")
-    if result["status"] =="rejected":
+    elif result["status"] =="rejected":
         runner.human_in_the_loop(result)
+    
+    else:
+        print("Enter the correct prompt is out of token limit or incomplete ")
 
 
         

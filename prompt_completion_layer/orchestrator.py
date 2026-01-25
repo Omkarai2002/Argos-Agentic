@@ -67,7 +67,9 @@ class PromptCompletionPipeline:
             self.validator.prompt = request.prompt
             validation_result = self.validator.validate()
             cleaned_prompt = self.validator.clean_prompt()
-            if validation_result.is_valid is True and validation_result.acceptance_value==3:
+            print("validation_result in orchestrator", validation_result)
+            print("acceptance_value in orchestrator", validation_result.acceptance_value)
+            if validation_result.is_valid and validation_result.acceptance_value==3:
             # Step 2: Check completion with LLM
                 logger.info("Step 2: Checking with LLM")
                 completion_result = self.checker.check_completion(cleaned_prompt)
@@ -104,13 +106,14 @@ class PromptCompletionPipeline:
                 logger.info(f"Request {request_id} completed in {processing_time:.2f}ms")
                 return response
             else:
+                print("Prompt validation failed or acceptance value not met.")
                 processing_time = (time.time() - start_time) * 1000
                 logger.info(f"Step 3: Building response for prompt completion")
                 response = PromptCompletionResponse(
                     request_id=request_id,
                     original_prompt=request.prompt,
                     validation_result=validation_result,
-                    completion_result=None,
+                    completion_result=dict({'is_complete': False, 'status': 'invalid response', 'confidence': 0.0}),
                     timestamp=datetime.utcnow(),
                     processing_time_ms=processing_time
                 )
