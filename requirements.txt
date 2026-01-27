@@ -10,3 +10,5 @@ langchain
 langchain_openai
 pydantic
 pydantic-settings
+langchain_community
+faiss-cpu

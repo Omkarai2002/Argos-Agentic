@@ -2,7 +2,7 @@
 Simple prompt completion runner with database integration.
 Validates prompts and saves results to local PostgreSQL database.
 """
-
+import json
 import logging
 from logging_config import LoggerFeature
 from prompt_completion_layer import (
@@ -79,7 +79,7 @@ class PromptRunner:
                 "error" : str(e)
             }
 
-    def human_in_the_loop(self,result)-> int:
+    def human_in_the_loop(self,result,data,validated):
         print("Human-in-the-loop review needed for this prompt.")
         print("Prompt seems to be incomplete or requires additional information.")
         print("Click 1 --> accept the prompt")
@@ -89,6 +89,7 @@ class PromptRunner:
         if user_input == 1:
             print("prompt accepted by user.")
             update_result = self.db.update_status_of_prompt(result['db_record_id'], "APPROVED")
+            validated["prompt"]=data["prompt"]
             return 1
         if user_input == 2:
             print("prompt rejected by user.")
@@ -97,18 +98,18 @@ class PromptRunner:
         if user_input == 3:
             print("prompt editing by user.")
             new_prompt = input("Re-enter the prompt: ")
+
             update_result = self.db.update_prompt_final(result['db_record_id'], new_prompt, "APPROVED")
+            validated["prompt"]=new_prompt
             return 3
 
-def main():
+def main(data,validated):
     """Main entry point - process a test prompt."""
     # Create runner with test user context
-    runner = PromptRunner(user_id=1, org_id=1, site_id=1)
+    runner = PromptRunner(data["user_id"], data["org_id"], data["site_id"])
     
     # Test prompt
-    prompt = """
-    Go to the public park near the main gate on MG Road. Once you reach there, hover above the walking path at a height of around 12 metre and maintain a speed of 13 km/h. Stay in that position for about 3 before stopping .
-    """
+    prompt = data["prompt"]
     
     # Process
     print("\n" + "="*60)
@@ -126,22 +127,39 @@ def main():
             print(f"  Status: {result['status']}")
             print(f"  Complete: {result['is_complete']}")
             print(f"  Confidence: {result['confidence']}")
+            validated["prompt"]=prompt
+            validated["db_record_id"] = result['db_record_id']
             if result['suggestions']:
                 print(f"  Suggestions: {result['suggestions']}")
             print(f"  Processing Time: {result['processing_time_ms']:.2f}ms")
+            return validated
         else:
             print(f"\n✗ Error: {result['error']}")
-    
+
         print("="*60 + "\n")
     elif result["status"] =="rejected":
-        runner.human_in_the_loop(result)
-    
+        runner.human_in_the_loop(result,data,validated)
+        validated["db_record_id"] = result['db_record_id']
+        return validated
     else:
-        print("Enter the correct prompt is out of token limit or incomplete ")
+        print("Enter the correct prompt ,prompt is out of token limit or incomplete ")
 
 
         
-
-
 if __name__ == "__main__":
-    main()
+    data ={
+        "user_id":1,
+        "site_id":1,
+        "org_id":1,
+        "prompt" :"Go to the public park near the main gate on MG Road. Once you reach there, hover above the walking path at a height of around 12 metre and maintain a speed of 13 km/h. Stay in that position for about 3 min before stopping ."
+    }
+    print(data)
+    validated={
+        "db_record_id":int,
+        "user_id":data["user_id"],
+        "site_id":data["site_id"],
+        "org_id":data["org_id"],
+        "prompt":"",
+    }
+    a=main(data,validated)
+    print(a)

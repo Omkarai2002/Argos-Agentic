@@ -1,2 +1,3 @@
 import nltk
 #nltk.download("brown") ---->to be downloaded once when deploying to the production.
+2) create a message broker service or the sns for the message trigger when the api service is going to end.
