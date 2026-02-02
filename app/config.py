@@ -14,6 +14,16 @@ MODEL_NAME_FOR_PROMPT_COMPLETION = "gpt-4o-mini"
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 TEMPERATURE_FOR_PROMPT_COMPLETION = 0.3
 MODEL_FOR_EMBEDDING = "text-embedding-3-large"
+MODEL_FOR_CLASSIFICATION ="gpt-5-nano"
+TEMPERATURE_FOR_CLASSIFICATION=0
+SMALL_MODEL="gpt-5-nano"
+MEDIUM_MODEL="gpt-4o-mini"
+LARGE_MODEL="gpt-4o"
+XLARGE_MODEL="gpt-4.1"
+COMPLEXITY_THRESHOLD_FOR_POINT_MISSION=0.8
+COMPLEXITY_THRESHOLD_FOR_PATH_MISSION=0.8
+COMPLEXITY_THRESHOLD_FOR_GRID_MISSION=0.8
+COMPLEXITY_THRESHOLD_FOR_3D_MISSION=0.8
 WORK_PATTERN_PROMPT = """
 You are a mission intent analyzer for autonomous drones.
 
@@ -48,6 +58,7 @@ JSON:
 {{
   "work_pattern": "stop_and_work | move_and_work | cover_area | inspect_structure",
   "reason": "one short sentence"
+  "complexity":"enter the complexity score between 0 to 1 over here ,the more complex or more action based the prompt--> {mission_text} is like long heavy to understand by the model more should be the confidence threshold "
 }}
 """
 

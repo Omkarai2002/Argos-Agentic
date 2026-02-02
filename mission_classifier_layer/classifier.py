@@ -4,7 +4,9 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
-from app.config import MODEL_FOR_EMBEDDING,OPENAI_API_KEY,WORK_PATTERN_PROMPT
+from app.config import (OPENAI_API_KEY,
+WORK_PATTERN_PROMPT,MODEL_FOR_CLASSIFICATION,
+TEMPERATURE_FOR_CLASSIFICATION)
 from typing import Dict,Any
 
 data ={
@@ -31,8 +33,8 @@ class Classifier:
 
     def build_work_pattern_chain(self):
         llm=ChatOpenAI(
-            model="gpt-5-nano",
-            temperature=0,
+            model=MODEL_FOR_CLASSIFICATION,
+            temperature=TEMPERATURE_FOR_CLASSIFICATION,
             api_key=OPENAI_API_KEY
         )
         prompt=ChatPromptTemplate.from_template(WORK_PATTERN_PROMPT)
@@ -69,6 +71,7 @@ class Classifier:
 
         work_pattern = llm_result["work_pattern"]
         reason = llm_result["reason"]
+        complexity=llm_result["complexity"]
 
         # Step 2: Rules → doctrine
         mission_type = self.doctrine_classifier(work_pattern, mission_text)
@@ -76,7 +79,8 @@ class Classifier:
         return {
             "mission_type": mission_type,          # point / path / grid / 3d
             "work_pattern": work_pattern,          # LLM output
-            "reason": reason                       # LLM explanation
+            "reason": reason, 
+            "complexity":complexity                    # LLM explanation
         }
 
 class FillJson(Classifier):
@@ -84,7 +88,8 @@ class FillJson(Classifier):
         mission_data=self.classify_mission()
         validated["class"]=mission_data["mission_type"]
         validated["reason"]=mission_data["reason"]
+        validated["complexity"]=mission_data["complexity"]
         return validated
 
-c=FillJson(validated)
-print(c.append_data_to_json())
+# c=FillJson(validated)
+# print(c.append_data_to_json())
