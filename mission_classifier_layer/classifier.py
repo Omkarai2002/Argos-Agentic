@@ -2,28 +2,26 @@ from dataclasses import dataclass
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_community.vectorstores import FAISS
-from langchain_core.documents import Document
 from app.config import (OPENAI_API_KEY,
 WORK_PATTERN_PROMPT,MODEL_FOR_CLASSIFICATION,
 TEMPERATURE_FOR_CLASSIFICATION)
 from typing import Dict,Any
 
-data ={
-        "user_id":1,
-        "site_id":1,
-        "org_id":1,
-        "prompt" :"Plan a grid-based area coverage mission over a 500 m × 400 m agricultural field near the dock with 70% front overlap and 60% side overlap at 60 m altitude for multispectral mapping."
-    }
-validated={
-        "db_record_id":int,
-        "user_id":data["user_id"],
-        "site_id":data["site_id"],
-        "org_id":data["org_id"],
-        "prompt":data["prompt"],
-        "class":"",
-        "reason":""
-    }
+# data ={
+#         "user_id":1,
+#         "site_id":1,
+#         "org_id":1,
+#         "prompt" :"Plan a grid-based area coverage mission over a 500 m × 400 m agricultural field near the dock with 70% front overlap and 60% side overlap at 60 m altitude for multispectral mapping."
+#     }
+# validated={
+#         "db_record_id":int,
+#         "user_id":data["user_id"],
+#         "site_id":data["site_id"],
+#         "org_id":data["org_id"],
+#         "prompt":data["prompt"],
+#         "class":"",
+#         "reason":""
+#     }
 @dataclass
 class Classifier:
     validated:dict
@@ -86,10 +84,10 @@ class Classifier:
 class FillJson(Classifier):
     def append_data_to_json(self):
         mission_data=self.classify_mission()
-        validated["class"]=mission_data["mission_type"]
-        validated["reason"]=mission_data["reason"]
-        validated["complexity"]=mission_data["complexity"]
-        return validated
+        self.validated["class"]=mission_data["mission_type"]
+        self.validated["reason"]=mission_data["reason"]
+        self.validated["complexity"]=mission_data["complexity"]
+        return self.validated
 
 # c=FillJson(validated)
 # print(c.append_data_to_json())

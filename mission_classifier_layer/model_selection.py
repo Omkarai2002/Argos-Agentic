@@ -1,4 +1,3 @@
-import tiktoken
 from dataclasses import dataclass
 from mission_classifier_layer.classifier import Classifier,FillJson
 from typing import Dict
@@ -44,24 +43,24 @@ class Selection:
             else:
                 validated["model_for_extraction"]=MEDIUM_MODEL
         return validated
-data ={
-        "user_id":1,
-        "site_id":1,
-        "org_id":1,
-        "prompt" :"Plan a grid-based area coverage mission over a 500 m × 400 m agricultural field near the dock with 70% front overlap and 60% side overlap at 60 m altitude for multispectral mapping."
-    }
-validated={
-        "db_record_id":int,
-        "user_id":data["user_id"],
-        "site_id":data["site_id"],
-        "org_id":data["org_id"],
-        "prompt":data["prompt"],
-        "class":"",
-        "reason":"",
-        "model_for_extraction":""
-    }
-c=Selection(validated,data)
-print(c.select_model())
+# data ={
+#         "user_id":1,
+#         "site_id":1,
+#         "org_id":1,
+#         "prompt" :"Plan a grid-based area coverage mission over a 500 m × 400 m agricultural field near the dock with 70% front overlap and 60% side overlap at 60 m altitude for multispectral mapping."
+#     }
+# validated={
+#         "db_record_id":int,
+#         "user_id":data["user_id"],
+#         "site_id":data["site_id"],
+#         "org_id":data["org_id"],
+#         "prompt":data["prompt"],
+#         "class":"",
+#         "reason":"",
+#         "model_for_extraction":""
+#     }
+# c=Selection(validated,data)
+# print(c.select_model())
 
 
 
