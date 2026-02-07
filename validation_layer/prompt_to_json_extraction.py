@@ -4,56 +4,71 @@ from langchain_core.output_parsers import JsonOutputParser
 from typing import Dict
 from app.config import OPENAI_API_KEY, TEMPERATURE_FOR_JSON_EXTRACTION, JSON_EXTRACTION_PROMPT
 from mission_classifier_layer.model_selection import Selection
-
-data ={
-        "user_id":1,
-        "site_id":1,
-        "org_id":1,
-        "prompt" :"Fly to longitude 72.8777 latitude 19.076 at 30 meters, tilt camera down 45 degrees, start video recording, hover for 10 seconds and land."
-    }
-validated={
-        "db_record_id":int,
-        "user_id":data["user_id"],
-        "site_id":data["site_id"],
-        "org_id":data["org_id"],
-        "prompt":data["prompt"],
-        "class":"",
-        "reason":"",
-        "model_for_extraction":"",
-        "model_for_extraction_json_output": Dict
-    }
-validate=Selection(validated,data)
-validated=validate.select_model()
-
+from jsons import (TEMPLATE)
+from validation_layer.json_cleanup import EnterDataToJSON
+from dataclasses import dataclass
+# data ={
+#         "user_id":1,
+#         "site_id":1,
+#         "org_id":1,
+#         "prompt" :"Fly to Pathardi Phata at 30 meters, tilt camera down 45 degrees, start video recording, hover for 10 seconds and land."
+#     }
+# validated={
+#         "db_record_id":int,
+#         "user_id":data["user_id"],
+#         "site_id":data["site_id"],
+#         "org_id":data["org_id"],
+#         "prompt":data["prompt"],
+#         "class":"",
+#         "reason":"",
+#         "model_for_extraction":"",
+#         "model_for_extraction_json_output": Dict
+#     }
+# validate=Selection(validated,data)
+# validated=validate.select_model()
+output_from_json=EnterDataToJSON()
+@dataclass
 class PromptToJsonConvert:
 
-    llm = ChatOpenAI(
-        model=validated["model_for_extraction"],
-        temperature=TEMPERATURE_FOR_JSON_EXTRACTION,
-        api_key=OPENAI_API_KEY
-    )
+    validated: dict
 
-    parser = JsonOutputParser()
+    def __post_init__(self):
 
-    # @staticmethod
-    # def filter_json(chain):
-    #     if chain["finish_action"]["type"]=="":
+        self.llm = ChatOpenAI(
+            model=self.validated["model_for_extraction"],
+            temperature=TEMPERATURE_FOR_JSON_EXTRACTION,
+            api_key=OPENAI_API_KEY,
+            model_kwargs={
+                "reasoning":{
+                    "effort":"low"
+                }
+            }
+        )
 
-    @staticmethod
-    def convert(prompt_text: str) -> Dict:
+        self.parser = JsonOutputParser()
+
+    def convert(self) -> Dict:
 
         messages = [
             SystemMessage(content=JSON_EXTRACTION_PROMPT),
-            HumanMessage(content=prompt_text)
+            HumanMessage(content=self.validated["prompt"])
         ]
 
-        result = PromptToJsonConvert.llm.invoke(messages)
-        chain=PromptToJsonConvert.parser.invoke(result)
-        validated["model_for_extraction_json_output"]=chain
-        return validated
+        result = self.llm.invoke(messages)
+        chain = self.parser.invoke(result)
 
-mission_json = PromptToJsonConvert.convert(
-    validated["prompt"]
-)
+        extracted_json = TEMPLATE
 
-print(mission_json)
+        self.validated["model_for_extraction_json_output"] = \
+            output_from_json.parse_json(chain, extracted_json)
+
+        return self.validated
+
+
+# mission_json = PromptToJsonConvert.convert(
+#     validated["prompt"]
+# )
+
+# print(mission_json)
+# mission_json=PromptToJsonConvert(validated)
+# print(mission_json.convert())

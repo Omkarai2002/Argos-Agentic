@@ -10,10 +10,12 @@ from prompt_completion_layer import (
     PromptCompletionRequest,
     PromptCompletionDB
 )
+from mission_classifier_layer.model_selection import Selection
 from .config import MODEL_NAME_FOR_PROMPT_COMPLETION
-
+from validation_layer.prompt_to_json_extraction import PromptToJsonConvert
 LoggerFeature.setup_logging()
 logger = logging.getLogger(__name__)
+
 
 
 class PromptRunner:
@@ -132,6 +134,10 @@ def main(data,validated):
             if result['suggestions']:
                 print(f"  Suggestions: {result['suggestions']}")
             print(f"  Processing Time: {result['processing_time_ms']:.2f}ms")
+            model_select=Selection(validated,data)
+            validated=model_select.select_model()
+            mission_json=PromptToJsonConvert(validated)
+            validated=mission_json.convert()
             return validated
         else:
             print(f"\n✗ Error: {result['error']}")
