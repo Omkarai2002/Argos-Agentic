@@ -5,8 +5,10 @@ from typing import Dict
 from app.config import OPENAI_API_KEY, TEMPERATURE_FOR_JSON_EXTRACTION, JSON_EXTRACTION_PROMPT
 from mission_classifier_layer.model_selection import Selection
 from jsons import (TEMPLATE)
-from validation_layer.json_cleanup import EnterDataToJSON
+from validation_layer import (
+    EnterDataToJSON,Template)
 from dataclasses import dataclass
+
 # data ={
 #         "user_id":1,
 #         "site_id":1,
@@ -48,21 +50,48 @@ class PromptToJsonConvert:
         self.parser = JsonOutputParser()
 
     def convert(self) -> Dict:
-
         messages = [
             SystemMessage(content=JSON_EXTRACTION_PROMPT),
             HumanMessage(content=self.validated["prompt"])
         ]
 
-        result = self.llm.invoke(messages)
-        chain = self.parser.invoke(result)
+        for attempt in range(1):
+            result = self.llm.invoke(messages)
+            chain = self.parser.invoke(result)
+            extracted_json = TEMPLATE
+            # Extract raw JSON text
+            raw_output = result.content
+            json_output=output_from_json.parse_json(chain, extracted_json)
 
-        extracted_json = TEMPLATE
+            try:
+                # Validate directly with Pydantic
+                if Template.model_validate(json_output):
+                    self.validated["model_for_extraction_json_output"] = \
+                    output_from_json.parse_json(chain, extracted_json)
 
-        self.validated["model_for_extraction_json_output"] = \
-            output_from_json.parse_json(chain, extracted_json)
+                    return self.validated
 
-        return self.validated
+            except Exception as e:
+                # Ask model to fix its own output
+                messages.append(
+                    HumanMessage(
+                        content=f"""
+    Fix this into valid JSON only.
+    Do not add explanations.
+
+    {raw_output}
+    """
+                    )
+                )
+
+                raise ValueError("LLM failed to produce valid structured output after 3 attempts.")
+
+
+
+
+
+        
+        
 
 
 # mission_json = PromptToJsonConvert.convert(

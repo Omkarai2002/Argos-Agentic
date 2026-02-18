@@ -144,12 +144,11 @@ Confidence scoring:
             
             # Invoke the LangChain pipeline
             analysis_output = self.chain.invoke({"prompt": prompt})
-            print("analysis_output in prompt_completion_status", analysis_output)
             logger.debug(f"LLM analysis output: {analysis_output}")
             
             # Convert LangChain output to CompletionCheckResult
             result = self._convert_output_to_result(analysis_output)
-            print("result in prompt_completion_status", result)
+            
             logger.info(f"Completion check result: {result.status}")
             return result
             
@@ -173,11 +172,7 @@ Confidence scoring:
             confidence = float(analysis_output.get("confidence"))
             #reasoning = analysis_output.get("reasoning")
             suggestions = analysis_output.get("suggestions")
-            print("expected :",CompletionCheckResult(status=status,
-                is_complete=is_complete,
-                confidence=confidence,
-                #reasoning=reasoning,
-                suggestions=list[suggestions]))
+            
             return CompletionCheckResult(   
                 status=status,
                 is_complete=is_complete,
@@ -187,7 +182,6 @@ Confidence scoring:
             )
         except Exception as e:
             logger.error(f"Error converting output: {str(e)}")
-            print("hi from except")
             return self._error_result(str(e))
 
     def _error_result(self, error_msg: str) -> CompletionCheckResult:

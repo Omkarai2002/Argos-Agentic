@@ -13,6 +13,7 @@ from prompt_completion_layer import (
 from mission_classifier_layer.model_selection import Selection
 from .config import MODEL_NAME_FOR_PROMPT_COMPLETION
 from validation_layer.prompt_to_json_extraction import PromptToJsonConvert
+from graphdb import Neo4jMissionDB
 LoggerFeature.setup_logging()
 logger = logging.getLogger(__name__)
 
@@ -32,7 +33,6 @@ class PromptRunner:
         )
         self.db = PromptCompletionDB()
         logger.info(f"PromptRunner initialized for user {user_id}")
-    
     def process_prompt(self, prompt: str) -> dict:
         """
         Process a prompt and save to database.
@@ -109,7 +109,7 @@ def main(data,validated):
     """Main entry point - process a test prompt."""
     # Create runner with test user context
     runner = PromptRunner(data["user_id"], data["org_id"], data["site_id"])
-    
+    graphdb=Neo4jMissionDB()
     # Test prompt
     prompt = data["prompt"]
     
@@ -138,6 +138,9 @@ def main(data,validated):
             validated=model_select.select_model()
             mission_json=PromptToJsonConvert(validated)
             validated=mission_json.convert()
+            graphdb.initialize() 
+            graphdb.insert_mission(validated)
+            graphdb.close()
             return validated
         else:
             print(f"\n✗ Error: {result['error']}")
@@ -146,6 +149,9 @@ def main(data,validated):
     elif result["status"] =="rejected":
         runner.human_in_the_loop(result,data,validated)
         validated["db_record_id"] = result['db_record_id']
+        graphdb.initialize() 
+        graphdb.insert_mission(validated)
+        graphdb.close()
         return validated
     else:
         print("Enter the correct prompt ,prompt is out of token limit or incomplete ")
@@ -154,12 +160,12 @@ def main(data,validated):
         
 if __name__ == "__main__":
     data ={
-        "user_id":1,
-        "site_id":1,
+        "user_id":2,
+        "site_id":2,
         "org_id":1,
-        "prompt" :"Go to the public park near the main gate on MG Road. Once you reach there, hover above the walking path at a height of around 12 metre and maintain a speed of 13 km/h. Stay in that position for about 3 min before stopping ."
+        "prompt" :"Generate a path mission to inspect a 3 km power line corridor starting and ending at the dock, maintaining lateral offset of 15 m and altitude of 45 m with obstacle avoidance enabled."
     }
-    print(data)
+    
     validated={
         "db_record_id":int,
         "user_id":data["user_id"],

@@ -12,3 +12,4 @@ pydantic
 pydantic-settings
 langchain_community
 faiss-cpu
+neo4j

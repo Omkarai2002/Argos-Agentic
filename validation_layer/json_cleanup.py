@@ -9,7 +9,7 @@ from jsons import (ACTIONS,
 @dataclass
 class EnterDataToJSON:
     
-    def parse_json(self, chain, extracted_json):
+    def parse_json(self, chain, extracted_json:Dict)->Dict:
 
         # finish
         finish = chain.get("finish")
@@ -33,7 +33,7 @@ class EnterDataToJSON:
         waypoints = chain.get("waypoints", [])
 
         if waypoints:
-
+                
             extracted_json.setdefault("waypoints", [])
             
             for i, wp in enumerate(waypoints):
@@ -41,10 +41,15 @@ class EnterDataToJSON:
                 temp_act=[]
                 temp_dict["sequence"] = i + 1
                 temp_dict["location"] = wp.get("name")
-                temp_dict["altitude"] = wp.get("altitude")
-                temp_dict["altitude_mode"] = wp.get("altitude_mode")
-                temp_dict["speed"] = wp.get("speed")
-                temp_dict["radius"]= wp.get("radius")
+                altitude = wp.get("altitude")
+                temp_dict["altitude"] = int(altitude) if altitude is not None else None
+                altitude_mode=wp.get("altitude_mode")
+                temp_dict["altitude"] = int(altitude_mode) if altitude_mode is not None else None
+                speed = wp.get("speed")
+                temp_dict["speed"] = float(speed) if speed is not None else None
+                radius = wp.get("radius")
+                temp_dict["radius"] = float(radius) if radius is not None else None
+
                 actions=wp.get("actions")
                 for i, act in enumerate(actions):
 
@@ -54,18 +59,18 @@ class EnterDataToJSON:
                     temp_dict_act = {}
 
                     temp_dict_act["sequence"] = i + 1
-                    temp_dict_act["type"] = act.get("type")
+                    temp_dict_act["type"] = str(act.get("type"))
 
                     # CREATE params FIRST
                     temp_dict_act["params"] = {}
 
-                    temp_dict_act["params"]["pitch"] = act.get("pitch")
-                    temp_dict_act["params"]["yaw"] = act.get("yaw")
-                    temp_dict_act["params"]["duration"] = act.get("duration")
-                    temp_dict_act["params"]["interval"] = act.get("interval")
-                    temp_dict_act["params"]["count"] = act.get("count")
-                    temp_dict_act["params"]["zoom"] = act.get("zoom")
-                    temp_dict_act["params"]["distance"] = act.get("distance")
+                    temp_dict_act["params"]["pitch"] = float(act.get("pitch")) if act.get("pitch") else None
+                    temp_dict_act["params"]["yaw"] = str(act.get("yaw")) if act.get("yaw") else None
+                    temp_dict_act["params"]["duration"] = int(act.get("duration")) if act.get("duration") else None
+                    temp_dict_act["params"]["interval"] = int(act.get("interval")) if act.get("interval") else None
+                    temp_dict_act["params"]["count"] = int(act.get("count")) if act.get("count") else None
+                    temp_dict_act["params"]["zoom"] = float(act.get("zoom")) if act.get("zoom") else None
+                    temp_dict_act["params"]["distance"] = float(act.get("distance")) if act.get("distance") else None
 
                     temp_act.append(temp_dict_act)
         

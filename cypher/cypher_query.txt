@@ -1,0 +1,5 @@
+MATCH p=()-->()
+RETURN p;
+--->this is for showing all the nodes present and there dedicated relationship
+
+

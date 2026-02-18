@@ -140,7 +140,8 @@ STRICT RULES:
 17. Use full field names (altitude_mode, radius, yaw_mode).
 18. Missing values must remain null.
 19. If user does not specify waypoints, return an empty list.
-20. Output must be valid JSON syntax.
+20. The values sould be converted ones ,like km should be converted in m,hours should be in sec.
+21. Output must be valid JSON syntax.
 
 You are an intent extractor, not a mission planner.
 """

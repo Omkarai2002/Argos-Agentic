@@ -67,8 +67,7 @@ class PromptCompletionPipeline:
             self.validator.prompt = request.prompt
             validation_result = self.validator.validate()
             cleaned_prompt = self.validator.clean_prompt()
-            print("validation_result in orchestrator", validation_result)
-            print("acceptance_value in orchestrator", validation_result.acceptance_value)
+            
             if validation_result.is_valid and validation_result.acceptance_value==3:
             # Step 2: Check completion with LLM
                 logger.info("Step 2: Checking with LLM")
@@ -106,7 +105,6 @@ class PromptCompletionPipeline:
                 logger.info(f"Request {request_id} completed in {processing_time:.2f}ms")
                 return response
             else:
-                print("Prompt validation failed or acceptance value not met.")
                 processing_time = (time.time() - start_time) * 1000
                 logger.info(f"Step 3: Building response for prompt completion")
                 response = PromptCompletionResponse(
@@ -135,7 +133,6 @@ class PromptCompletionPipeline:
                 
                 logger.info(f"Request {request_id} completed in {processing_time:.2f}ms")
                 logger.info(f"please enter a valid prompt as the prompt should be minimum{MODEL_NAME_FOR_PROMPT_COMPLETION} and maximum {MODEL_NAME_FOR_PROMPT_COMPLETION} tokens")
-                print((f"please enter a valid prompt as the prompt should be minimum{MODEL_NAME_FOR_PROMPT_COMPLETION} and maximum {MODEL_NAME_FOR_PROMPT_COMPLETION} tokens"))
                 return response
             
         except Exception as e:
