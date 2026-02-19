@@ -5,7 +5,7 @@ from jsons import (ACTIONS,
                    TEMPLATE,
                    WAYPOINT,
                    CHAIN)
-
+import copy
 @dataclass
 class EnterDataToJSON:
     
@@ -34,8 +34,10 @@ class EnterDataToJSON:
 
         if waypoints:
                 
-            extracted_json.setdefault("waypoints", [])
+            # extracted_json.setdefault("waypoints", [])
             
+            extracted_json["waypoints"] = []   # hard reset
+
             for i, wp in enumerate(waypoints):
                 temp_dict = {}
                 temp_act=[]
@@ -44,7 +46,7 @@ class EnterDataToJSON:
                 altitude = wp.get("altitude")
                 temp_dict["altitude"] = int(altitude) if altitude is not None else None
                 altitude_mode=wp.get("altitude_mode")
-                temp_dict["altitude"] = int(altitude_mode) if altitude_mode is not None else None
+                temp_dict["altitude_mode"] = int(altitude_mode) if altitude_mode is not None else None
                 speed = wp.get("speed")
                 temp_dict["speed"] = float(speed) if speed is not None else None
                 radius = wp.get("radius")

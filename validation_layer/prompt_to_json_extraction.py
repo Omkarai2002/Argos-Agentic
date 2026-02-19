@@ -8,7 +8,7 @@ from jsons import (TEMPLATE)
 from validation_layer import (
     EnterDataToJSON,Template)
 from dataclasses import dataclass
-
+import copy
 # data ={
 #         "user_id":1,
 #         "site_id":1,
@@ -58,7 +58,7 @@ class PromptToJsonConvert:
         for attempt in range(1):
             result = self.llm.invoke(messages)
             chain = self.parser.invoke(result)
-            extracted_json = TEMPLATE
+            extracted_json = copy.deepcopy(TEMPLATE)
             # Extract raw JSON text
             raw_output = result.content
             json_output=output_from_json.parse_json(chain, extracted_json)

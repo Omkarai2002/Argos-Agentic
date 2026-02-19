@@ -86,37 +86,26 @@ class Neo4jMissionDB:
     @staticmethod
     def _insert_waypoints_actions(tx, d):
 
-        mid = d["db_record_id"]
-        waypoints = d["model_for_extraction_json_output"]["waypoints"]
+        tx.run("""
+        MATCH (m:Mission {id:$mid})
 
-        for wp in waypoints:
+        UNWIND $wps AS wp
+        MERGE (w:Waypoint {sequence: wp.sequence, mission:$mid})
+        SET w.location = wp.location,
+            w.speed = wp.speed
+        MERGE (m)-[:HAS_WAYPOINT]->(w)
 
-            tx.run("""
-            MERGE (w:Waypoint {sequence:$seq, mission:$mid})
-            SET w.location=$loc,
-                w.speed=$speed
-
-            WITH w
-            MATCH (m:Mission {id:$mid})
-            MERGE (m)-[:HAS_WAYPOINT]->(w)
-            """, {
-                "seq": wp["sequence"],
-                "mid": mid,
-                "loc": wp["location"],
-                "speed": wp["speed"]
-            })
-
-            for act in wp["actions"]:
-                tx.run("""
-                MATCH (w:Waypoint {sequence:$seq, mission:$mid})
-                CREATE (a:Action {type:$type, duration:$dur})
-                MERGE (w)-[:HAS_ACTION]->(a)
-                """, {
-                    "seq": wp["sequence"],
-                    "mid": mid,
-                    "type": act["type"],
-                    "dur": act["params"]["duration"]
-                })
+        WITH w, wp
+        UNWIND wp.actions AS act
+        CREATE (a:Action {
+            type: act.type,
+            duration: act.params.duration
+        })
+        MERGE (w)-[:HAS_ACTION]->(a)
+        """, {
+            "mid": d["db_record_id"],
+            "wps": d["model_for_extraction_json_output"]["waypoints"]
+        })
 
     # ---------- Config Nodes ----------
 
@@ -125,43 +114,32 @@ class Neo4jMissionDB:
 
         mid = d["db_record_id"]
         cfg = d["model_for_extraction_json_output"]
-
-        # TakeoffConfig
-        t = cfg.get("takeoff_config", {})
-        tx.run("""
-        MATCH (m:Mission {id:$mid})
-        MERGE (t:TakeoffConfig {mission:$mid})
-        SET t.altitude=$alt, t.altitude_mode=$mode, t.speed=$speed
-        MERGE (m)-[:HAS_TAKEOFF_CONFIG]->(t)
-        """, {
-            "mid": mid,
-            "alt": t.get("altitude"),
-            "mode": t.get("altitude_mode"),
-            "speed": t.get("speed")
-        })
-
-        # RouteConfig
-        r = cfg.get("route_config", {})
-        tx.run("""
-        MATCH (m:Mission {id:$mid})
-        MERGE (r:RouteConfig {mission:$mid})
-        SET r.altitude=$alt,
-            r.altitude_mode=$mode,
-            r.speed=$speed,
-            r.radius=$radius
-        MERGE (m)-[:HAS_ROUTE_CONFIG]->(r)
-        """, {
-            "mid": mid,
-            "alt": r.get("altitude"),
-            "mode": r.get("altitude_mode"),
-            "speed": r.get("speed"),
-            "radius": r.get("radius")
-        })
-
-        # MissionConfig
         mc = cfg.get("mission_config", {})
         limits = mc.get("limits", {})
 
+        # TakeoffConfig
+        tx.run("""
+        MATCH (m:Mission {id:$mid})
+        MERGE (t:TakeoffConfig {mission:$mid})
+        SET t += $takeoff
+        MERGE (m)-[:HAS_TAKEOFF_CONFIG]->(t)
+        """, {
+            "mid": mid,
+            "takeoff": cfg.get("takeoff_config", {})
+        })
+
+        # RouteConfig
+        tx.run("""
+        MATCH (m:Mission {id:$mid})
+        MERGE (r:RouteConfig {mission:$mid})
+        SET r += $route
+        MERGE (m)-[:HAS_ROUTE_CONFIG]->(r)
+        """, {
+            "mid": mid,
+            "route": cfg.get("route_config", {})
+        })
+
+        # MissionConfig
         tx.run("""
         MATCH (m:Mission {id:$mid})
         MERGE (mc:MissionConfig {mission:$mid})
@@ -169,43 +147,43 @@ class Neo4jMissionDB:
             mc.yaw_step=$yaw,
             mc.max_vertical_speed=$mvs,
             mc.layer_spacing=$ls
-
         MERGE (m)-[:HAS_MISSION_CONFIG]->(mc)
         """, {
             "mid": mid,
             "mode": mc.get("mode"),
-            "base_path": mc.get("base_path"),
             "yaw": mc.get("yaw_step"),
             "mvs": limits.get("max_vertical_speed"),
             "ls": limits.get("layer_spacing")
         })
-        # Base path points
-        for p in mc.get("base_path", []):
-            tx.run("""
-            MATCH (mc:MissionConfig {mission:$mid})
-            CREATE (pnt:Point {lon:$lon, lat:$lat})
-            MERGE (mc)-[:HAS_BASE_POINT]->(pnt)
-            """, {
-                "mid": mid,
-                "lon": p[0],
-                "lat": p[1]
-            })
 
+        # Base path (UNWIND)
+        tx.run("""
+        MATCH (mc:MissionConfig {mission:$mid})
+        UNWIND $base AS p
+        CREATE (pt:Point {lon:p[0], lat:p[1]})
+        MERGE (mc)-[:HAS_BASE_POINT]->(pt)
+        """, {
+            "mid": mid,
+            "base": mc.get("base_path", [])
+        })
 
-        # Layers
-        for layer in mc.get("layers", []):
-            tx.run("""
-            MATCH (mc:MissionConfig {mission:$mid})
-            CREATE (l:Layer {altitude:$alt, altitude_mode:$mode})
-            MERGE (mc)-[:HAS_LAYER]->(l)
-            """, {
-                "mid": mid,
-                "alt": layer.get("altitude"),
-                "mode": layer.get("altitude_mode")
-            })
+        # Layers (UNWIND)
+        tx.run("""
+        MATCH (mc:MissionConfig {mission:$mid})
+        UNWIND $layers AS layer
+        CREATE (l:Layer {
+            altitude: layer.altitude,
+            altitude_mode: layer.altitude_mode
+        })
+        MERGE (mc)-[:HAS_LAYER]->(l)
+        """, {
+            "mid": mid,
+            "layers": mc.get("layers", [])
+        })
 
         # CameraConfig
         cam = mc.get("camera_profile", {})
+
         tx.run("""
         MATCH (m:Mission {id:$mid})
         MERGE (c:CameraConfig {mission:$mid})
@@ -218,17 +196,17 @@ class Neo4jMissionDB:
             "yaw": cam.get("yaw_mode")
         })
 
-        poi = cam.get("poi")
-        if poi:
+        if cam.get("poi"):
             tx.run("""
             MATCH (c:CameraConfig {mission:$mid})
             CREATE (p:Point {lon:$lon, lat:$lat})
             MERGE (c)-[:HAS_POI]->(p)
             """, {
                 "mid": mid,
-                "lon": poi[0],
-                "lat": poi[1]
+                "lon": cam["poi"][0],
+                "lat": cam["poi"][1]
             })
+
 
 
 

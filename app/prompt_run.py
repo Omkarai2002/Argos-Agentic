@@ -163,7 +163,7 @@ if __name__ == "__main__":
         "user_id":2,
         "site_id":2,
         "org_id":1,
-        "prompt" :"Generate a path mission to inspect a 3 km power line corridor starting and ending at the dock, maintaining lateral offset of 15 m and altitude of 45 m with obstacle avoidance enabled."
+        "prompt" :"Create a point mission where the drone flies from the dock to a target GPS coordinate, performs a clockwise loiter with 25 m radius at 60 m altitude for 90 seconds, then returns to the dock."
     }
     
     validated={

@@ -141,7 +141,9 @@ STRICT RULES:
 18. Missing values must remain null.
 19. If user does not specify waypoints, return an empty list.
 20. The values sould be converted ones ,like km should be converted in m,hours should be in sec.
-21. Output must be valid JSON syntax.
+21. ocation must ONLY contain place names explicitly mentioned by the user.
+  If no place name is given, leave name null.
+22. Output must be valid JSON syntax.
 
 You are an intent extractor, not a mission planner.
 """
