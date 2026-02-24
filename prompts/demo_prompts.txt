@@ -1,0 +1,9 @@
+1)Create a point mission where the drone takes off from Receiving Dock Apron at an ascent speed of 3 m/s, cruises at 8 m/s to Material Staging Pad, climbs to 60 m altitude, performs a clockwise loiter with a 25 m radius for 90 seconds while capturing thermal imagery, then returns at 7 m/s and lands back at Receiving Dock Apron with a descent speed of 2 m/s.
+
+2)Create a patrol mission where the drone departs from Outbound Dispatch Yard, accelerates to a cruise speed of 9 m/s, flies to Maintenance Access Court, holds altitude at 55 m, executes a clockwise loiter with a 20 m radius for 75 seconds, then returns to Outbound Dispatch Yard at 6 m/s and performs autonomous landing.
+
+3)Create a point mission where the drone lifts off from Spare Parts Holding Area with a climb rate of 2.5 m/s, travels at 7 m/s to Tool Crib Perimeter, ascends to 60 m altitude, performs a clockwise loiter with a 30 m radius for 100 seconds, then flies back at 6 m/s and lands at Spare Parts Holding Area.
+
+4)Create a surveillance mission where the drone takes off at 40m altitude with 2m/s from Inspection Holding Bay, cruises at 8.5 m/s to Temporary Storage Court, stabilizes at 50 m altitude, performs a clockwise loiter with a 22 m radius for 80 seconds, then returns at reduced speed of 5 m/s and lands at Inspection Holding Bay.
+
+5)Create a grid mission where the drone takes off from Receiving Dock Apron, climbs at 3 m/s, cruises at 8 m/s to Material Staging Pad, ascends to 50 m altitude, performs a grid survey over the entire area with 6 m line spacing at 5 m/s while recording thermal imagery, then returns at 7 m/s and lands back at Receiving Dock Apron.

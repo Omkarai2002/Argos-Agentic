@@ -16,7 +16,7 @@ from validation_layer.prompt_to_json_extraction import PromptToJsonConvert
 from graphdb import Neo4jMissionDB
 LoggerFeature.setup_logging()
 logger = logging.getLogger(__name__)
-
+from correction_layer import (ConnectToDb,GeofenceValidator,CheckThreshold)
 
 
 class PromptRunner:
@@ -110,6 +110,7 @@ def main(data,validated):
     # Create runner with test user context
     runner = PromptRunner(data["user_id"], data["org_id"], data["site_id"])
     graphdb=Neo4jMissionDB()
+    threshold=CheckThreshold(validated)
     # Test prompt
     prompt = data["prompt"]
     
@@ -141,6 +142,13 @@ def main(data,validated):
             graphdb.initialize() 
             graphdb.insert_mission(validated)
             graphdb.close()
+            connect=ConnectToDb()
+            validated=connect.find_waypoint_closest_and_update(validated)
+            validator = GeofenceValidator()
+            validated=validator.validate(validated)
+            validated=threshold.check_waypoints()
+            if not validated["model_for_extraction_json_output"]["waypoints"]:
+                return "no waypoints given or waypoints out of bound"
             return validated
         else:
             print(f"\n✗ Error: {result['error']}")
@@ -149,9 +157,21 @@ def main(data,validated):
     elif result["status"] =="rejected":
         runner.human_in_the_loop(result,data,validated)
         validated["db_record_id"] = result['db_record_id']
+        model_select=Selection(validated,data)
+        model_select=Selection(validated,data)
+        validated=model_select.select_model()
+        mission_json=PromptToJsonConvert(validated)
+        validated=mission_json.convert()
         graphdb.initialize() 
         graphdb.insert_mission(validated)
         graphdb.close()
+        connect=ConnectToDb()
+        validated=connect.find_waypoint_closest_and_update(validated)
+        validator = GeofenceValidator()
+        validated=validator.validate(validated)
+        validated=threshold.check_waypoints()
+        if not validated["model_for_extraction_json_output"]["waypoints"]:
+            return "no waypoints given or waypoints out of bound"
         return validated
     else:
         print("Enter the correct prompt ,prompt is out of token limit or incomplete ")
@@ -160,10 +180,10 @@ def main(data,validated):
         
 if __name__ == "__main__":
     data ={
-        "user_id":2,
-        "site_id":2,
+        "user_id":1,
+        "site_id":1,
         "org_id":1,
-        "prompt" :"Create a point mission where the drone flies from the dock to a target GPS coordinate, performs a clockwise loiter with 25 m radius at 60 m altitude for 90 seconds, then returns to the dock."
+        "prompt" :"fly drone from home position to pathardi phata circle with speed of 12 and alt should be 50 and come to secound locationns onion tree with speed 20 alt is 10 and go to 3rd pos and come to home posision whith change speed"
     }
     
     validated={

@@ -100,6 +100,7 @@ Each waypoint must be an object inside the "waypoints" array:
 
 {
   "name": null,
+  "altitude":null
   "altitude_mode": null,
   "speed": null,
   "radius": null,
@@ -143,6 +144,7 @@ STRICT RULES:
 20. The values sould be converted ones ,like km should be converted in m,hours should be in sec.
 21. ocation must ONLY contain place names explicitly mentioned by the user.
   If no place name is given, leave name null.
+
 22. Output must be valid JSON syntax.
 
 You are an intent extractor, not a mission planner.

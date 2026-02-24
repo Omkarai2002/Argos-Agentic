@@ -1,0 +1,5 @@
+1)Nearest dock search using gps fetching .
+2)altitude and speed 
+3)efficiency check before mission planning
+4)fly 200 m in the north 
+5)
