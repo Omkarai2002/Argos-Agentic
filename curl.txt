@@ -1,0 +1,7 @@
+curl -X POST http://localhost:8000/send_prompt -H "Content-Type: application/json" -d '{
+  "request_id": "r1",
+  "user_id": 1,
+  "org_id": 1,
+  "site_id": 1,
+  "prompt": "Create a surveillance mission where the drone takes off at 40m altitude with 2m/s from Inspection Holding Bay, cruises at 8.5 m/s to Temporary Storage Court, stabilizes at 50 m altitude, performs a clockwise loiter with a 22 m radius for 80 seconds, then returns at reduced speed of 5 m/s and lands at Inspection Holding Bay."
+}'

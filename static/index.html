@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Argos AI Mission Planner</title>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #343541;
+    color: white;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.message-row {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.message-row.user {
+    justify-content: flex-end;
+}
+
+.bubble {
+    max-width: 75%;
+    padding: 14px 18px;
+    border-radius: 12px;
+    line-height: 1.5;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+
+.user .bubble {
+    background: #19c37d;
+    color: black;
+    border-bottom-right-radius: 4px;
+}
+
+.bot .bubble {
+    background: #444654;
+    border-bottom-left-radius: 4px;
+}
+
+.input-area {
+    padding: 15px;
+    background: #40414f;
+    border-top: 1px solid #555;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+textarea {
+    flex: 1;
+    resize: none;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    max-height: 150px;
+}
+
+button {
+    background: #19c37d;
+    border: none;
+    padding: 0 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+pre {
+    margin: 0;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="chat" id="chat"></div>
+
+    <div class="input-area">
+        <div class="input-wrapper">
+            <textarea id="promptInput" rows="1" placeholder="Describe your drone mission..."></textarea>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const socket = io("http://127.0.0.1:8000");
+
+const chat = document.getElementById("chat");
+const textarea = document.getElementById("promptInput");
+
+/* 🔥 Static session values (replace later with real auth if needed) */
+const user_id = 1;
+const site_id = 1;
+const org_id  = 1;
+
+let reviewMode = false;
+let editMode = false;
+
+
+/* ================================
+   CONNECTION EVENTS
+================================ */
+
+socket.on("connect", () => {
+    console.log("Connected:", socket.id);
+});
+
+socket.on("disconnect", () => {
+    console.log("Disconnected");
+});
+
+
+/* ================================
+   MISSION EVENTS
+================================ */
+
+// Human review request
+socket.on("mission:awaiting_human_review", (data) => {
+    reviewMode = true;
+    editMode = false;
+    addBotText(data.message);
+});
+
+// Mission approved
+socket.on("mission:approved", (data) => {
+    reviewMode = false;
+    editMode = false;
+    addBotJSON(data);
+});
+
+// Mission rejected
+socket.on("mission:rejected", (data) => {
+    reviewMode = false;
+    editMode = false;
+    addBotText(data.message);
+});
+
+// Validation errors
+socket.on("mission:validation_errors", (data) => {
+    addBotJSON(data);
+});
+
+// Error
+socket.on("mission:error", (data) => {
+    addBotText(data.message);
+});
+
+
+/* ================================
+   SEND MESSAGE
+================================ */
+
+function sendMessage() {
+
+    const message = textarea.value.trim();
+    if (!message) return;
+
+    addUserMessage(message);
+
+    // -----------------------------
+    // Human Review Flow
+    // -----------------------------
+    if (reviewMode) {
+
+        if (editMode) {
+
+            socket.emit("mission:human_reply", {
+                choice: 3,
+                new_prompt: message
+            });
+
+            reviewMode = false;
+            editMode = false;
+
+        } else {
+
+            const choice = parseInt(message);
+
+            if (![1,2,3].includes(choice)) {
+                addBotText("Please enter 1, 2, or 3.");
+            } else {
+
+                if (choice === 3) {
+                    editMode = true;
+                    addBotText("Enter new prompt:");
+                } else {
+
+                    socket.emit("mission:human_reply", {
+                        choice: choice
+                    });
+
+                    reviewMode = false;
+                }
+            }
+        }
+    }
+
+    // -----------------------------
+    // Normal Mission Flow
+    // -----------------------------
+    else {
+
+        socket.emit("mission:plan_create", {
+            user_id: user_id,
+            site_id: site_id,
+            org_id: org_id,
+            prompt: message
+        });
+    }
+
+    textarea.value = "";
+    textarea.style.height = "auto";
+}
+
+
+/* ================================
+   UI HELPERS
+================================ */
+
+function addUserMessage(text) {
+    const row = document.createElement("div");
+    row.className = "message-row user";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+
+    row.appendChild(bubble);
+    chat.appendChild(row);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function addBotJSON(data) {
+    const row = document.createElement("div");
+    row.className = "message-row bot";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+
+    const pre = document.createElement("pre");
+    pre.textContent = JSON.stringify(data, null, 2);
+
+    bubble.appendChild(pre);
+    row.appendChild(bubble);
+    chat.appendChild(row);
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function addBotText(text) {
+    const row = document.createElement("div");
+    row.className = "message-row bot";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+
+    row.appendChild(bubble);
+    chat.appendChild(row);
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+
+/* ================================
+   ENTER TO SEND
+================================ */
+
+textarea.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+
+/* ================================
+   AUTO RESIZE
+================================ */
+
+textarea.addEventListener("input", function () {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
+});
+
+</script>
+
+</body>
+</html>

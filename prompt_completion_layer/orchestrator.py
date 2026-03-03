@@ -66,9 +66,11 @@ class PromptCompletionPipeline:
             logger.info("Step 1: Validating prompt")
             self.validator.prompt = request.prompt
             validation_result = self.validator.validate()
+            print("validation Omkar:",validation_result)
             cleaned_prompt = self.validator.clean_prompt()
             
             if validation_result.is_valid and validation_result.acceptance_value==3:
+
             # Step 2: Check completion with LLM
                 logger.info("Step 2: Checking with LLM")
                 completion_result = self.checker.check_completion(cleaned_prompt)
@@ -111,7 +113,7 @@ class PromptCompletionPipeline:
                     request_id=request_id,
                     original_prompt=request.prompt,
                     validation_result=validation_result,
-                    completion_result=dict({'is_complete': False, 'status': 'invalid response', 'confidence': 0.0}),
+                    completion_result=dict({'status': 'invalid response','is_complete': False, 'confidence': 0.0}),
                     timestamp=datetime.utcnow(),
                     processing_time_ms=processing_time
                 )

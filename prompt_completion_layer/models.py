@@ -27,7 +27,7 @@ class CompletionCheckResult(BaseModel):
     is_complete: bool
     confidence: float
     reasoning: Optional[str] = None
-    suggestions: Optional[list]
+    suggestions: Optional[list]=None
     missing_elements: Optional[list] = None
 
 
@@ -40,9 +40,9 @@ class PromptCompletionRequest(BaseModel):
 
 # Response
 class PromptCompletionResponse(BaseModel):
-    request_id: str
-    original_prompt: str
+    request_id: Optional[str]
+    original_prompt: Optional[str]
     validation_result: PromptValidationResult
     completion_result: CompletionCheckResult
-    timestamp: datetime
-    processing_time_ms: float
+    timestamp: Optional[datetime]
+    processing_time_ms: Optional[float]

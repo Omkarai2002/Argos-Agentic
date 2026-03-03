@@ -75,7 +75,7 @@ Output rules:
 - Do not include explanations outside the JSON.
 - Do not include extra fields.
 
-Respond in JSON format with:
+Respond in JSON format with this mandatory fields:
     - is_complete: true/false
     - status: "accepted" or "rejected"
     - confidence: 0.0 to 1.0
@@ -148,7 +148,7 @@ Confidence scoring:
             
             # Convert LangChain output to CompletionCheckResult
             result = self._convert_output_to_result(analysis_output)
-            
+            print("result from llm Omkar",result)
             logger.info(f"Completion check result: {result.status}")
             return result
             

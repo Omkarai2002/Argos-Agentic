@@ -46,7 +46,7 @@ class EnterDataToJSON:
                 altitude = wp.get("altitude")
                 temp_dict["altitude"] = int(altitude) if altitude is not None else None
                 altitude_mode=wp.get("altitude_mode")
-                temp_dict["altitude_mode"] = int(altitude_mode) if altitude_mode is not None else None
+                temp_dict["altitude_mode"] = str(altitude_mode) if altitude_mode is not None else None
                 speed = wp.get("speed")
                 temp_dict["speed"] = float(speed) if speed is not None else None
                 radius = wp.get("radius")
@@ -67,11 +67,11 @@ class EnterDataToJSON:
                     temp_dict_act["params"] = {}
 
                     temp_dict_act["params"]["pitch"] = float(act.get("pitch")) if act.get("pitch") else None
-                    temp_dict_act["params"]["yaw"] = str(act.get("yaw")) if act.get("yaw") else None
+                    temp_dict_act["params"]["yaw"] = float(act.get("yaw")) if act.get("yaw") else None
                     temp_dict_act["params"]["duration"] = int(act.get("duration")) if act.get("duration") else None
                     temp_dict_act["params"]["interval"] = int(act.get("interval")) if act.get("interval") else None
                     temp_dict_act["params"]["count"] = int(act.get("count")) if act.get("count") else None
-                    temp_dict_act["params"]["zoom"] = float(act.get("zoom")) if act.get("zoom") else None
+                    temp_dict_act["params"]["zoom"] = int(act.get("zoom")) if act.get("zoom") else None
                     temp_dict_act["params"]["distance"] = float(act.get("distance")) if act.get("distance") else None
 
                     temp_act.append(temp_dict_act)

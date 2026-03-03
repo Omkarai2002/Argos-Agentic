@@ -1,8 +1,10 @@
 """
-Simple prompt completion runner with database integration.
-Validates prompts and saves results to local PostgreSQL database.
+Async Mission Engine with Socket Support
+No blocking input()
+No decorator inside class
+Fully socket-driven human loop
 """
-import json
+
 import logging
 from logging_config import LoggerFeature
 from prompt_completion_layer import (
@@ -14,56 +16,38 @@ from mission_classifier_layer.model_selection import Selection
 from .config import MODEL_NAME_FOR_PROMPT_COMPLETION
 from validation_layer.prompt_to_json_extraction import PromptToJsonConvert
 from graphdb import Neo4jMissionDB
+from correction_layer import (ConnectToDb, GeofenceValidator, CheckThreshold)
+
 LoggerFeature.setup_logging()
 logger = logging.getLogger(__name__)
-from correction_layer import (ConnectToDb,GeofenceValidator,CheckThreshold)
 
 
 class PromptRunner:
-    """Simple runner for prompt completion with DB integration."""
-    
     def __init__(self, user_id: int, org_id: int, site_id: int):
-        """Initialize runner with user context."""
         self.user_id = user_id
         self.org_id = org_id
         self.site_id = site_id
+
         self.pipeline = PromptCompletionPipeline(
             llm_model=MODEL_NAME_FOR_PROMPT_COMPLETION,
             save_to_db=True
         )
         self.db = PromptCompletionDB()
-        logger.info(f"PromptRunner initialized for user {user_id}")
+
     def process_prompt(self, prompt: str) -> dict:
-        """
-        Process a prompt and save to database.
-        
-        Args:
-            prompt: The prompt to process
-            
-        Returns:
-            Dictionary with results
-        """
-        logger.info(f"Processing prompt for user {self.user_id}")
-        
         try:
-            # Create request
             request = PromptCompletionRequest(
                 prompt=prompt,
                 user_id=self.user_id
             )
-            
-            # Process and save to database
+
             response = self.pipeline.process(
                 request,
                 user_id=self.user_id,
                 site_id=self.site_id,
                 org_id=self.org_id
             )
-            
-            # Log results
-            logger.info(f"Prompt processed: {response.completion_result.status}")
-            
-            # Return results
+
             return {
                 "success": True,
                 "db_record_id": response.request_id,
@@ -73,125 +57,192 @@ class PromptRunner:
                 "suggestions": response.completion_result.suggestions,
                 "processing_time_ms": response.processing_time_ms,
             }
-            
+
         except Exception as e:
             logger.error(f"Error processing prompt: {str(e)}", exc_info=True)
             return {
                 "success": False,
-                "error" : str(e)
+                "error": str(e)
+            }
+class MissionEngine:
+    """
+    Async mission engine.
+    Maintains session state per socket connection.
+    """
+
+    def __init__(self):
+        self.sessions = {}
+
+    async def main(self, sid, data):
+
+        prompt = data.get("prompt", "")
+
+        if not prompt:
+            return {
+                "event": "mission:error",
+                "payload": "Prompt is Empty"
             }
 
-    def human_in_the_loop(self,result,data,validated):
-        print("Human-in-the-loop review needed for this prompt.")
-        print("Prompt seems to be incomplete or requires additional information.")
-        print("Click 1 --> accept the prompt")
-        print("Click 2--> reject and reenter the prompt")
-        print("Click 3 --> edit the prompt")
-        user_input = int(input("Enter your choice (1/2/3): "))
-        if user_input == 1:
-            print("prompt accepted by user.")
-            update_result = self.db.update_status_of_prompt(result['db_record_id'], "APPROVED")
-            validated["prompt"]=data["prompt"]
-            return 1
-        if user_input == 2:
-            print("prompt rejected by user.")
-            update_result = self.db.update_status_of_prompt(result['db_record_id'], "REJECTED")
-            return 2
-        if user_input == 3:
-            print("prompt editing by user.")
-            new_prompt = input("Re-enter the prompt: ")
+        validated = {
+            "db_record_id": None,
+            "user_id": data["user_id"],
+            "site_id": data["site_id"],
+            "org_id": data["org_id"],
+            "prompt": prompt,
+        }
 
-            update_result = self.db.update_prompt_final(result['db_record_id'], new_prompt, "APPROVED")
-            validated["prompt"]=new_prompt
-            return 3
+        runner = PromptRunner(
+            data["user_id"],
+            data["org_id"],
+            data["site_id"]
+        )
 
-def main(data,validated):
-    """Main entry point - process a test prompt."""
-    # Create runner with test user context
-    runner = PromptRunner(data["user_id"], data["org_id"], data["site_id"])
-    graphdb=Neo4jMissionDB()
-    threshold=CheckThreshold(validated)
-    # Test prompt
-    prompt = data["prompt"]
-    
-    # Process
-    print("\n" + "="*60)
-    print("Processing Prompt with Database Integration")
-    print("="*60)
-    
-    result = runner.process_prompt(prompt)
-    logger.info(f"\nResult Dictionary: {result}")
-    print(f"\nResult Dictionary: {result}")
-    if result["status"] =="accepted":
-    # Display results
-        if result["success"]:
-            print(f"\n✓ Prompt Completion Result:")
-            print(f"  DB Record ID: {result['db_record_id']}")
-            print(f"  Status: {result['status']}")
-            print(f"  Complete: {result['is_complete']}")
-            print(f"  Confidence: {result['confidence']}")
-            validated["prompt"]=prompt
-            validated["db_record_id"] = result['db_record_id']
-            if result['suggestions']:
-                print(f"  Suggestions: {result['suggestions']}")
-            print(f"  Processing Time: {result['processing_time_ms']:.2f}ms")
-            model_select=Selection(validated,data)
-            validated=model_select.select_model()
-            mission_json=PromptToJsonConvert(validated)
-            validated=mission_json.convert()
-            graphdb.initialize() 
-            graphdb.insert_mission(validated)
-            graphdb.close()
-            connect=ConnectToDb()
-            validated=connect.find_waypoint_closest_and_update(validated)
-            validator = GeofenceValidator()
-            validated=validator.validate(validated)
-            validated=threshold.check_waypoints()
-            if not validated["model_for_extraction_json_output"]["waypoints"]:
-                return "no waypoints given or waypoints out of bound"
-            return validated
-        else:
-            print(f"\n✗ Error: {result['error']}")
+        result = runner.process_prompt(prompt)
 
-        print("="*60 + "\n")
-    elif result["status"] =="rejected":
-        runner.human_in_the_loop(result,data,validated)
-        validated["db_record_id"] = result['db_record_id']
-        model_select=Selection(validated,data)
-        model_select=Selection(validated,data)
-        validated=model_select.select_model()
-        mission_json=PromptToJsonConvert(validated)
-        validated=mission_json.convert()
-        graphdb.initialize() 
+        if not result["success"]:
+            return {
+                "event": "mission:error",
+                "payload": result
+            }
+
+        # 🔥 CRITICAL FIX — propagate DB record ID
+        validated["db_record_id"] = result["db_record_id"]
+
+        # -----------------------------
+        # If LLM accepted directly
+        # -----------------------------
+        if result["status"] == "accepted":
+            return await self._continue_pipeline(data, validated)
+
+        # -----------------------------
+        # If LLM rejected → human review
+        # -----------------------------
+        if result["status"] == "rejected":
+
+            self.sessions[sid] = {
+                "stage": "waiting_human",
+                "data": data,
+                "validated": validated
+            }
+
+            return {
+                "event": "mission:awaiting_human_review",
+                "payload": {
+                    "request_id": validated["db_record_id"],
+                    "mission": validated,
+                    "message": "Approve mission? (1=Accept, 2=Reject, 3=Edit)"
+                }
+            }
+
+        return {
+            "event": "mission:error",
+            "payload": "Invalid prompt state"
+        }
+
+    async def handle_human_reply(self, sid, data):
+
+        session = self.sessions.get(sid)
+
+        if not session:
+            return {
+                "event": "mission:error",
+                "payload": "Session expired"
+            }
+
+        choice = str(data.get("choice"))
+
+        validated = session["validated"]
+        original_data = session["data"]
+
+        runner = PromptRunner(
+            original_data["user_id"],
+            original_data["org_id"],
+            original_data["site_id"]
+        )
+
+        # ---------------- ACCEPT ----------------
+        if choice == "1":
+
+            runner.db.update_status_of_prompt(
+                validated["db_record_id"],
+                "APPROVED"
+            )
+
+            del self.sessions[sid]
+
+            return await self._continue_pipeline(original_data, validated)
+
+        # ---------------- REJECT ----------------
+        if choice == "2":
+
+            runner.db.update_status_of_prompt(
+                validated["db_record_id"],
+                "REJECTED"
+            )
+
+            del self.sessions[sid]
+
+            return {
+                "event": "mission:result",
+                "payload": "Prompt rejected by user"
+            }
+
+        # ---------------- EDIT ----------------
+        if choice == "3":
+
+            return {
+                "event": "mission:human_in_the_loop",
+                "payload": {
+                    "message": "Please enter new prompt"
+                }
+            }
+
+        return {
+            "event": "mission:human_in_the_loop",
+            "payload": {
+                "message": "Invalid option. Enter 1, 2 or 3"
+            }
+        }
+
+    async def _continue_pipeline(self, data, validated):
+
+        graphdb = Neo4jMissionDB()
+        threshold = CheckThreshold(validated)
+
+        model_select = Selection(validated, data)
+        validated = model_select.select_model()
+
+        mission_json = PromptToJsonConvert(validated)
+        validated = mission_json.convert()
+
+        graphdb.initialize()
         graphdb.insert_mission(validated)
         graphdb.close()
-        connect=ConnectToDb()
-        validated=connect.find_waypoint_closest_and_update(validated)
+
+        connect = ConnectToDb()
+        validated = connect.find_waypoint_closest_and_update(validated)
+
         validator = GeofenceValidator()
-        validated=validator.validate(validated)
-        validated=threshold.check_waypoints()
+        validated = validator.validate(validated)
+
+        validation_result = threshold.check_waypoints()
+
+        # If validation errors exist
+        if validation_result["status"] == "need_input":
+            return {
+                "event": "mission:validation_errors",
+                "payload": validation_result
+            }
+
+        validated = validation_result["mission"]
+
         if not validated["model_for_extraction_json_output"]["waypoints"]:
-            return "no waypoints given or waypoints out of bound"
-        return validated
-    else:
-        print("Enter the correct prompt ,prompt is out of token limit or incomplete ")
+            return {
+                "event": "mission:error",
+                "payload": "No waypoints given or out of bound"
+            }
 
-
-        
-if __name__ == "__main__":
-    data ={
-        "user_id":1,
-        "site_id":1,
-        "org_id":1,
-        "prompt" :"fly drone from home position to pathardi phata circle with speed of 12 and alt should be 50 and come to secound locationns onion tree with speed 20 alt is 10 and go to 3rd pos and come to home posision whith change speed"
-    }
-    
-    validated={
-        "db_record_id":int,
-        "user_id":data["user_id"],
-        "site_id":data["site_id"],
-        "org_id":data["org_id"],
-        "prompt":"",
-    }
-    a=main(data,validated)
-    print(a)
+        return {
+            "event": "mission:result",
+            "payload": validated
+        }

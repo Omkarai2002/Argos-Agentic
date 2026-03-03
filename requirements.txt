@@ -13,3 +13,6 @@ pydantic-settings
 langchain_community
 faiss-cpu
 neo4j
+python-socketio[asgi]
+uvicorn
+fastapi

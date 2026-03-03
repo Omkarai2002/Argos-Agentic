@@ -82,58 +82,101 @@ class ConnectToDb:
     # ----------------------------------
 
     def find_waypoint_closest_and_update(self, validated):
+        try:
+            site_id = validated.get("site_id")
 
-        site_id = validated["site_id"]
-        waypoint_names = self.get_waypoint_names(site_id)
-        waypoints = validated["model_for_extraction_json_output"].get("waypoints", [])
+            if not site_id:
+                return validated
 
-        THRESHOLD = 0.6
+            # Fetch waypoint names safely
+            waypoint_names = self.get_waypoint_names(site_id) or []
+            waypoint_names = [
+                name.lower() for name in waypoint_names
+                if isinstance(name, str)
+            ]
 
-        for wp in waypoints:
+            waypoints = validated.get(
+                "model_for_extraction_json_output", {}
+            ).get("waypoints", [])
 
-            location = wp.get("location")
-            if isinstance(location, list):
-                continue
+            THRESHOLD = 0.6
 
-            if not location:
-                wp["location"] = None
-                continue
+            for wp in waypoints:
+                try:
+                    location = wp.get("location")
 
-            if isinstance(location, str):
-                location_lower = location.lower()
+                    # If already coordinates, skip
+                    if isinstance(location, list):
+                        continue
 
-            # Fuzzy match
-            if location_lower not in waypoint_names:
+                    # If invalid or empty location
+                    if not location or not isinstance(location, str):
+                        wp["location"] = None
+                        continue
 
-                scores = {
-                    name: self.similarity(location_lower, name)
-                    for name in waypoint_names
-                }
+                    location_lower = location.lower()
 
-                best_name, best_score = max(scores.items(), key=lambda x: x[1])
+                    # If no candidates exist in DB
+                    if not waypoint_names:
+                        wp["location"] = None
+                        continue
 
-                if best_score < THRESHOLD:
+                    # If exact match exists
+                    if location_lower in waypoint_names:
+                        best_name = location_lower
+                    else:
+                        # Build similarity scores safely
+                        scores = {}
+
+                        for name in waypoint_names:
+                            try:
+                                score = self.similarity(location_lower, name)
+                                if isinstance(score, (int, float)):
+                                    scores[name] = score
+                            except Exception:
+                                continue
+
+                        # If similarity produced nothing
+                        if not scores:
+                            wp["location"] = None
+                            continue
+
+                        best_name, best_score = max(
+                            scores.items(),
+                            key=lambda x: x[1]
+                        )
+
+                        if best_score < THRESHOLD:
+                            wp["location"] = None
+                            continue
+
+                    # Fetch annotation row safely
+                    annotation_row = self.get_annotation_row_by_name(
+                        site_id, best_name
+                    )
+
+                    if not annotation_row:
+                        wp["location"] = None
+                        continue
+
+                    # Calculate center safely
+                    try:
+                        center = GeometryCenterCalculator.calculate(annotation_row)
+                        wp["location"] = center
+                    except Exception:
+                        wp["location"] = None
+                        continue
+
+                except Exception:
+                    # If anything unexpected happens in one waypoint
                     wp["location"] = None
                     continue
 
-                location_lower = best_name
+            return validated
 
-            # ----------------------------------
-            # Fetch annotation + calculate center
-            # ----------------------------------
-
-            annotation_row = self.get_annotation_row_by_name(site_id, location_lower)
-
-            if not annotation_row:
-                wp["location"] = None
-                continue
-
-            center = GeometryCenterCalculator.calculate(annotation_row)
-
-            # Replace string with coordinates
-            wp["location"] = center
-
-        return validated
+        except Exception:
+            # Absolute fallback safeguard
+            return validated
 
 
 # ---------------- Test ----------------
@@ -153,4 +196,4 @@ if __name__ == "__main__":
         }
     }
 
-    print(c.find_waypoint_closest_and_update(validated))
+    #print(c.find_waypoint_closest_and_update(validated))

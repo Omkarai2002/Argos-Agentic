@@ -14,5 +14,3 @@ class CheckConnectionForNeo4j:
             return True
         return False
 
-c=CheckConnectionForNeo4j()
-print(c.is_connection())

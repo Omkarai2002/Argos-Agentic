@@ -11,7 +11,7 @@ PROMPT_COMPLETION_DATABASE_CONFIG = {
     "DB_PORT": int(os.getenv("DB_PORT"))
 }
 MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION = 8192
-MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION = 10
+MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION = 2
 MODEL_NAME_FOR_PROMPT_COMPLETION = "gpt-4o-mini"
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 TEMPERATURE_FOR_PROMPT_COMPLETION = 0.3
@@ -53,6 +53,7 @@ Rules:
   is being inspected.
 - Do NOT infer execution type (point/path/grid/3d).
 - Return ONLY valid JSON.
+- Remember all the fields should be present as mentioned in the json below strictly 
 
 Mission:
 <<< {mission_text} >>>
@@ -61,14 +62,14 @@ JSON:
 {{
   "work_pattern": "stop_and_work | move_and_work | cover_area | inspect_structure",
   "reason": "one short sentence"
-  "complexity":"enter the complexity score between 0 to 1 over here ,the more complex or more action based the prompt--> {mission_text} is like long heavy to understand by the model more should be the confidence threshold "
+  "complexity":"enter the complexity score between 0 to 1 over here ,the more complex or more action based the prompt--> {mission_text} is like long heavy to understand by the model more should be the confidence threshold it should only be a floating value between 0 to 1 and no text or any value other than that "
 }}
 """
 
 JSON_EXTRACTION_PROMPT = """
-You are a strict drone-mission intent extraction engine.
+You are a very intelligent strict drone-mission intent extraction engine.
 
-Your ONLY job is to convert the user’s natural language request into a simplified JSON.
+Your ONLY job is to intelligently convert the user’s natural language request into a simplified JSON.
 
 You must follow EXACTLY this structure:
 
@@ -115,7 +116,11 @@ Each action must be inside "actions":
   "type": null,
   "pitch": null,
   "yaw": null,
-  "duration": null
+  "duration": null,
+  "interval":null,
+  "count":null,
+  "zoom":null,
+  "distance":null
 }
 
 STRICT RULES:
@@ -132,9 +137,13 @@ STRICT RULES:
 10. Actions must be an array.
 11. Never infer GPS coordinates. Use place names only if provided.
 12. Allowed action types:
-    HOVER, GIMBAL_CONTROL, VIDEO_START, CAPTURE_IMAGE, STOP_CAPTURE_IMAGE, INTERVAL_CAPTURE, ZOOM, DISTANCE_CAPTURE
+    HOVER, GIMBAL_CONTROL,GIMBAL_DOWN,GIMBAL_RECENTER,IMAGE_CAPTURE_SINGLE,IMAGE_DISTANCE,IMAGE_INTERVAL,IMAGE_STOP,VIDEO_START,VIDEO_STOP
+13. In Allowed action types :
+    GIMBAL_CONTROL(Intelligently capture the pitch and yaw ),GIMBAL_DOWN(when the user says to tilt the angle down or look down),GIMBAL_RECENTER(when the user says to recenter),
+    IMAGE_CAPTURE_SINGLE(when the user has told to just click images without mentioning time),IMAGE_INTERVAL(when the user wants to capture image in intervals-interval and count),
+    IMAGE_DISTANCE(when the user wants to capture images after the some distance- distance and count expected),CAMERA_ZOOM(when the user says to zoom in it is between 0 to 100)
 13. Allowed finish types:
-    HOVER, LAND, RTL, RTDS, PRECISION_LAND, RETURN_SAFE
+    HOVER, LAND, RTL, RTDS, PL,RTSL
 14. LAND is ONLY allowed in finish.type, never inside waypoint actions.
 15. Never guess altitude_mode, speed, radius, or durations.
 16. Never hallucinate actions.
@@ -142,10 +151,13 @@ STRICT RULES:
 18. Missing values must remain null.
 19. If user does not specify waypoints, return an empty list.
 20. The values sould be converted ones ,like km should be converted in m,hours should be in sec.
-21. ocation must ONLY contain place names explicitly mentioned by the user.
+21. Location must ONLY contain place names explicitly mentioned by the user.
   If no place name is given, leave name null.
-
-22. Output must be valid JSON syntax.
+22. Allowed altitude_mode AGL,ASL.
+23. If the user specifies a starting point using phrases like "from", "start from", "begin at", or similar,
+  that location represents the current drone position and MUST NOT be added as a waypoint.
+  Only destination or action locations become waypoints.
+24. Output must be valid JSON syntax.
 
 You are an intent extractor, not a mission planner.
 """

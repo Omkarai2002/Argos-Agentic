@@ -68,8 +68,15 @@ class Classifier:
         })
 
         work_pattern = llm_result["work_pattern"]
-        reason = llm_result["reason"]
-        complexity=llm_result["complexity"]
+        try:
+            reason=llm_result["reason"]
+        except:
+            reason=" "
+
+        try:
+            complexity = float(llm_result["complexity"])
+        except (KeyError, TypeError, ValueError):
+            complexity = 0.6
 
         # Step 2: Rules → doctrine
         mission_type = self.doctrine_classifier(work_pattern, mission_text)

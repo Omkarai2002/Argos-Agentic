@@ -10,7 +10,7 @@ def total_time_calculation(validated):
             time=time + validated["model_for_extraction_json_output"]["finish_action"]["duration"]
 
     for i in range(len(validated["model_for_extraction_json_output"]["waypoints"])):
-        print(validated["model_for_extraction_json_output"]["waypoints"])
+        #print(validated["model_for_extraction_json_output"]["waypoints"])
         if validated["model_for_extraction_json_output"]["waypoints"][i]["speed"]:
                 speed=speed+validated["model_for_extraction_json_output"]["waypoints"][i]["speed"]
 
