@@ -105,7 +105,7 @@ class MissionEngine:
                 "payload": result
             }
 
-        # 🔥 CRITICAL FIX — propagate DB record ID
+        # CRITICAL FIX — propagate DB record ID
         validated["db_record_id"] = result["db_record_id"]
 
         # -----------------------------
@@ -138,11 +138,29 @@ class MissionEngine:
             "event": "mission:error",
             "payload": "Invalid prompt state"
         }
+    def set_nested_value(self, obj, path, value):
+
+        keys = path.split(".")
+        ref = obj
+
+        for k in keys[:-1]:
+
+            if k.isdigit():
+                ref = ref[int(k)]
+            else:
+                ref = ref[k]
+
+        last = keys[-1]
+
+        if last.isdigit():
+            ref[int(last)] = value
+        else:
+            ref[last] = value
 
     async def handle_human_reply(self, sid, data):
 
         session = self.sessions.get(sid)
-
+        print("sessions Omkar:",self.sessions)
         if not session:
             return {
                 "event": "mission:error",
@@ -207,7 +225,6 @@ class MissionEngine:
     async def _continue_pipeline(self, data, validated):
 
         graphdb = Neo4jMissionDB()
-        threshold = CheckThreshold(validated)
 
         model_select = Selection(validated, data)
         validated = model_select.select_model()
@@ -224,17 +241,16 @@ class MissionEngine:
 
         validator = GeofenceValidator()
         validated = validator.validate(validated)
+        threshold = CheckThreshold(validated)
+        validated = threshold.check_waypoints()
 
-        validation_result = threshold.check_waypoints()
+        # if validation_result["status"] == "need_input":
+        #     return {
+        #         "event": "mission:validation_errors",
+        #         "payload": validation_result
+        #     }
 
-        # If validation errors exist
-        if validation_result["status"] == "need_input":
-            return {
-                "event": "mission:validation_errors",
-                "payload": validation_result
-            }
-
-        validated = validation_result["mission"]
+        # validated = validation_result["mission"]
 
         if not validated["model_for_extraction_json_output"]["waypoints"]:
             return {

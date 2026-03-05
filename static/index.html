@@ -182,7 +182,9 @@ socket.on("mission:error", (data) => {
     addBotText(data.message);
 });
 
-
+socket.on("mission:result", (data) => {
+        addBotJSON(data);
+    });
 /* ================================
    SEND MESSAGE
 ================================ */

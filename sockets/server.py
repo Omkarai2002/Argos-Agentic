@@ -49,7 +49,7 @@ async def handle_mission_request(sid, data):
 
 
 # ----------------------------------
-# Human Reply
+# Human Review Reply
 # ----------------------------------
 
 @sio.on("mission:human_reply")
@@ -59,7 +59,7 @@ async def receive_human_reply(sid, data):
 
     response = await mission_engine.handle_human_reply(
         sid,
-        data   # <-- PASS FULL DICT
+        data
     )
 
     await sio.emit(
@@ -68,6 +68,26 @@ async def receive_human_reply(sid, data):
         to=sid
     )
 
+
+# ----------------------------------
+# Validation Reply (NEW)
+# ----------------------------------
+
+@sio.on("mission:validation_reply")
+async def receive_validation_reply(sid, data):
+
+    print(f"Validation reply received from {sid}: {data}")
+
+    response = await mission_engine.handle_validation_reply(
+        sid,
+        data
+    )
+
+    await sio.emit(
+        response["event"],
+        response["payload"],
+        to=sid
+    )
 
 # ----------------------------------
 # Run Server
