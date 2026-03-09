@@ -40,13 +40,15 @@ class CheckThreshold:
 
         #WAYPOINT CHECK 
         for i in range(len(wayp)):
-            wayp_dict=dict
-            if self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"]==[]:
-                new_loc=input(f"location out of geofence for waypoint {i+1},enter location name within geofence:")
-                self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"]=str(new_loc)
-                
-                validated=self.c.find_waypoint_closest_and_update(self.validated)
-                validated=self.geofence.validate(validated)
+            
+            if self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"] == []:
+
+                return {
+                    "status": "need_location",
+                    "waypoint_index": i+1,
+                    "message": f"Location missing for waypoint {i+1}. Please enter location name.",
+                    "mission": self.validated
+                }
    
             loc=self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"]
             if not loc:
@@ -70,24 +72,22 @@ class CheckThreshold:
                 for j in range(len(self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"])):
                     if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="HOVER":
                         if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]>=100 or not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]:
-                            dur=int(input(f"enter the duration between 1 to 100 for the drone to hover for {i}th waypoint and {j}th action"))
-                            if 1<=self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]<=100:
-                                self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=30
+                            dur=10
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=dur
 
                         if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="GIMBAL_CONTROL":
                             
                             if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]:
-                                gc=float(input(f"enter the gimbal control pitch for {i}th waypoint and {j}th action"))            
+                                gc=180
                                 self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=gc
                             if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]:
-                                gc=float(input("enter the gimbal control yaw")) 
+                                gc=90
                                 self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=gc
 
                         if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="CAMERA_ZOOM":
                             
                             if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"] or (self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]<=0 or self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]>=100) :
-                                zm=int(input(f"enter the camera zoom score between 0 to 100 for {i}th waypoint and {j}th action :"))
+                                zm=50
                                 if 0>=zm or zm>=100:          
                                     self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=20
                                 self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=zm
@@ -106,7 +106,10 @@ class CheckThreshold:
             pass
         duration=total_time_calculation(self.validated)
         self.validated["model_for_extraction_json_output"]["total_duration"]=duration
-        return self.validated
+        return {
+                "status": "ok",
+                "mission": self.validated
+                }
 
 # validated={'db_record_id': '130', 'user_id': 1, 'site_id': 1, 'org_id': 1, 'prompt': 'Create a point mission where the drone takes off from the Main Entrance Checkpoint, flies to the Warehouse Loading Dock, performs a clockwise loiter with a 25 m radius at 60 m altitude for 90 seconds, then returns and lands back at the Main Entrance Checkpoint.', 'class': 'point', 'reason': 'The primary operation occurs while the drone is stationary during the 90-second loiter.', 'complexity': 0.4, 'model_for_extraction': 'gpt-5-nano', 'model_for_extraction_json_output': {'type': '', 'name': '', 'city': '', 'label_id': 0, 'total_distance': 500, 'total_duration': 400, 'finish_action': {'type': 'LAND', 'duration': None}, 'waypoints': [{'sequence': 1, 'location': [], 'altitude': None, 'altitude_mode': None, 'speed': None, 'radius': 25.0, 'actions': [{'sequence': 1, 'type': 'HOVER', 'params': {'pitch': None, 'yaw': None, 'duration': 90, 'interval': None, 'count': None, 'zoom': None, 'distance': None}}]}, {'sequence': 2, 'location': [73.7572, 19.9587, 10], 'altitude': None, 'altitude_mode': None, 'speed': None, 'radius': None, 'actions': []}], 'takeoff_config': {'altitude': None, 'altitude_mode': None, 'speed': None}, 'route_config': {'altitude': 40, 'altitude_mode': 'AGL', 'speed': 4, 'radius': 2}, 'mission_config': {'mode': 'orbit', 'base_path': [[72.8777, 19.076]], 'layers': [{'altitude': 20, 'altitude_mode': 'AGL'}, {'altitude': 30, 'altitude_mode': 'AGL'}, {'altitude': 40, 'altitude_mode': 'AGL'}], 'camera_profile': {'pitch': 0, 'yaw_mode': 'poi', 'poi': [72.8777, 19.076]}, 'yaw_step': 0, 'limits': {'max_vertical_speed': 0, 'layer_spacing': 0}}, 'dock_id': 0, 'can_select_dock': True, 'is_hidden': False, 'is_private': True, 'camera_profile': {'pitch': None, 'yaw_mode': None, 'poi': None}}}
 # c=CheckThreshold(validated)

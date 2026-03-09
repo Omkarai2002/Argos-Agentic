@@ -132,7 +132,7 @@ const org_id  = 1;
 
 let reviewMode = false;
 let editMode = false;
-
+let locationMode = false;
 
 /* ================================
    CONNECTION EVENTS
@@ -174,7 +174,8 @@ socket.on("mission:rejected", (data) => {
 
 // Validation errors
 socket.on("mission:validation_errors", (data) => {
-    addBotJSON(data);
+    locationMode = true;
+    addBotText(data.message);
 });
 
 // Error
@@ -232,6 +233,18 @@ function sendMessage() {
                 }
             }
         }
+    }
+
+    // -----------------------------
+    // Location Input Flow
+    // -----------------------------
+    else if (locationMode) {
+
+        socket.emit("mission:validation_reply", {
+            location: message
+        });
+
+        locationMode = false;
     }
 
     // -----------------------------

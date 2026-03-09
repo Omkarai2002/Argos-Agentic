@@ -27,11 +27,9 @@ async def connect(sid, environ, auth):
 async def disconnect(sid):
     print(f"Client disconnected: {sid}")
 
-
 # ----------------------------------
 # Mission Creation
 # ----------------------------------
-
 @sio.on("mission:plan_create")
 async def handle_mission_request(sid, data):
 
@@ -82,7 +80,7 @@ async def receive_validation_reply(sid, data):
         sid,
         data
     )
-
+    print("VALIDATION RESPONSE:", response)
     await sio.emit(
         response["event"],
         response["payload"],
