@@ -80,7 +80,11 @@ class ConnectToDb:
     # ----------------------------------
     # Main pipeline
     # ----------------------------------
-
+    def token_overlap(self,a, b):
+        a_set = set(a.split())
+        b_set = set(b.split())
+        return len(a_set & b_set) / max(len(a_set), 1)
+    
     def find_waypoint_closest_and_update(self, validated):
         try:
             site_id = validated.get("site_id")
@@ -130,7 +134,10 @@ class ConnectToDb:
 
                         for name in waypoint_names:
                             try:
-                                score = self.similarity(location_lower, name)
+                                score = max(
+                                    self.similarity(location_lower, name),
+                                    self.token_overlap(location_lower, name)
+                                )
                                 if isinstance(score, (int, float)):
                                     scores[name] = score
                             except Exception:

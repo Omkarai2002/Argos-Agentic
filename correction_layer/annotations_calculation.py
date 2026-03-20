@@ -24,11 +24,11 @@ class GeometryCenterCalculator:
 
         # Shapes that already store center
         if shape in {"circle", "ellipse", "cylinder", "box"}:
-            return GeometryCenterCalculator._with_alt(geom["center"], altitude)
+            return GeometryCenterCalculator._with_alt(geom["center"])
 
         # Point
         if shape == "point":
-            return GeometryCenterCalculator._with_alt(geom["position"], altitude)
+            return GeometryCenterCalculator._with_alt(geom["position"])
 
         # Rectangle
         if shape == "rectangle":
@@ -39,32 +39,31 @@ class GeometryCenterCalculator:
         # Polygon
         if shape == "polygon":
             return GeometryCenterCalculator._average_points(
-                geom["hierarchy"], altitude
+                geom["hierarchy"]
             )
 
         # Polyline
         if shape == "polyline":
             return GeometryCenterCalculator._average_points(
-                geom["positions"], altitude
+                geom["positions"]
             )
 
         raise ValueError(f"Unsupported shape: {shape}")
 
     @staticmethod
-    def _average_points(points: List[List[float]], altitude: float) -> List[float]:
+    def _average_points(points: List[List[float]]) -> List[float]:
         lon = sum(p[0] for p in points) / len(points)
         lat = sum(p[1] for p in points) / len(points)
 
         # If altitude provided per point
         if len(points[0]) == 3:
             alt = sum(p[2] for p in points) / len(points)
-        else:
-            alt = altitude
+        
 
-        return [lon, lat, alt]
+        return [lon, lat]
 
     @staticmethod
-    def _with_alt(center: List[float], altitude: float) -> List[float]:
+    def _with_alt(center: List[float]) -> List[float]:
         if len(center) == 3:
             return center
-        return [center[0], center[1], altitude]
+        return [center[0], center[1]]

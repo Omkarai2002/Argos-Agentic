@@ -22,6 +22,7 @@ class CheckThreshold:
             if not self.validated["model_for_extraction_json_output"]["finish_action"]["duration"]:
                 self.validated["model_for_extraction_json_output"]["finish_action"]["duration"]=20
         
+        self.validated["model_for_extraction_json_output"]["type"]=self.validated["class"]
         #TAKEOFF ALTITUDE CHECK
         try:
             takeoff_config_alt=self.validated["model_for_extraction_json_output"]["takeoff_config"].get("altitude",0)
@@ -29,15 +30,17 @@ class CheckThreshold:
                 self.validated["model_for_extraction_json_output"]["takeoff_config"]["altitude"]=40
         except:
             self.validated["model_for_extraction_json_output"]["takeoff_config"]["altitude"]=40
-
+                                                    
         #TAKEOFF SPEED CHECK
         try:
             takeoff_config_speed=self.validated["model_for_extraction_json_output"]["takeoff_config"].get("speed",0)
+            if not self.validated["model_for_extraction_json_output"]["takeoff_config"]["altitude_mode"]:
+                self.validated["model_for_extraction_json_output"]["takeoff_config"]["altitude_mode"]="REL"
             if not takeoff_config_speed or (takeoff_config_speed >=10 or takeoff_config_speed<=1) or type(takeoff_config_speed)!=int:
                 self.validated["model_for_extraction_json_output"]["takeoff_config"]["speed"]=4
         except:
             self.validated["model_for_extraction_json_output"]["takeoff_config"]["speed"]=4
-
+            self.validated["model_for_extraction_json_output"]["takeoff_config"]["altitude_mode"]="REL"
         #WAYPOINT CHECK 
         for i in range(len(wayp)):
             
@@ -45,26 +48,29 @@ class CheckThreshold:
 
                 return {
                     "status": "need_location",
-                    "waypoint_index": i+1,
+                    "waypoint_index": i,
                     "message": f"Location missing for waypoint {i+1}. Please enter location name.",
                     "mission": self.validated
                 }
-   
+
             loc=self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"]
             if not loc:
                 new_loc=input(f"location not mentioned for waypoint {i+1},enter location name within geofence:")
 
             try:
                 alt=self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude"]
-                if alt and (alt<=10 or alt>=100):
-                    self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude"]=self.validated["model_for_extraction_json_output"]["takeoff_config"]["altitude"]
+                if not alt or (alt>=10 or alt<=100):
+                    self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude"]=40
+                
             except:
-                self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude"]=self.validated["model_for_extraction_json_output"]["takeoff_config"]["altitude"]
-            
+                self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude"]=40
+            if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude_mode"]:
+                self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude_mode"]="REL"
             try:
                 spd=self.validated["model_for_extraction_json_output"]["waypoints"][i]["speed"]
-                if (spd and (spd<=1 or spd>=10)) or type(spd)!=int:
+                if not spd or (spd<=1 or spd>=10):
                     self.validated["model_for_extraction_json_output"]["waypoints"][i]["speed"]=4
+
             except:
                   self.validated["model_for_extraction_json_output"]["waypoints"][i]["speed"]=4
 
@@ -75,22 +81,53 @@ class CheckThreshold:
                             dur=10
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=dur
 
-                        if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="GIMBAL_CONTROL":
-                            
-                            if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]:
-                                gc=180
-                                self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=gc
-                            if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]:
-                                gc=90
-                                self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=gc
+                    if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="GIMBAL_CONTROL":
+                        
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]:
+                            gc=180
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=gc
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]:
+                            gc=90
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=gc
 
-                        if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="CAMERA_ZOOM":
-                            
-                            if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"] or (self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]<=0 or self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]>=100) :
-                                zm=50
-                                if 0>=zm or zm>=100:          
-                                    self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=20
-                                self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=zm
+                    if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="CAMERA_ZOOM":
+                        
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"] or (self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]<=0 or self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]>=100) :
+                            zm=50
+                            if 0>=zm or zm>=100:          
+                                self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=20
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=zm
+                        
+                    if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="IMAGE_SINGLE":
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=0
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=1
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
+
+                    if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="IMAGE_DISTANCE":
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]:
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=1
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=None
+
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]:
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=1
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=None
+                    
+                    if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="IMAGE_DISTANCE":
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=1
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["distance"]=2
         gps_points=self.parse_distance()               
         try:
             gps_points = self.parse_distance()

@@ -120,8 +120,10 @@ pre {
 
 <script>
 
-const socket = io("http://127.0.0.1:8000");
-
+const socket = io("https://aleshia-untrailered-colourably.ngrok-free.dev", {
+  path: "/socket.io",
+  transports: ["websocket"]
+});
 const chat = document.getElementById("chat");
 const textarea = document.getElementById("promptInput");
 
@@ -140,6 +142,13 @@ let locationMode = false;
 
 socket.on("connect", () => {
     console.log("Connected:", socket.id);
+    addBotText("Connected to mission server.");
+});
+
+socket.on("mission:progress", (data) => {
+
+    addBotText("⚙️ " + data.step);
+
 });
 
 socket.on("disconnect", () => {
@@ -180,12 +189,22 @@ socket.on("mission:validation_errors", (data) => {
 
 // Error
 socket.on("mission:error", (data) => {
-    addBotText(data.message);
+
+    reviewMode = false;
+    editMode = false;
+    locationMode = false;
+
+    addBotText(data.message || data);
 });
 
 socket.on("mission:result", (data) => {
-        addBotJSON(data);
-    });
+
+    reviewMode = false;
+    editMode = false;
+    locationMode = false;
+
+    addBotJSON(data);
+});
 /* ================================
    SEND MESSAGE
 ================================ */

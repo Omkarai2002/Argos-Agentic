@@ -2,6 +2,8 @@ import socketio
 from fastapi import FastAPI
 import uvicorn
 from app.prompt_run import MissionEngine
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 sio = socketio.AsyncServer(
     async_mode="asgi",
@@ -9,11 +11,14 @@ sio = socketio.AsyncServer(
 )
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 socket_app = socketio.ASGIApp(sio, other_asgi_app=app)
 
-mission_engine = MissionEngine()
+mission_engine = MissionEngine(sio)
 
-
+@app.get("/")
+def home():
+    return FileResponse("static/index.html")
 # ----------------------------------
 # Connection Events
 # ----------------------------------
@@ -27,6 +32,9 @@ async def connect(sid, environ, auth):
 async def disconnect(sid):
     print(f"Client disconnected: {sid}")
 
+    if sid in mission_engine.sessions:
+        del mission_engine.sessions[sid]
+        print("Session cleared for:", sid)
 # ----------------------------------
 # Mission Creation
 # ----------------------------------
@@ -34,15 +42,21 @@ async def disconnect(sid):
 async def handle_mission_request(sid, data):
 
     print(f"Mission request received from {sid}")
-
+    await sio.emit(
+        "mission:progress",
+        {"step": "Validating prompt", "status": "running","sid":sid},
+        room=sid
+    )
     response = await mission_engine.main(sid, data)
-
+    if not response:
+        print("no response from the server")
+        return 
     print("DEBUG RESPONSE:", response)
 
     await sio.emit(
         response["event"],
         response["payload"],
-        to=sid
+        room=sid
     )
 
 
@@ -63,7 +77,7 @@ async def receive_human_reply(sid, data):
     await sio.emit(
         response["event"],
         response["payload"],
-        to=sid
+        room=sid
     )
 
 
@@ -80,20 +94,24 @@ async def receive_validation_reply(sid, data):
         sid,
         data
     )
+    if not response:
+        print("No response returned from MissionEngine")
+        return 
     print("VALIDATION RESPONSE:", response)
     await sio.emit(
         response["event"],
         response["payload"],
-        to=sid
+        room=sid
     )
 
 # ----------------------------------
 # Run Server
 # ----------------------------------
 
-if __name__ == "__main__":
-    uvicorn.run(
-        socket_app,
-        host="0.0.0.0",
-        port=8000
-    )
+# if __name__ == "__main__":
+#     uvicorn.run(
+#         socket_app,
+#         host="0.0.0.0",
+#         port=8000,
+#         workers=4
+#     )

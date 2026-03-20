@@ -12,6 +12,7 @@ from prompt_completion_layer import (
     PromptCompletionRequest,
     PromptCompletionDB
 )
+import asyncio
 from mission_classifier_layer.model_selection import Selection
 from .config import MODEL_NAME_FOR_PROMPT_COMPLETION
 from validation_layer.prompt_to_json_extraction import PromptToJsonConvert
@@ -70,9 +71,10 @@ class MissionEngine:
     Maintains session state per socket connection.
     """
 
-    def __init__(self):
+    def __init__(self,sio):
+        self.sio=sio
         self.sessions = {}
-
+        self.loop = asyncio.get_event_loop()
     async def main(self, sid, data):
 
         prompt = data.get("prompt", "")
@@ -80,7 +82,8 @@ class MissionEngine:
         if not prompt:
             return {
                 "event": "mission:error",
-                "payload": "Prompt is Empty"
+                "payload": "Prompt is Empty",
+                "sid":sid
             }
 
         validated = {
@@ -90,19 +93,23 @@ class MissionEngine:
             "org_id": data["org_id"],
             "prompt": prompt,
         }
-
+        self.emit_progress(sid, "Starting mission pipeline")
         runner = PromptRunner(
             data["user_id"],
             data["org_id"],
             data["site_id"]
         )
 
-        result = runner.process_prompt(prompt)
+        result = await asyncio.to_thread(
+            runner.process_prompt,
+            prompt
+        )
 
         if not result["success"]:
             return {
                 "event": "mission:error",
-                "payload": result
+                "payload": result,
+                "sid":sid
             }
 
         # CRITICAL FIX — propagate DB record ID
@@ -112,7 +119,13 @@ class MissionEngine:
         # If LLM accepted directly
         # -----------------------------
         if result["status"] == "accepted":
-            return await self._continue_pipeline(data, validated,sid)
+            self.emit_progress(sid, "prompt accepted by the user")
+            return await asyncio.to_thread(
+            self._continue_pipeline_sync,
+            data,
+            validated,
+            sid
+        )
 
         # -----------------------------
         # If LLM rejected → human review
@@ -124,19 +137,21 @@ class MissionEngine:
                 "data": data,
                 "validated": validated
             }
-
+            self.emit_progress(sid, "prompt rejected by the system")
             return {
                 "event": "mission:awaiting_human_review",
                 "payload": {
                     "request_id": validated["db_record_id"],
                     "mission": validated,
-                    "message": "Approve mission? (1=Accept, 2=Reject, 3=Edit)"
+                    "message": "Approve mission? (1=Accept, 2=Reject, 3=Edit)",
+                    "sid":sid
                 }
             }
 
         return {
             "event": "mission:error",
-            "payload": "Invalid prompt state"
+            "payload": {"message":"Invalid prompt state",
+                        "sid":sid}
         }
     def set_nested_value(self, obj, path, value):
 
@@ -187,8 +202,14 @@ class MissionEngine:
             )
 
             del self.sessions[sid]
-
-            return await self._continue_pipeline(original_data, validated,sid)
+            return await asyncio.to_thread(
+            self._continue_pipeline_sync,
+            original_data,
+            validated,
+            sid
+        )
+            
+        
 
         # ---------------- REJECT ----------------
         if choice == "2":
@@ -202,7 +223,8 @@ class MissionEngine:
 
             return {
                 "event": "mission:result",
-                "payload": "Prompt rejected by user"
+                "payload": {"message":"Prompt rejected by user",
+                            "sid":sid}
             }
 
         # ---------------- EDIT ----------------
@@ -211,14 +233,16 @@ class MissionEngine:
             return {
                 "event": "mission:human_in_the_loop",
                 "payload": {
-                    "message": "Please enter new prompt"
+                    "message": "Please enter new prompt",
+                    "sid":sid
                 }
             }
 
         return {
             "event": "mission:human_in_the_loop",
             "payload": {
-                "message": "Invalid option. Enter 1, 2 or 3"
+                "message": "Invalid option. Enter 1, 2 or 3",
+                "sid":sid
             }
         }
     async def handle_validation_reply(self, sid, data):
@@ -228,87 +252,142 @@ class MissionEngine:
         if not session:
             return {
                 "event": "mission:error",
-                "payload": "Session expired"
-            }
-
-        mission = session["mission"]
-        waypoint_index = session["waypoint_index"]
-
-        location_name = data.get("location")
-
-        waypoints = mission["model_for_extraction_json_output"].get("waypoints", [])
-        print("DEBUG waypoints:", mission["model_for_extraction_json_output"]["waypoints"])
-        print("DEBUG stored index:", waypoint_index)
-        if not waypoints:
-            return {
-                "event": "mission:error",
-                "payload": "Mission has no waypoints after validation."
-            }
-
-        # if index is wrong, fallback to first waypoint
-        if waypoint_index >= len(waypoints):
-            waypoint_index = 0
-
-        waypoints[waypoint_index]["location"] = location_name
-        # Convert location name to coordinates using DB
-        connect = ConnectToDb()
-        mission = connect.find_waypoint_closest_and_update(mission)
-
-        # Validate geofence again
-        validator = GeofenceValidator()
-        mission = validator.validate(mission)
-
-        # Run threshold check again
-        threshold = CheckThreshold(mission)
-        result = threshold.check_waypoints()
-        print("DEBUG threshold result:", result)
-        # If still missing location ask again
-        if result["status"] == "need_location":
-
-            session["waypoint_index"] = result["waypoint_index"]
-
-            return {
-                "event": "mission:validation_errors",
                 "payload": {
-                    "message": result["message"]
+                    "message": "Session expired",
+                    "sid": sid
                 }
             }
 
-        validated = result["mission"]
+        mission = session["mission"]
+        location_name = data.get("location")
 
-# continue mission calculations
-        threshold = CheckThreshold(validated)
-        validated = threshold.check_waypoints()["mission"]
+        if not location_name:
+            return {
+                "event": "mission:error",
+                "payload": {
+                    "message": "No location provided",
+                    "sid": sid
+                }
+            }
 
-        # remove session
+        # ---------------------------------------------------
+        # STEP 1: Always recompute missing waypoint (CRITICAL)
+        # ---------------------------------------------------
+        threshold = CheckThreshold(mission)
+        result = threshold.check_waypoints()
+
+        if result["status"] != "need_location":
+            # Nothing to fix, just continue pipeline
+            validated = result["mission"]
+        else:
+            waypoint_index = result["waypoint_index"]
+
+            waypoints = mission["model_for_extraction_json_output"].get("waypoints", [])
+
+            if not waypoints:
+                return {
+                    "event": "mission:error",
+                    "payload": {
+                        "message": "Mission has no waypoints.",
+                        "sid": sid
+                    }
+                }
+
+            # Safety fallback
+            if waypoint_index >= len(waypoints):
+                waypoint_index = 0
+
+            print("FIXING WAYPOINT INDEX:", waypoint_index)
+
+            # ---------------------------------------------------
+            # STEP 2: Apply user input to correct waypoint
+            # ---------------------------------------------------
+            waypoints[waypoint_index]["location"] = location_name
+
+            print("AFTER USER INPUT:", waypoints[waypoint_index])
+
+            # ---------------------------------------------------
+            # STEP 3: Convert location → coordinates
+            # ---------------------------------------------------
+            connect = ConnectToDb()
+            mission = connect.find_waypoint_closest_and_update(mission)
+
+            print("AFTER DB UPDATE:", mission["model_for_extraction_json_output"]["waypoints"])
+
+            # ---------------------------------------------------
+            # STEP 4: Re-run validations
+            # ---------------------------------------------------
+            validator = GeofenceValidator()
+            mission = validator.validate(mission)
+
+            threshold = CheckThreshold(mission)
+            result = threshold.check_waypoints()
+
+            print("DEBUG threshold result:", result)
+
+            # ---------------------------------------------------
+            # STEP 5: If still missing → ask again (NEXT waypoint)
+            # ---------------------------------------------------
+            if result["status"] == "need_location":
+
+                # Update session with NEW missing index
+                session["mission"] = mission
+
+                return {
+                    "event": "mission:validation_errors",
+                    "payload": {
+                        "message": result["message"],
+                        "sid": sid
+                    }
+                }
+
+            validated = result["mission"]
+
+        # ---------------------------------------------------
+        # STEP 6: Final success
+        # ---------------------------------------------------
         del self.sessions[sid]
+
         print("Sending mission result to frontend")
+
         return {
             "event": "mission:result",
-            "payload": validated
+            "payload": validated["model_for_extraction_json_output"],
+            "sid": sid
         }
-    async def _continue_pipeline(self, data, validated,sid):
+    
+    def emit_progress(self, sid, message):
 
+        asyncio.run_coroutine_threadsafe(
+            self.sio.emit(
+                "mission:progress",
+                {"step": message,"sid":sid},
+                room=sid
+            ),
+            self.loop
+        )
+    def _continue_pipeline_sync(self, data, validated,sid):
+        self.emit_progress(sid, "model selection initiated")
         graphdb = Neo4jMissionDB()
 
         model_select = Selection(validated, data)
         validated = model_select.select_model()
-
+        self.emit_progress(sid, "model selected")
         mission_json = PromptToJsonConvert(validated)
         validated = mission_json.convert()
-
+        self.emit_progress(sid, "mission added to the graph db")
         graphdb.initialize()
         graphdb.insert_mission(validated)
         graphdb.close()
-
+        self.emit_progress(sid, "Running geofence validation")
         connect = ConnectToDb()
         validated = connect.find_waypoint_closest_and_update(validated)
-
+        self.emit_progress(sid, "Running threshold checks")
         validator = GeofenceValidator()
         validated = validator.validate(validated)
         threshold = CheckThreshold(validated)
         result = threshold.check_waypoints()
-
+        self.emit_progress(sid, "Mission pipeline complete")
         if result["status"] == "need_location":
 
             self.sessions[sid] = {
@@ -321,7 +400,8 @@ class MissionEngine:
             return {
                 "event": "mission:validation_errors",
                 "payload": {
-                    "message": result["message"]
+                    "message": result["message"],
+                    "sid":sid
                 }
             }
 
@@ -330,10 +410,12 @@ class MissionEngine:
         if not validated["model_for_extraction_json_output"]["waypoints"]:
             return {
                 "event": "mission:error",
-                "payload": "No waypoints given or out of bound"
+                "payload": {"message":"No waypoints given or out of bound",
+                "sid":sid}
             }
 
         return {
             "event": "mission:result",
-            "payload": validated
+            "payload": validated["model_for_extraction_json_output"],
+            "sid":sid
         }
