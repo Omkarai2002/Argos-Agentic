@@ -22,7 +22,6 @@ from correction_layer import (ConnectToDb, GeofenceValidator, CheckThreshold)
 LoggerFeature.setup_logging()
 logger = logging.getLogger(__name__)
 
-
 class PromptRunner:
     def __init__(self, user_id: int, org_id: int, site_id: int):
         self.user_id = user_id
@@ -382,6 +381,7 @@ class MissionEngine:
         self.emit_progress(sid, "Running geofence validation")
         connect = ConnectToDb()
         validated = connect.find_waypoint_closest_and_update(validated)
+        print("validated_closest_waypoint:",validated)
         self.emit_progress(sid, "Running threshold checks")
         validator = GeofenceValidator()
         validated = validator.validate(validated)
@@ -406,7 +406,7 @@ class MissionEngine:
             }
 
         validated = result["mission"]
-
+        validated=validated
         if not validated["model_for_extraction_json_output"]["waypoints"]:
             return {
                 "event": "mission:error",

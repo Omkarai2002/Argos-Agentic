@@ -2,7 +2,7 @@
 
 import psycopg
 import math
-from typing import List, Dict
+from typing import Dict
 from app.config import PROMPT_COMPLETION_DATABASE_CONFIG
 
 
@@ -27,7 +27,6 @@ class GeofenceValidator:
         )
 
     def fetch_geofences(self, site_id):
-
         conn = self.get_connection()
         cur = conn.cursor()
 
@@ -44,31 +43,42 @@ class GeofenceValidator:
 
     # ---------------- Geometry ---------------- #
 
-    def point_in_circle(self, point, center, radius=50):
-        # radius default safety if not stored
+    def distance(self, p1, p2):
+        """Haversine distance in meters"""
+        R = 6371000
+
+        lat1, lon1 = map(math.radians, p1)
+        lat2, lon2 = map(math.radians, p2)
+
+        dlat = lat2 - lat1
+        dlon = lon2 - lon1
+
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        return 2 * R * math.asin(math.sqrt(a))
+
+    def point_in_circle(self, point, center, radius):
         return self.distance(point, center) <= radius
 
     def point_in_rectangle(self, point, rect):
-
-        lon, lat = point[:2]
-
+        """rect expects dict: west, east, south, north"""
+        lat, lon = point
         return (
             rect["west"] <= lon <= rect["east"]
             and rect["south"] <= lat <= rect["north"]
         )
 
     def point_in_polygon(self, point, polygon):
+        """Ray casting algorithm. polygon = list of [lon, lat]"""
+        lat, lon = point
+        x, y = lon, lat  # convert to (x=lon, y=lat)
 
-        x, y = point[:2]
         inside = False
+        n = len(polygon)
 
-        pts = polygon
-        n = len(pts)
-
-        p1x, p1y = pts[0][0], pts[0][1]
+        p1x, p1y = polygon[0]
 
         for i in range(n + 1):
-            p2x, p2y = pts[i % n][0], pts[i % n][1]
+            p2x, p2y = polygon[i % n]
 
             if y > min(p1y, p2y):
                 if y <= max(p1y, p2y):
@@ -82,12 +92,6 @@ class GeofenceValidator:
 
         return inside
 
-    def distance(self, p1, p2):
-        return math.sqrt(
-            (p1[0] - p2[0]) ** 2 +
-            (p1[1] - p2[1]) ** 2
-        )
-
     # ---------------- Main Validator ---------------- #
 
     def validate(self, validated: Dict) -> Dict:
@@ -99,24 +103,50 @@ class GeofenceValidator:
 
         for wp in waypoints:
 
-            loc = wp.get("location")
+            raw_loc = wp.get("location")
 
-            # Skip empty or non-numeric
-            if not isinstance(loc, list) or len(loc) < 2:
+            # -------- Normalize location -------- #
+            try:
+    # -------- Case 1: dict -------- #
+                if isinstance(raw_loc, dict):
+                    lat = float(raw_loc.get("lat"))
+                    lon = float(raw_loc.get("lon"))
+                    loc = (lat, lon)
+
+                # -------- Case 2: list/tuple -------- #
+                elif isinstance(raw_loc, (list, tuple)) and len(raw_loc) >= 2:
+                    lon = float(raw_loc[0])
+                    lat = float(raw_loc[1])
+                    loc = (lat, lon)
+
+                else:
+                    raise ValueError("Invalid location format")
+
+            except:
+                wp["location"] = []
+                continue
+            # -------- Basic validation -------- #
+            if not isinstance(loc, (list, tuple)) or len(loc) < 2:
                 wp["location"] = []
                 continue
 
             valid = False
 
+            # -------- Check against all geofences -------- #
             for fence in geofences:
 
                 ftype = fence["type"]
                 coords = fence["coordinates"]
 
                 if ftype == "circle":
-                    # coordinates stored as [lon,lat,alt]
-                    if self.point_in_circle(loc, coords):
-                        valid = True
+                    try:
+                        lon_c, lat_c, radius = coords
+                        center = (lat_c, lon_c)
+
+                        if self.point_in_circle(loc, center, radius):
+                            valid = True
+                    except:
+                        continue
 
                 elif ftype == "polygon":
                     if self.point_in_polygon(loc, coords):
@@ -129,26 +159,10 @@ class GeofenceValidator:
                 if valid:
                     break
 
+            # -------- Final decision -------- #
             if not valid:
                 wp["location"] = []
 
+            print("loc:", loc, "| valid:", valid)
+
         return validated
-
-
-# ---------------- Test ---------------- #
-
-# if __name__ == "__main__":
-
-#     validator = GeofenceValidator()
-
-#     validated = {
-#         "site_id": 1,
-#         "model_for_extraction_json_output": {
-#             "waypoints": [
-#                 {"sequence": 1, "location": [73.7572, 19.9587, 10]},
-#                 {"sequence": 2, "location": [70.0, 10.0, 10]}
-#             ]
-#         }
-#     }
-
-#     print(validator.validate(validated))

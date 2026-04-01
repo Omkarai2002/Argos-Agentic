@@ -9,9 +9,32 @@ class CheckThreshold:
         self.c = ConnectToDb()
 
     def parse_distance(self):
-        gps_points=[]
-        for i in range(len(self.validated["model_for_extraction_json_output"]["waypoints"])):
-            gps_points.append(tuple(self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"][0:2]))
+        gps_points = []
+
+        waypoints = self.validated.get("model_for_extraction_json_output", {}).get("waypoints", [])
+
+        for wp in waypoints:
+            loc = wp.get("location")
+
+            try:
+                # Case 1: dict
+                if isinstance(loc, dict):
+                    lat = float(loc.get("lat"))
+                    lon = float(loc.get("lon"))
+                    gps_points.append((lat, lon))
+
+                # Case 2: list/tuple
+                elif isinstance(loc, (list, tuple)) and len(loc) >= 2:
+                    lon = float(loc[0])
+                    lat = float(loc[1])
+                    gps_points.append((lat, lon))
+
+                else:
+                    continue
+
+            except:
+                continue
+
         return gps_points
 
     def check_waypoints(self):

@@ -29,9 +29,21 @@ class EnterDataToJSON:
         if camera:
             extracted_json["camera_profile"] = camera
 
+        waypoints_relative_pos = chain.get("model_for_extraction_json_output", {}).get("waypoints", [])
+        waypoints_absolute_pos=chain.get("waypoints",[])
+        if waypoints_relative_pos:
+            waypoints=chain["model_for_extraction_json_output"].get("waypoints")
+        elif waypoints_absolute_pos:
+            waypoints=chain.get("waypoints")
+        else:
+            waypoints=[]
         # waypoints
-        waypoints = chain.get("waypoints", [])
-
+        #waypoints = chain.get("waypoints", [])
+        
+        # try:
+        #     waypoint=chain.get("waypoints")
+        # except:
+        #     waypoint=chain["model_for_extraction_json_output"].get("waypoints")
         if waypoints:
                 
             # extracted_json.setdefault("waypoints", [])
@@ -42,7 +54,8 @@ class EnterDataToJSON:
                 temp_dict = {}
                 temp_act=[]
                 temp_dict["sequence"] = i + 1
-                temp_dict["location"] = wp.get("name")
+                temp_dict["location"] = wp.get("names")
+                print("name:",temp_dict["location"])
                 altitude = wp.get("altitude")
                 temp_dict["altitude"] = int(altitude) if altitude is not None else None
                 altitude_mode=wp.get("altitude_mode")
@@ -53,28 +66,30 @@ class EnterDataToJSON:
                 temp_dict["radius"] = float(radius) if radius is not None else None
 
                 actions=wp.get("actions")
-                for i, act in enumerate(actions):
+                print("actions:",actions)
+                if actions:
+                    for i, act in enumerate(actions):
 
-                    if not isinstance(act, dict):
-                        continue
+                        if not isinstance(act, dict):
+                            continue
 
-                    temp_dict_act = {}
+                        temp_dict_act = {}
 
-                    temp_dict_act["sequence"] = i + 1
-                    temp_dict_act["type"] = str(act.get("type"))
+                        temp_dict_act["sequence"] = i + 1
+                        temp_dict_act["type"] = str(act.get("type"))
 
-                    # CREATE params FIRST
-                    temp_dict_act["params"] = {}
+                        # CREATE params FIRST
+                        temp_dict_act["params"] = {}
 
-                    temp_dict_act["params"]["pitch"] = float(act.get("pitch")) if act.get("pitch") else None
-                    temp_dict_act["params"]["yaw"] = float(act.get("yaw")) if act.get("yaw") else None
-                    temp_dict_act["params"]["duration"] = int(act.get("duration")) if act.get("duration") else None
-                    temp_dict_act["params"]["interval"] = int(act.get("interval")) if act.get("interval") else None
-                    temp_dict_act["params"]["count"] = int(act.get("count")) if act.get("count") else None
-                    temp_dict_act["params"]["zoom"] = int(act.get("zoom")) if act.get("zoom") else None
-                    temp_dict_act["params"]["distance"] = float(act.get("distance")) if act.get("distance") else None
+                        temp_dict_act["params"]["pitch"] = float(act.get("pitch")) if act.get("pitch") else None
+                        temp_dict_act["params"]["yaw"] = float(act.get("yaw")) if act.get("yaw") else None
+                        temp_dict_act["params"]["duration"] = int(act.get("duration")) if act.get("duration") else None
+                        temp_dict_act["params"]["interval"] = int(act.get("interval")) if act.get("interval") else None
+                        temp_dict_act["params"]["count"] = int(act.get("count")) if act.get("count") else None
+                        temp_dict_act["params"]["zoom"] = int(act.get("zoom")) if act.get("zoom") else None
+                        temp_dict_act["params"]["distance"] = float(act.get("distance")) if act.get("distance") else None
 
-                    temp_act.append(temp_dict_act)
+                        temp_act.append(temp_dict_act)
         
                 temp_dict["actions"] = temp_act
                 extracted_json["waypoints"].append(temp_dict)

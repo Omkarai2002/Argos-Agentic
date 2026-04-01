@@ -54,7 +54,7 @@ class PromptToJsonConvert:
             SystemMessage(content=JSON_EXTRACTION_PROMPT),
             HumanMessage(content=self.validated["prompt"])
         ]
-
+        category=self.validated.get("category","")
         for attempt in range(1):
             result = self.llm.invoke(messages)
             chain = self.parser.invoke(result)

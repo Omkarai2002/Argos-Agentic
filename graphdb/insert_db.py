@@ -29,6 +29,7 @@ class Neo4jMissionDB:
 
     def insert_mission(self, data: dict):
         with self.driver.session() as session:
+            print("data:",data)
             session.execute_write(self._insert_core, data)
             session.execute_write(self._insert_waypoints_actions, data)
             session.execute_write(self._insert_configs, data)
