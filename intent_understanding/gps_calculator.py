@@ -1,4 +1,59 @@
 import math
+import psycopg
+import logging
+from app.config import PROMPT_COMPLETION_DATABASE_CONFIG
+from correction_layer.annotations_calculation import GeometryCenterCalculator
+logger = logging.getLogger(__name__)
+
+
+class ConnectToDb:
+
+    def __init__(self):
+        self.dbname = PROMPT_COMPLETION_DATABASE_CONFIG["DB_NAME"]
+        self.user = PROMPT_COMPLETION_DATABASE_CONFIG["DB_USER"]
+        self.password = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PASSWORD"]
+        self.host = PROMPT_COMPLETION_DATABASE_CONFIG["DB_HOST"]
+        self.port = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PORT"]
+
+    def get_connection(self):
+        return psycopg.connect(
+            dbname=self.dbname,
+            user=self.user,
+            password=self.password,
+            host=self.host,
+            port=self.port
+        )
+
+
+    def get_annotation_row_by_name(self, site_id,org_id, name):
+
+        conn = self.get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT shape, geometry, height
+            FROM annotations
+            WHERE site_id=%s AND organization_id=%s AND name=%s 
+            LIMIT 1;
+        """, (site_id,org_id, name))
+
+        row = cursor.fetchone()
+        conn.close()
+
+        if not row:
+            return None
+
+        return {
+            "shape": row[0],
+            "geometry": row[1],
+            "height": row[2]
+        }
+    def get_center_of_annotations(self,name,validated):
+        site_id=validated["site_id"]
+        org_id=validated["org_id"]
+        user_id=validated["user_id"]
+        annotation_row=self.get_annotation_row_by_name(site_id,org_id,name)
+        return annotation_row
 
 
 class GpsCalculation:
@@ -34,31 +89,7 @@ class GpsCalculation:
             "lon": math.degrees(lon2)
         }
 
-    # ---------------------------------------
-    # 🔥 ABSOLUTE LOCATION RESOLVER
-    # ---------------------------------------
-    def get_location_coordinates(self, location_name, validated):
-        """
-        Fetch GPS coordinates for a named location.
-        You can replace this with Neo4j / DB lookup.
-        """
 
-        # Example placeholder (replace with DB call)
-        location_map = {
-            "gate A": {"lat": 19.9590, "lon": 73.7575},
-            "gate B": {"lat": 19.9600, "lon": 73.7580}
-        }
-
-        coords = location_map.get(location_name)
-
-        if coords is None:
-            raise ValueError(f"Unknown location: {location_name}")
-
-        return coords
-
-    # ---------------------------------------
-    # 🧠 MAIN HYBRID GPS ENGINE
-    # ---------------------------------------
     def indivisual_waypoint_gps_fetch(self, validated):
         """
         Converts waypoints (absolute + relative)
@@ -78,10 +109,20 @@ class GpsCalculation:
 
             if wp_type == "absolute":
                 location = wp.get("location")
-                print("location:",location)
+                
+                try:
+                    c=ConnectToDb()
+                    annotation_row=c.get_center_of_annotations(name=location,validated=validated)
+                    print("annotations_row:",annotation_row)
+                    center = GeometryCenterCalculator.calculate(annotation_row)
+                    print("center_for_annotations:",center)
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["names"]  = center[0:2]
+                except Exception:
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["names"] = None
+                    continue
                 if not location:
                     raise ValueError(f"Missing location for absolute waypoint at index {i}")
-                validated["model_for_extraction_json_output"]["waypoints"][i]["names"] = location
+                
                 # Don't resolve coordinates — keep location name as-is
                 # The flight controller will handle named locations
                 # Just update lat/lon reference for any subsequent relative waypoints
@@ -97,15 +138,26 @@ class GpsCalculation:
 
                 if distance is None or degrees is None:
                     raise ValueError(f"Invalid relative waypoint at index {i}")
-
-                new_gps = self.get_new_gps(lat, lon, distance, degrees)
-                print("new_gps:",new_gps)
-                lat = new_gps["lat"]
-                lon = new_gps["lon"]
-
-                validated["model_for_extraction_json_output"]["waypoints"][i]["names"] = new_gps
+                if i==0:
+                    new_gps = self.get_new_gps(lat, lon, distance, degrees)
+                    print("new_gps:",new_gps)
+                    lat = new_gps["lat"]
+                    lon = new_gps["lon"]
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["names"] = [lon,lat]
+                    print("validated_for_Omkar:",validated)
+                if i!=0:
+                    
+                    lon=validated["model_for_extraction_json_output"]["waypoints"][i-1]["names"][0]
+                    lat=validated["model_for_extraction_json_output"]["waypoints"][i-1]["names"][1]
+                    new_gps = self.get_new_gps(lat, lon, distance, degrees)
+                    print("new_gps:",new_gps)
+                    lat = new_gps["lat"]
+                    lon = new_gps["lon"]
+                    
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["names"] = new_gps
 
             else:
                 raise ValueError(f"Unknown waypoint type at index {i}: {wp_type}")
 
         return validated
+    
