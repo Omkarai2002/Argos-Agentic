@@ -12,28 +12,25 @@ class LoggingCursor(psycopg.Cursor):
         print(query.strip())
 
         if params:
-            print("📦 Params:", params)
+            print("Params:", params)
             try:
-                print("🚀 Final SQL:", self.mogrify(query, params).decode())
+                print("Final SQL:", self.mogrify(query, params).decode())
             except Exception:
                 pass
 
         return super().execute(query, params)
 
 
-# -----------------------------
-# 🔌 Resolver
-# -----------------------------
 class LocationResolver:
     def __init__(self):
-        # ✅ Apply logging globally
+        #Apply logging globally
         self.conn = psycopg.connect(
             dbname=PROMPT_COMPLETION_DATABASE_CONFIG["DB_NAME"],
             user=PROMPT_COMPLETION_DATABASE_CONFIG["DB_USER"],
             password=PROMPT_COMPLETION_DATABASE_CONFIG["DB_PASSWORD"],
             host=PROMPT_COMPLETION_DATABASE_CONFIG["DB_HOST"],
             port=PROMPT_COMPLETION_DATABASE_CONFIG["DB_PORT"],
-            cursor_factory=LoggingCursor   # 🔥 global logging
+            cursor_factory=LoggingCursor   #global logging
         )
 
     def resolve(self,site_id,user_id,org_id):
@@ -45,8 +42,8 @@ class LocationResolver:
 
         clean_list = [row[0] for row in results]
         # Optional: print first row
-        if clean_list:
-            print(clean_list)
+        # if clean_list:
+        #     print(clean_list)
 
         return results
 

@@ -145,7 +145,7 @@ STRICT RULES:
 13. Allowed finish types:
     HOVER, LAND, RTL, RTDS, PL,RTSL
 14. LAND is ONLY allowed in finish.type, never inside waypoint actions.
-15. Never guess altitude_mode, speed, radius, or durations.
+15. Never guess altitude_mode, speed, radius, or durations,if any of these is not given ,keep it as null.
 16. Never hallucinate actions.
 17. Use full field names (altitude_mode, radius, yaw_mode).
 18. Missing values must remain null.
@@ -161,7 +161,19 @@ STRICT RULES:
 
 You are an intent extractor, not a mission planner.
 """
-
+ALLOWED_ACTIONS = [
+    'HOVER',
+    'GIMBAL_CONTROL',
+    'GIMBAL_DOWN',
+    'GIMBAL_RECENTER',
+    'CAMERA_ZOOM',
+    'IMAGE_CAPTURE_SINGLE',   # ← was IMAGE_SINGLE
+    'IMAGE_DISTANCE',
+    'IMAGE_INTERVAL',
+    'IMAGE_STOP',
+    'VIDEO_START',
+    'VIDEO_STOP'
+]
 
 
 

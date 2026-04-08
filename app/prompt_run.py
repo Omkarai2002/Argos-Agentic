@@ -18,7 +18,9 @@ from .config import MODEL_NAME_FOR_PROMPT_COMPLETION
 from validation_layer.prompt_to_json_extraction import PromptToJsonConvert
 from graphdb import Neo4jMissionDB
 from correction_layer import (ConnectToDb, GeofenceValidator, CheckThreshold)
-
+from intelligence_layer.parameter_model_setup import optimize_parameters
+from intelligence_layer.model_setup import add_to_json
+from concurrent.futures import ThreadPoolExecutor
 LoggerFeature.setup_logging()
 logger = logging.getLogger(__name__)
 
@@ -365,8 +367,15 @@ class MissionEngine:
             ),
             self.loop
         )
+    def run_optimization(self,validated):
+            v = add_to_json(validated)
+            v = optimize_parameters(v)
+            return v
+    
     def _continue_pipeline_sync(self, data, validated,sid):
         self.emit_progress(sid, "model selection initiated")
+        executor = ThreadPoolExecutor(max_workers=1)
+        future = executor.submit(self.run_optimization, validated.copy())
         graphdb = Neo4jMissionDB()
 
         model_select = Selection(validated, data)
@@ -385,6 +394,8 @@ class MissionEngine:
         self.emit_progress(sid, "Running threshold checks")
         validator = GeofenceValidator()
         validated = validator.validate(validated)
+        optimized_validated = future.result()
+        print("optimized_validated",optimized_validated)
         threshold = CheckThreshold(validated)
         result = threshold.check_waypoints()
         self.emit_progress(sid, "Mission pipeline complete")
