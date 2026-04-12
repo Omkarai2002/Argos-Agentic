@@ -22,6 +22,7 @@ class Selection:
         if validated["class"]=="point":
             if complexity<=COMPLEXITY_THRESHOLD_FOR_POINT_MISSION:
                 validated["model_for_extraction"]=SMALL_MODEL
+                
             else:
                 validated["model_for_extraction"]=MEDIUM_MODEL
 

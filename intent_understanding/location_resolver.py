@@ -52,12 +52,12 @@ class LocationResolver:
             self.conn.close()
 
 
-if __name__ == "__main__":
-    resolver = LocationResolver()
+# if __name__ == "__main__":
+#     resolver = LocationResolver()
 
-    try:
-        data = resolver.resolve()
-    except Exception as e:
-        print("🔥 Error:", str(e))
-    finally:
-        resolver.close()
+#     try:
+#         data = resolver.resolve()
+#     except Exception as e:
+#         print("🔥 Error:", str(e))
+#     finally:
+#         resolver.close()

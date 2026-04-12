@@ -1,26 +1,33 @@
 from typing import TypedDict, Optional
 from .schemas import MissionResponse
 from .validation_intent import validate_waypoints
-from .llm_setup import prompt, structured_llm
 import traceback
-
+from .llm_setup import get_prompt, structured_llm
 # -----------------------------
 # State Definition
 # -----------------------------
 
 class State(TypedDict):
     input: str
+    org_id: int
+    site_id: int
+    user_id: int
     result: Optional[MissionResponse]
     error: Optional[str]
     retries: int
-
 
 # -----------------------------
 # Generate Node
 # -----------------------------
 def generate(state: State) -> State:
-    chain = prompt | structured_llm
 
+    prompt = get_prompt(
+        state["org_id"],
+        state["site_id"],
+        state["user_id"]
+    )
+
+    chain = prompt | structured_llm
     try:
         result = chain.invoke({"input": state["input"]})
         print("RAW LLM OUTPUT:", result)

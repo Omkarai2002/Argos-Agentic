@@ -77,13 +77,15 @@ class Classifier:
             complexity = float(llm_result["complexity"])
         except (KeyError, TypeError, ValueError):
             complexity = 0.6
-
+        print("llm_result:",llm_result)
+        category=llm_result["category"]
         # Step 2: Rules → doctrine
         mission_type = self.doctrine_classifier(work_pattern, mission_text)
 
         return {
             "mission_type": mission_type,          # point / path / grid / 3d
-            "work_pattern": work_pattern,          # LLM output
+            "work_pattern": work_pattern, 
+            "category":category,         # LLM output
             "reason": reason, 
             "complexity":complexity                    # LLM explanation
         }
@@ -93,6 +95,7 @@ class FillJson(Classifier):
         mission_data=self.classify_mission()
         self.validated["class"]=mission_data["mission_type"]
         self.validated["reason"]=mission_data["reason"]
+        self.validated["category"]=mission_data["category"]
         self.validated["complexity"]=mission_data["complexity"]
         return self.validated
 

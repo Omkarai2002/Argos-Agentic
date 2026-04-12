@@ -54,7 +54,7 @@ class EnterDataToJSON:
                 temp_dict = {}
                 temp_act=[]
                 temp_dict["sequence"] = i + 1
-                temp_dict["location"] = wp.get("names")
+                temp_dict["location"] = wp.get("name")
                 print("name:",temp_dict["location"])
                 altitude = wp.get("altitude")
                 temp_dict["altitude"] = int(altitude) if altitude is not None else None

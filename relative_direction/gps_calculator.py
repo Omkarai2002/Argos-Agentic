@@ -1,7 +1,7 @@
 import math
 
 
-class GpsCalculation:
+class GpsCalculationRelative:
 
     def get_new_gps(self, lat1, lon1, distance_m, bearing_deg):
         """
@@ -66,15 +66,17 @@ class GpsCalculation:
                 lat = validated["dock_coordinates"]["lat"]
                 lon = validated["dock_coordinates"]["lon"]     
                 new_gps = self.get_new_gps(lat, lon, distance, degrees)
+                new_gps=[new_gps["lon"],new_gps["lat"]]
                 # Store GPS properly (NOT in name)
                 print("new_gps:",new_gps)
                 validated["model_for_extraction_json_output"]["waypoints"][i]["name"]=new_gps
                 print("validated:",validated["model_for_extraction_json_output"]["waypoints"][i]["name"])
             if i!=0:
                 print("validated:",validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"])
-                lat=validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"]["lat"]
-                lon=validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"]["lon"]
+                lat=validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"][1]
+                lon=validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"][0]
                 new_gps = self.get_new_gps(lat, lon, distance, degrees)
+                new_gps=[new_gps["lon"],new_gps["lat"]]
                 print("new_gps:",new_gps)
                 validated["model_for_extraction_json_output"]["waypoints"][i]["name"]=new_gps
             # Update reference point for next waypoint

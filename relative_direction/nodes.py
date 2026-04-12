@@ -29,6 +29,7 @@ def generate(state: State) -> State:
         state["error"] = None
 
     except Exception as e:
+        print("❌ ERROR:", str(e))   # 👈 ADD THIS
         state["error"] = str(e)
 
     return state

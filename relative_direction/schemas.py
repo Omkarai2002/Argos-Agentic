@@ -56,7 +56,7 @@ class Finish(BaseModel):
 # -----------------------------
 
 class MissionResponse(BaseModel):
-    waypoints: List[Waypoint]
-    finish: Finish
-    takeoff: Takeoff
-    camera:Camera
+    waypoints: List[Waypoint] = []
+    finish: Optional[Finish] = None
+    takeoff: Optional[Takeoff] = None
+    camera: Optional[Camera] = None

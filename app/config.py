@@ -47,6 +47,31 @@ Classify the following mission into exactly ONE work pattern:
    - The main task involves inspecting or scanning a structure or volume across
      height or vertical extent (towers, turbines, buildings, facades).
 
+Categorize the mission :
+
+1) absolute_location  
+- The instruction contains ONLY fixed locations or named destinations.  
+- Example: "Go to Location A, then go to Location B and take a photo."  
+- No directional or relative movement terms should be present.
+
+2) relative_direction  
+- The instruction contains ONLY movement based on direction, distance, or orientation.  
+- Example: "Go right 200 meters, then move north 100 meters."  
+- No named locations should be present.
+
+3) intent_understanding  
+- A HYBRID instruction that contains BOTH absolute locations AND relative directions.  
+- Example: "Fly to Location A, then go right 400 meters and take a photo."
+
+---
+
+### Instructions:
+- Carefully analyze the full input.
+- Identify whether it contains:
+  - Named locations (e.g., "Location A", "Building 3", GPS coordinates)
+  - Relative movements (e.g., "left", "right", "north", "forward", "200 meters")
+
+---
 Rules:
 - Altitude alone does NOT imply inspect_structure.
 - Hovering at one or more altitudes is still stop_and_work unless a structure
@@ -54,14 +79,15 @@ Rules:
 - Do NOT infer execution type (point/path/grid/3d).
 - Return ONLY valid JSON.
 - Remember all the fields should be present as mentioned in the json below strictly 
-
+-remember json should compulsory consist of 4 fields -->work_pattern,reason,category,complexity
 Mission:
 <<< {mission_text} >>>
 
 JSON:
 {{
   "work_pattern": "stop_and_work | move_and_work | cover_area | inspect_structure",
-  "reason": "one short sentence"
+  "reason": "one short sentence",
+  "category":absolute_location | relative_direction | intent_understanding
   "complexity":"enter the complexity score between 0 to 1 over here ,the more complex or more action based the prompt--> {mission_text} is like long heavy to understand by the model more should be the confidence threshold it should only be a floating value between 0 to 1 and no text or any value other than that "
 }}
 """
@@ -174,7 +200,6 @@ ALLOWED_ACTIONS = [
     'VIDEO_START',
     'VIDEO_STOP'
 ]
-
 
 
 

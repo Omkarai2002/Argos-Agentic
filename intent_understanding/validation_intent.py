@@ -21,4 +21,5 @@ def validate_waypoints(data):
                 raise ValueError(f"Waypoint {i}: location is missing")
 
         else:
+            
             raise ValueError(f"Waypoint {i}: unknown type '{wp.type}'")

@@ -116,9 +116,9 @@ class GpsCalculation:
                     print("annotations_row:",annotation_row)
                     center = GeometryCenterCalculator.calculate(annotation_row)
                     print("center_for_annotations:",center)
-                    validated["model_for_extraction_json_output"]["waypoints"][i]["names"]  = center[0:2]
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"]  = center[0:2]
                 except Exception:
-                    validated["model_for_extraction_json_output"]["waypoints"][i]["names"] = None
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"] = None
                     continue
                 if not location:
                     raise ValueError(f"Missing location for absolute waypoint at index {i}")
@@ -143,18 +143,18 @@ class GpsCalculation:
                     print("new_gps:",new_gps)
                     lat = new_gps["lat"]
                     lon = new_gps["lon"]
-                    validated["model_for_extraction_json_output"]["waypoints"][i]["names"] = [lon,lat]
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"] = [lon,lat]
                     print("validated_for_Omkar:",validated)
                 if i!=0:
                     
-                    lon=validated["model_for_extraction_json_output"]["waypoints"][i-1]["names"][0]
-                    lat=validated["model_for_extraction_json_output"]["waypoints"][i-1]["names"][1]
+                    lon=validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"][0]
+                    lat=validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"][1]
                     new_gps = self.get_new_gps(lat, lon, distance, degrees)
                     print("new_gps:",new_gps)
                     lat = new_gps["lat"]
                     lon = new_gps["lon"]
                     
-                    validated["model_for_extraction_json_output"]["waypoints"][i]["names"] = new_gps
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"] = [lon,lat]
 
             else:
                 raise ValueError(f"Unknown waypoint type at index {i}: {wp_type}")

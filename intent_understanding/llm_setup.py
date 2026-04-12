@@ -7,10 +7,6 @@ from .location_resolver import LocationResolver
 
 load_dotenv()
 
-org_id,site_id,user_id=1,1,1
-    
-resolver = LocationResolver()
-data = resolver.resolve(1,1,1)
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0,
@@ -19,8 +15,14 @@ llm = ChatOpenAI(
 
 # Structured output
 structured_llm = llm.with_structured_output(MissionResponse)
-from langchain_core.prompts import ChatPromptTemplate
-system_prompt = f"""
+
+from .location_resolver import LocationResolver
+
+def get_prompt(org_id, site_id, user_id):
+    resolver = LocationResolver()
+    data = resolver.resolve(org_id, site_id, user_id)
+
+    system_prompt = f"""
 You are an intent extractor, not a mission planner.
 
 STRICT RULES:
@@ -80,8 +82,19 @@ This mapping is deterministic and allowed. It is NOT considered inference.
 - Do NOT return the user’s incorrect spelling.
 - Do NOT invent new location names.
 - If no reasonable match is found, set location to null.
+27. Actions that follow a movement apply to the MOST RECENT waypoint.
+28. Do NOT create a new waypoint unless a NEW movement or NEW location is explicitly mentioned.
+29. Do NOT repeat previous locations unless explicitly stated by the user.
+30. Actions such as HOVER, IMAGE_CAPTURE_SINGLE, VIDEO_START etc.
+    MUST be attached to the most recent waypoint.
+
+31. If no new movement or location is specified,
+    DO NOT create a new waypoint.
+
+32. Sequential actions (e.g., "take image then hover")
+    MUST be grouped under the same waypoint.
 """
-prompt = ChatPromptTemplate.from_messages([
+    return ChatPromptTemplate.from_messages([
     ("system", system_prompt),
     ("human", "{input}")
 ])

@@ -101,7 +101,63 @@ Return: {{"speed": number, "altitude": number, "altitude_mode": string, "reason"
             "altitude_mode": fallback.get("altitude_mode", "AGL"),
             "reason":        "LLM unavailable — fallback to first candidate."
         }
+def extract_action_and_params(user_prompt, location, all_locations, candidates):
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            temperature=0,
+            messages=[
+                {
+                    "role": "system",
+                    "content": f"""
+You are a drone mission planner.
 
+For a given location, extract:
+1. Actions explicitly mentioned
+2. Best flight parameters
+
+Rules:
+- Only assign actions explicitly mentioned
+- try understanding the actions mentioned below in allowed actions and plot it accordingly.
+
+Allowed actions: {ALLOWED_ACTIONS}
+
+Return ONLY JSON:
+{{
+  "actions": [],
+  "speed": number,
+  "altitude": number,
+  "altitude_mode": string,
+  "reason": string
+}}
+"""
+                },
+                {
+                    "role": "user",
+                    "content": f"""
+PROMPT: {user_prompt}
+ALL LOCATIONS: {all_locations}
+TARGET LOCATION: {location}
+CANDIDATES: {candidates}
+"""
+                }
+            ]
+        )
+
+        raw = response.choices[0].message.content.strip()
+        raw = raw.replace("```json", "").replace("```", "").strip()
+        return json.loads(raw)
+
+    except Exception as e:
+        print(f"⚠️ Combined LLM failed for '{location}': {e}")
+        fallback = candidates[0] if candidates else {}
+        return {
+            "actions": [],
+            "speed": fallback.get("speed", 4),
+            "altitude": fallback.get("altitude", 40),
+            "altitude_mode": fallback.get("altitude_mode", "AGL"),
+            "reason": "Fallback"
+        }
 def build_actions(action_list):
     return [
         {"type": schema.get("type", name), "params": schema.get("params")}
@@ -109,20 +165,65 @@ def build_actions(action_list):
         if (schema := ACTION_SCHEMA.get(name.strip().upper()))
     ]
 
+from collections import defaultdict
 
-def optimize_parameters(validated: dict) -> list:
-    all_locations = [item["location"]["location"] for item in validated["graphdb_data"]]
-    final_plan = []
+def optimize_parameters(validated: dict) -> dict:
+
+    # STEP 1: GROUP by location
+    grouped = {}
 
     for item in validated["graphdb_data"]:
-        
+        loc = item["location"]["location"]
+        action = item["location"]["action"]
+        candidates = item["value"]
+
+        if loc not in grouped:
+            grouped[loc] = {
+                "location": loc,
+                "actions": set(),
+                "value": candidates
+            }
+
+        # merge actions safely
+        if isinstance(action, list):
+            grouped[loc]["actions"].update(action)
+        elif action:
+            grouped[loc]["actions"].add(action)
+
+    # STEP 2: Convert grouped data back
+    unique_data = [
+        {
+            "location": {
+                "location": v["location"],
+                "action": list(v["actions"])
+            },
+            "value": v["value"]
+        }
+        for v in grouped.values()
+    ]
+
+
+    # STEP 3: Prepare all locations list
+    all_locations = [item["location"]["location"] for item in unique_data]
+
+    final_plan = []
+
+    # STEP 4: Loop over UNIQUE locations only
+    for item in unique_data:
         location   = item["location"]["location"]
         candidates = item["value"]
 
-        action = extract_actions(validated["prompt"], location, all_locations)
-        print(f"📍 {location} | 🎬 {action}")
+        result = extract_action_and_params(
+            validated["prompt"],
+            location,
+            all_locations,
+            candidates
+        )
 
-        best = get_params(validated["prompt"], location, action, candidates)
+        action = result["actions"]
+        best = result
+
+        print(f"📍 {location} | 🎬 {action}")
 
         final_plan.append({
             "location":      location,
@@ -132,8 +233,11 @@ def optimize_parameters(validated: dict) -> list:
             "altitude_mode": best["altitude_mode"],
             "reason":        best["reason"]
         })
-    validated["final_result"]=final_plan
-    print("hi debug llm call")
+
+    validated["final_result"] = final_plan
+
+    print("🚀 optimization complete")
+
     return validated
 
 

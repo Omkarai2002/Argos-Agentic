@@ -12,15 +12,21 @@ from prompt_completion_layer import (
     PromptCompletionRequest,
     PromptCompletionDB
 )
+from jsons import (TEMPLATE)
+from validation_layer import (
+    EnterDataToJSON,Template)
+from intent_understanding import (GpsCalculation,build_app,run_pipeline_intent)
+import copy
 import asyncio
 from mission_classifier_layer.model_selection import Selection
 from .config import MODEL_NAME_FOR_PROMPT_COMPLETION
 from validation_layer.prompt_to_json_extraction import PromptToJsonConvert
 from graphdb import Neo4jMissionDB
-from correction_layer import (ConnectToDb, GeofenceValidator, CheckThreshold)
+from correction_layer import (ConnectToDb, GeofenceValidator, CheckThreshold,match_update)
 from intelligence_layer.parameter_model_setup import optimize_parameters
 from intelligence_layer.model_setup import add_to_json
 from concurrent.futures import ThreadPoolExecutor
+from relative_direction import (GpsCalculationRelative,run_pipeline_relative)
 LoggerFeature.setup_logging()
 logger = logging.getLogger(__name__)
 
@@ -367,37 +373,83 @@ class MissionEngine:
             ),
             self.loop
         )
-    def run_optimization(self,validated):
-            v = add_to_json(validated)
+    def run_optimization(self,local_validated):
+            v = add_to_json(local_validated)
             v = optimize_parameters(v)
             return v
     
     def _continue_pipeline_sync(self, data, validated,sid):
         self.emit_progress(sid, "model selection initiated")
         executor = ThreadPoolExecutor(max_workers=1)
-        future = executor.submit(self.run_optimization, validated.copy())
-        graphdb = Neo4jMissionDB()
-
         model_select = Selection(validated, data)
         validated = model_select.select_model()
-        self.emit_progress(sid, "model selected")
-        mission_json = PromptToJsonConvert(validated)
-        validated = mission_json.convert()
-        self.emit_progress(sid, "mission added to the graph db")
-        graphdb.initialize()
-        graphdb.insert_mission(validated)
-        graphdb.close()
-        self.emit_progress(sid, "Running geofence validation")
-        connect = ConnectToDb()
-        validated = connect.find_waypoint_closest_and_update(validated)
-        print("validated_closest_waypoint:",validated)
-        self.emit_progress(sid, "Running threshold checks")
-        validator = GeofenceValidator()
-        validated = validator.validate(validated)
-        optimized_validated = future.result()
-        print("optimized_validated",optimized_validated)
-        threshold = CheckThreshold(validated)
-        result = threshold.check_waypoints()
+        future = executor.submit(self.run_optimization, copy.deepcopy(validated))
+        if validated["category"]=="absolute_location":
+            graphdb = Neo4jMissionDB()
+            print("🔥 FUNCTION CALLED")
+            print("model_selection:",validated)
+            self.emit_progress(sid, "model selected")
+            mission_json = PromptToJsonConvert(validated)
+            validated = mission_json.convert()
+            self.emit_progress(sid, "mission added to the graph db")
+            graphdb.initialize()
+            graphdb.insert_mission(validated)
+            graphdb.close()
+            self.emit_progress(sid, "Running geofence validation")
+            connect = ConnectToDb()
+            validated = connect.find_waypoint_closest_and_update(validated)
+            print("validated_closest_waypoint:",validated)
+            self.emit_progress(sid, "Running threshold checks")
+            validator = GeofenceValidator()
+            validated = validator.validate(validated)
+            print("geofence_validator:",validated)
+            optimized_validated = future.result()
+            print("optimized_validated",optimized_validated["final_result"])
+            validated=match_update(validated,optimized_validated["final_result"])
+            print("matched:",validated)
+            threshold = CheckThreshold(validated)
+            result = threshold.check_waypoints()
+        if validated["category"]=="relative_direction":
+            validated["dock_coordinates"] = {
+        "lat": 19.95868,
+        "lon": 73.75717
+    }   
+            pipeline_output = run_pipeline_relative(validated["prompt"])
+            print("pipeline_ouput",pipeline_output)
+            validated["model_for_extraction_json_output"] = pipeline_output.copy()
+            print("validated_first:",validated)
+            validated["category"]="relative_direction"
+            gps = GpsCalculationRelative()
+            validated = gps.indivisual_waypoint_gps_fetch(validated)
+            print("validated_geofence:",validated)
+            output_from_json=EnterDataToJSON()
+            extracted_json = copy.deepcopy(TEMPLATE)
+            validated["model_for_extraction_json_output"] =output_from_json.parse_json(validated, extracted_json)
+            validator = GeofenceValidator()
+            validated = validator.validate(validated)
+            
+            threshold = CheckThreshold(validated)
+            result = threshold.check_waypoints()
+        if validated["category"]=="intent_understanding":
+            validated["dock_coordinates"] = {
+        "lat": 19.95868,
+        "lon": 73.75717
+    }   
+            pipeline_output = run_pipeline_intent(validated)
+            validated["model_for_extraction_json_output"] = pipeline_output.copy()
+        
+            validated["category"]="intent_understanding"
+            print("validated_first:",validated)
+            gps = GpsCalculation()
+            validated = gps.indivisual_waypoint_gps_fetch(validated)
+            print("validated:",validated)
+            output_from_json=EnterDataToJSON()
+            extracted_json = copy.deepcopy(TEMPLATE)
+            validated["model_for_extraction_json_output"] =output_from_json.parse_json(validated, extracted_json)
+            validator = GeofenceValidator()
+            validated = validator.validate(validated)
+            threshold = CheckThreshold(validated)
+            result = threshold.check_waypoints()
         self.emit_progress(sid, "Mission pipeline complete")
         if result["status"] == "need_location":
 
