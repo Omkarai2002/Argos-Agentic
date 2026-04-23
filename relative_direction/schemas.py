@@ -30,6 +30,7 @@ class Waypoint(BaseModel):
     name: Optional[str] = None   # <-- ALWAYS NULL
     angle_degrees: Optional[float] = None
     distance_meters: Optional[float] = None
+    speed:Optional[float]=None
     altitude: Optional[float] = None
     altitude_mode: Optional[Literal["AGL", "ASL"]] = None
     actions: Optional[List[Action]] = None

@@ -40,11 +40,11 @@ class PromptToJsonConvert:
             model=self.validated["model_for_extraction"],
             temperature=TEMPERATURE_FOR_JSON_EXTRACTION,
             api_key=OPENAI_API_KEY,
-            model_kwargs={
-                "reasoning":{
-                    "effort":"low"
-                }
-            }
+            # model_kwargs={
+            #     "reasoning":{
+            #         "effort":"low"
+            #     }
+            # }
         )
 
         self.parser = JsonOutputParser()

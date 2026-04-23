@@ -13,11 +13,11 @@ def total_time_calculation(validated):
         #print(validated["model_for_extraction_json_output"]["waypoints"])
         if validated["model_for_extraction_json_output"]["waypoints"][i]["speed"]:
                 speed=speed+validated["model_for_extraction_json_output"]["waypoints"][i]["speed"]
-
-        for j in range(len(validated["model_for_extraction_json_output"]["waypoints"][i]["actions"])):
-            if validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="HOVER":
-                if validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]:
-                    time=time+validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]
+        if validated["model_for_extraction_json_output"]["waypoints"][i]["actions"]:
+            for j in range(len(validated["model_for_extraction_json_output"]["waypoints"][i]["actions"])):
+                if validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="HOVER":
+                    if validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]:
+                        time=time+validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]
             
     if validated["model_for_extraction_json_output"]["takeoff_config"]["speed"]:
          speed=speed+validated["model_for_extraction_json_output"]["takeoff_config"]["speed"]

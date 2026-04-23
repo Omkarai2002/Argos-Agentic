@@ -1,7 +1,7 @@
 """
 Async Mission Engine with Socket Support
 No blocking input()
-No decorator inside class
+No decorator incide class
 Fully socket-driven human loop
 """
 
@@ -12,6 +12,8 @@ from prompt_completion_layer import (
     PromptCompletionRequest,
     PromptCompletionDB
 )
+import os
+import json
 from jsons import (TEMPLATE)
 from validation_layer import (
     EnterDataToJSON,Template)
@@ -81,29 +83,30 @@ class MissionEngine:
     def __init__(self,sio):
         self.sio=sio
         self.sessions = {}
-        self.loop = asyncio.get_event_loop()
-    async def main(self, sid, data):
 
-        prompt = data.get("prompt", "")
+    async def main(self, cid, data):
+        self.loop = asyncio.get_event_loop()
+        prompt = data.get("message", "")
 
         if not prompt:
             return {
-                "event": "mission:error",
+                "event": "argos-ai:response",
+                "type": "rejected",
                 "payload": "Prompt is Empty",
-                "sid":sid
+                "cid":cid
             }
 
         validated = {
             "db_record_id": None,
             "user_id": data["user_id"],
             "site_id": data["site_id"],
-            "org_id": data["org_id"],
+            "org_id": data["organization_id"],
             "prompt": prompt,
         }
-        self.emit_progress(sid, "Starting mission pipeline")
+        self.emit_progress(data["user_id"],cid, "Starting mission pipeline")
         runner = PromptRunner(
             data["user_id"],
-            data["org_id"],
+            data["organization_id"],
             data["site_id"]
         )
 
@@ -114,9 +117,10 @@ class MissionEngine:
 
         if not result["success"]:
             return {
-                "event": "mission:error",
+                "event": "argos-ai:response",
+                "type": "rejected",
                 "payload": result,
-                "sid":sid
+                "cid":cid
             }
 
         # CRITICAL FIX — propagate DB record ID
@@ -126,12 +130,12 @@ class MissionEngine:
         # If LLM accepted directly
         # -----------------------------
         if result["status"] == "accepted":
-            self.emit_progress(sid, "prompt accepted by the user")
+            self.emit_progress(data["user_id"],cid, "prompt accepted by the user")
             return await asyncio.to_thread(
             self._continue_pipeline_sync,
             data,
             validated,
-            sid
+            cid
         )
 
         # -----------------------------
@@ -139,26 +143,33 @@ class MissionEngine:
         # -----------------------------
         if result["status"] == "rejected":
 
-            self.sessions[sid] = {
+            self.sessions[cid] = {
                 "stage": "waiting_human",
                 "data": data,
                 "validated": validated
             }
-            self.emit_progress(sid, "prompt rejected by the system")
+            self.emit_progress(data["user_id"],cid, "prompt rejected by the system")
             return {
-                "event": "mission:awaiting_human_review",
+                "event": "argos-ai:action",
+                "type": "validate",
                 "payload": {
+                    "params": {
+                        1: "Accept",
+                        2: 'Reject',
+                        3: 'Edit'
+                    },
                     "request_id": validated["db_record_id"],
                     "mission": validated,
                     "message": "Approve mission? (1=Accept, 2=Reject, 3=Edit)",
-                    "sid":sid
+                    "cid":cid
                 }
             }
 
         return {
-            "event": "mission:error",
-            "payload": {"message":"Invalid prompt state",
-                        "sid":sid}
+            "event": "argos-ai:response",
+            "type": "rejected",
+            "payload": {"step":"Invalid prompt state",
+                        "cid":cid}
         }
     def set_nested_value(self, obj, path, value):
 
@@ -179,17 +190,18 @@ class MissionEngine:
         else:
             ref[last] = value
 
-    async def handle_human_reply(self, sid, data):
+    async def handle_validate_action(self, cid, data):
 
-        session = self.sessions.get(sid)
+        session = self.sessions.get(cid)
         
         if not session:
             return {
-                "event": "mission:error",
+                "event": "argos-ai:response",
+                "type": "rejected",
                 "payload": "Session expired"
             }
 
-        choice = str(data.get("choice"))
+        choice = str(data.get("param"))
 
         validated = session["validated"]
         original_data = session["data"]
@@ -208,13 +220,13 @@ class MissionEngine:
                 "APPROVED"
             )
 
-            del self.sessions[sid]
+            del self.sessions[cid]
             return await asyncio.to_thread(
-            self._continue_pipeline_sync,
-            original_data,
-            validated,
-            sid
-        )
+                self._continue_pipeline_sync,
+                original_data,
+                validated,
+                cid
+            )
             
         
 
@@ -226,54 +238,64 @@ class MissionEngine:
                 "REJECTED"
             )
 
-            del self.sessions[sid]
+            del self.sessions[cid]
 
             return {
-                "event": "mission:result",
+                "event": "argos-ai:response",
+                "type":"rejected",
                 "payload": {"message":"Prompt rejected by user",
-                            "sid":sid}
+                            "cid":cid}
             }
 
         # ---------------- EDIT ----------------
         if choice == "3":
 
             return {
-                "event": "mission:human_in_the_loop",
+                "event": "argos-ai:action",
+                "type":"retry",
                 "payload": {
                     "message": "Please enter new prompt",
-                    "sid":sid
+                    "cid":cid
                 }
             }
 
         return {
-            "event": "mission:human_in_the_loop",
+            "event": "argos-ai:action",
+            "type":"validate",
             "payload": {
+                "params": {
+                    1: "Accept",
+                    2: 'Reject',
+                    3: 'Edit'
+                },
                 "message": "Invalid option. Enter 1, 2 or 3",
-                "sid":sid
+                "cid":cid
             }
         }
-    async def handle_validation_reply(self, sid, data):
+    async def handle_location_action(self, cid, data):
 
-        session = self.sessions.get(sid)
+        session = self.sessions.get(cid)
 
         if not session:
             return {
-                "event": "mission:error",
+                "event": "argos-ai:response",
+                "type":"rejected",
                 "payload": {
                     "message": "Session expired",
-                    "sid": sid
+                    "cid": cid
                 }
             }
 
         mission = session["mission"]
-        location_name = data.get("location")
+        location_name = data.get("param", { 'name': '' })['name']
 
         if not location_name:
             return {
-                "event": "mission:error",
+                "event": "argos-ai:response",
+                "type":"rejected",
                 "payload": {
                     "message": "No location provided",
-                    "sid": sid
+                    "cid": cid
                 }
             }
 
@@ -293,10 +315,11 @@ class MissionEngine:
 
             if not waypoints:
                 return {
-                    "event": "mission:error",
+                    "event": "argos-ai:response",
+                    "type":"rejected",
                     "payload": {
                         "message": "Mission has no waypoints.",
-                        "sid": sid
+                        "cid": cid
                     }
                 }
 
@@ -341,10 +364,11 @@ class MissionEngine:
                 session["mission"] = mission
 
                 return {
-                    "event": "mission:validation_errors",
+                    "event": "argos-ai:action",
+                    "type": "location",
                     "payload": {
                         "message": result["message"],
-                        "sid": sid
+                        "cid": cid
                     }
                 }
 
@@ -353,33 +377,58 @@ class MissionEngine:
         # ---------------------------------------------------
         # STEP 6: Final success
         # ---------------------------------------------------
-        del self.sessions[sid]
+        del self.sessions[cid]
 
         print("Sending mission result to frontend")
 
         return {
-            "event": "mission:result",
+            "event": "argos-ai:result",
+            "type": "success",
             "payload": validated["model_for_extraction_json_output"],
-            "sid": sid
+            "cid": cid
         }
     
-    def emit_progress(self, sid, message):
-
+    def emit_progress(self, user_id,cid, message):
         asyncio.run_coroutine_threadsafe(
             self.sio.emit(
-                "mission:progress",
-                {"step": message,"sid":sid},
-                room=sid
+                "argos-ai:progress",
+                {"step": message,"cid":cid,"user_id":user_id},
             ),
             self.loop
         )
+    def save_entry(new_data):
+        # Load existing data
+        if os.path.exists(FILE_PATH):
+            with open(FILE_PATH, "r") as f:
+                try:
+                    data = json.load(f)
+                except json.JSONDecodeError:
+                    data = []
+        else:
+            data = []
+
+        # Add serial number
+        serial_no = len(data) + 1
+
+        entry = {
+            "serial_no": serial_no,
+            "data": new_data
+        }
+
+        data.append(entry)
+
+        # Write back with formatting
+        with open(FILE_PATH, "w") as f:
+            json.dump(data, f, indent=2)
+
+        print(f"✅ Entry {serial_no} saved")
     def run_optimization(self,local_validated):
             v = add_to_json(local_validated)
             v = optimize_parameters(v)
             return v
     
-    def _continue_pipeline_sync(self, data, validated,sid):
-        self.emit_progress(sid, "model selection initiated")
+    def _continue_pipeline_sync(self, data, validated,cid):
+        self.emit_progress(data["user_id"],cid, "model selection initiated")
         executor = ThreadPoolExecutor(max_workers=1)
         model_select = Selection(validated, data)
         validated = model_select.select_model()
@@ -388,27 +437,62 @@ class MissionEngine:
             graphdb = Neo4jMissionDB()
             print("🔥 FUNCTION CALLED")
             print("model_selection:",validated)
-            self.emit_progress(sid, "model selected")
+            self.emit_progress(data["user_id"],cid, "model selected")
             mission_json = PromptToJsonConvert(validated)
             validated = mission_json.convert()
-            self.emit_progress(sid, "mission added to the graph db")
+            self.emit_progress(data["user_id"],cid, "mission added to the graph db")
             graphdb.initialize()
             graphdb.insert_mission(validated)
             graphdb.close()
-            self.emit_progress(sid, "Running geofence validation")
+            self.emit_progress(data["user_id"],cid, "Running geofence validation")
             connect = ConnectToDb()
             validated = connect.find_waypoint_closest_and_update(validated)
             print("validated_closest_waypoint:",validated)
-            self.emit_progress(sid, "Running threshold checks")
+            self.emit_progress(data["user_id"],cid, "Running threshold checks")
             validator = GeofenceValidator()
             validated = validator.validate(validated)
             print("geofence_validator:",validated)
             optimized_validated = future.result()
             print("optimized_validated",optimized_validated["final_result"])
-            validated=match_update(validated,optimized_validated["final_result"])
-            print("matched:",validated)
+            try:
+                validated=match_update(validated,optimized_validated["final_result"])
+                print("matched:",validated)
+            except:
+                validated=validated
             threshold = CheckThreshold(validated)
+
             result = threshold.check_waypoints()
+            print("validated_result:",result)
+            if result["mission"]["model_for_extraction_json_output"]["type"]=="point" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])>=2:
+                result["mission"]["model_for_extraction_json_output"]["type"]="path"
+            if result["mission"]["model_for_extraction_json_output"]["type"]=="path" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])<=1:
+                result["mission"]["model_for_extraction_json_output"]["type"]="point"  
+            def save_entry(new_data):
+                # Load existing data
+                if os.path.exists("/home/ostajanpure/Desktop/prompt_to_fly/output/absolute.json"):
+                    with open("/home/ostajanpure/Desktop/prompt_to_fly/output/absolute.json", "r") as f:
+                        try:
+                            data = json.load(f)
+                        except json.JSONDecodeError:
+                            data = []
+                else:
+                    data = []
+
+                # Add serial number
+                serial_no = len(data) + 1
+
+                entry = {
+                    "serial_no": serial_no,
+                    "data": new_data
+                }
+
+                data.append(entry)
+
+                # Write back with formatting
+                with open("/home/ostajanpure/Desktop/prompt_to_fly/output/absolute.json", "w") as f:
+                    json.dump(data, f, indent=2)
+            save_entry(result)
+
         if validated["category"]=="relative_direction":
             validated["dock_coordinates"] = {
         "lat": 19.95868,
@@ -425,11 +509,42 @@ class MissionEngine:
             output_from_json=EnterDataToJSON()
             extracted_json = copy.deepcopy(TEMPLATE)
             validated["model_for_extraction_json_output"] =output_from_json.parse_json(validated, extracted_json)
+            print("validated_extracted_json:",validated["model_for_extraction_json_output"])
             validator = GeofenceValidator()
             validated = validator.validate(validated)
-            
+            print("validated_geo:",validated)
             threshold = CheckThreshold(validated)
             result = threshold.check_waypoints()
+            print("validated_result:",result)
+            if result["mission"]["model_for_extraction_json_output"]["type"]=="point" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])>=2:
+                result["mission"]["model_for_extraction_json_output"]["type"]="path"
+            if result["mission"]["model_for_extraction_json_output"]["type"]=="path" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])<=1:
+                result["mission"]["model_for_extraction_json_output"]["type"]="point"  
+            def save_entry(new_data):
+                # Load existing data
+                if os.path.exists("/home/ostajanpure/Desktop/prompt_to_fly/output/relative.json"):
+                    with open("/home/ostajanpure/Desktop/prompt_to_fly/output/relative.json", "r") as f:
+                        try:
+                            data = json.load(f)
+                        except json.JSONDecodeError:
+                            data = []
+                else:
+                    data = []
+
+                # Add serial number
+                serial_no = len(data) + 1
+
+                entry = {
+                    "serial_no": serial_no,
+                    "data": new_data
+                }
+
+                data.append(entry)
+
+                # Write back with formatting
+                with open("/home/ostajanpure/Desktop/prompt_to_fly/output/relative.json", "w") as f:
+                    json.dump(data, f, indent=2)
+            save_entry(result)
         if validated["category"]=="intent_understanding":
             validated["dock_coordinates"] = {
         "lat": 19.95868,
@@ -450,10 +565,44 @@ class MissionEngine:
             validated = validator.validate(validated)
             threshold = CheckThreshold(validated)
             result = threshold.check_waypoints()
-        self.emit_progress(sid, "Mission pipeline complete")
+            print("validated_result:",result)
+            if result["mission"]["model_for_extraction_json_output"]["type"]=="point" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])>=2:
+                result["mission"]["model_for_extraction_json_output"]["type"]="path"
+            if result["mission"]["model_for_extraction_json_output"]["type"]=="path" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])<=1:
+                result["mission"]["model_for_extraction_json_output"]["type"]="point"  
+            def save_entry(new_data):
+                # Load existing data
+                if os.path.exists("/home/ostajanpure/Desktop/prompt_to_fly/output/intent.json"):
+                    with open("/home/ostajanpure/Desktop/prompt_to_fly/output/intent.json", "r") as f:
+                        try:
+                            data = json.load(f)
+                        except json.JSONDecodeError:
+                            data = []
+                else:
+                    data = []
+
+                # Add serial number
+                serial_no = len(data) + 1
+
+                entry = {
+                    "serial_no": serial_no,
+                    "data": new_data
+                }
+
+                data.append(entry)
+
+                # Write back with formatting
+                with open("/home/ostajanpure/Desktop/prompt_to_fly/output/intent.json", "w") as f:
+                    json.dump(data, f, indent=2)
+            save_entry(result)
+            
+
+
+            
+        self.emit_progress(data["user_id"],cid, "Mission pipeline complete")
         if result["status"] == "need_location":
 
-            self.sessions[sid] = {
+            self.sessions[cid] = {
                 "stage": "waiting_location",
                 "waypoint_index": result["waypoint_index"],
                 "mission": result["mission"],
@@ -461,24 +610,28 @@ class MissionEngine:
             }
 
             return {
-                "event": "mission:validation_errors",
+                "event": "argos-ai:action",
+                "type": "location",
                 "payload": {
                     "message": result["message"],
-                    "sid":sid
+                    "cid":cid
                 }
             }
 
         validated = result["mission"]
         validated=validated
+        print("validate_last:",validated)
         if not validated["model_for_extraction_json_output"]["waypoints"]:
             return {
-                "event": "mission:error",
+                "event": "argos-ai:response",
+                "type": "rejected",
                 "payload": {"message":"No waypoints given or out of bound",
-                "sid":sid}
+                "cid":cid}
             }
 
         return {
-            "event": "mission:result",
+            "event": "argos-ai:response",
+            "type": "success",
             "payload": validated["model_for_extraction_json_output"],
-            "sid":sid
+            "cid":cid
         }

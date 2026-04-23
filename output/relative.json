@@ -1,0 +1,5626 @@
+[
+  {
+    "serial_no": 1,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "506",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go to the north 200 m ,hover there for 20s then capture 1 image and come back.",
+        "class": "point",
+        "reason": "The drone moves to a north 200 m offset, hovers to capture an image, then returns.",
+        "category": "relative_direction",
+        "complexity": 0.5,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 200,
+          "total_duration": 18.181818181818183,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.960478643211843
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 10,
+                    "interval": null,
+                    "count": 20,
+                    "zoom": null,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75717,
+                19.958680000000005
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 2,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "507",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go to the north 200 m ,hover there for 20s then capture 1 image and come back.",
+        "class": "point",
+        "reason": "The primary task (capturing an image) is performed while the drone is stationary after moving north 200 m.",
+        "category": "relative_direction",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.960478643211843
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 20,
+                    "interval": null,
+                    "count": 20,
+                    "zoom": null,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 1,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 3,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "508",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go to south direction for 400 m ,make the gimbal at 45 degree ,then return to home",
+        "class": "path",
+        "reason": "The drone moves south 400 m and then returns home while adjusting the gimbal.",
+        "category": "relative_direction",
+        "complexity": 0.45,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.955082713576328
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "GIMBAL_CONTROL",
+                  "params": {
+                    "pitch": 180,
+                    "yaw": 45.0,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 4,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "509",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go to east direction for 50 km ,keep the altitude 25",
+        "class": "path",
+        "reason": "Movement along a route in a fixed bearing (east) for a specified distance with constant altitude.",
+        "category": "relative_direction",
+        "complexity": 0.5,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": null,
+              "speed": null,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 5,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "510",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go east 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "The drone is commanded to move east by 20 m while maintaining altitude, with no stop-to-work task specified.",
+        "category": "relative_direction",
+        "complexity": 0.15,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75736135743408,
+                19.958679999897477
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 6,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "511",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go east 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "It specifies a relative eastward move of 20 m at a given altitude with a defined takeoff altitude, and includes no fixed location or inspection task.",
+        "category": "relative_direction",
+        "complexity": 0.2,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75736135743408,
+                19.958679999897477
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 7,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "512",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go east 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "The instruction requires moving continuously eastward by 20 m while adjusting altitude, not stopping to perform a separate task.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75736135743408,
+                19.958679999897477
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 8,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "513",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go east 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "The operation is a relative directional move (east 20 m) performed during transit.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75736135743408,
+                19.958679999897477
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 9,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "514",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go east 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "The mission requires continuous movement eastward with altitude, not a stationary task.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75736135743408,
+                19.958679999897477
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 10,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "515",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go west 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "The drone moves west along a route while maintaining altitude, so the main task occurs during motion.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75697864256591,
+                19.958679999897477
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 11,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "516",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go west 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "Movement is a single relative west offset at a given altitude with no fixed destination.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75697864256591,
+                19.958679999897477
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 12,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "517",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go north 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "The mission requires moving north by 20 m; there is no fixed destination and the primary task is the motion itself.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.958859864321187
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 13,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "518",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go east 20 m with 45 altitude , with takeoff altitude as 20 m",
+        "class": "path",
+        "reason": "The instruction directs movement in a specific compass direction (east) for a short distance, with no named location.",
+        "category": "relative_direction",
+        "complexity": 0.2,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75736135743408,
+                19.958679999897477
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 14,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "519",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north 100 metres then move to the sout h 400 metres take 4 images at a 4 s gap and over for 30s",
+        "class": "path",
+        "reason": "The mission requires moving along a route (north 100 m, then south 400 m) while capturing images.",
+        "category": "relative_direction",
+        "complexity": 0.65,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 400,
+          "total_duration": 36.36363636363637,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.959579321605922
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": 4,
+                    "count": 4,
+                    "zoom": null,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 30,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75717,
+                19.95598203518225
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": []
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 15,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "520",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north 100 metres then move to the sout h 400 metres take 4 images at a 4 s gap and over for 30s",
+        "class": "path",
+        "reason": "Continuous movement along a route with imaging performed during transit.",
+        "category": "relative_direction",
+        "complexity": 0.7,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 400,
+          "total_duration": 36.36363636363637,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.959579321605922
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": 4,
+                    "count": 4,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75717,
+                19.95598203518225
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 30,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 16,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "521",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north 100 metres then move to the sout h 400 metres take 4 images at a 4 s gap and over for 30s",
+        "class": "path",
+        "reason": "The drone must move along a route (north 100 m, then south 400 m) while capturing four images at 4-second intervals over 30 seconds.",
+        "category": "relative_direction",
+        "complexity": 0.75,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 400,
+          "total_duration": 36.36363636363637,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.959579321605922
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": 4,
+                    "count": 4,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75717,
+                19.95598203518225
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 30,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 17,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "522",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north 100 metres then move to the south 400 metres take 4 images at a 4 s gap and hover for 30s",
+        "class": "path",
+        "reason": "The drone moves along a route (north 100 m, then south 400 m) while capturing images during the mission.",
+        "category": "relative_direction",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.959579321605922
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 30,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": 4,
+                    "count": 4,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 18,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "524",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north 100 metres then move to the sout h 400 metres take 4 images at a 4 s gap and over for 30s",
+        "class": "path",
+        "reason": "The drone performs imaging while moving along a route (north 100m, then south 400m) with timed photo captures, so the main task is movement-based rather than stationary hovering.",
+        "category": "relative_direction",
+        "complexity": 0.72,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 400,
+          "total_duration": 36.36363636363637,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.959579321605922
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": 4,
+                    "count": 4,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75717,
+                19.95598203518225
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 30,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 19,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "526",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go south 400 m hover there for 50 s then gimbal recenter over there ,then after move right 400 m",
+        "class": "point",
+        "reason": "The mission includes a 50-second hover stop during which a gimbal recenter occurs, indicating work is done while stationary.",
+        "category": "relative_direction",
+        "complexity": 0.5,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 400,
+          "total_duration": 36.36363636363637,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.955082713576328
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 50,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "GIMBAL_RECENTER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.76099706142992,
+                19.955082672574527
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 20,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "527",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north east 100m at 40 m altitude",
+        "class": "path",
+        "reason": "The mission specifies movement in relative compass directions (north-east) for a distance while maintaining altitude, with no fixed destination or area coverage.",
+        "category": "relative_direction",
+        "complexity": 0.15,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75784655342328,
+                19.959315915124442
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 21,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "528",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north-EAST 40m at 20 m altitude",
+        "class": "path",
+        "reason": "The drone is instructed to move in a specific direction for a set distance while maintaining altitude, implying the main task is movement along a route.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75744062071485,
+                19.958934366357358
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 22,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "529",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north-EAST 40m at 20 m altitude",
+        "class": "path",
+        "reason": "the drone is instructed to move in a specific direction and distance rather than hover/scan or cover an area.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75744062071485,
+                19.958934366357358
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 23,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "530",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north-EAST 40m at 20 m altitude",
+        "class": "path",
+        "reason": "Movement instruction with a directional offset (north-east) for 40 m at 20 m altitude.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75744062071485,
+                19.958934366357358
+              ],
+              "altitude": 20,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 24,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "531",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "move north-south 200m at 50m altitude",
+        "class": "path",
+        "reason": "The mission requires continuous movement along a straight north-south path for 200 m at 50 m altitude, with no stationary task described.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.960478643211843
+              ],
+              "altitude": 50,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 25,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "532",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go north east 450m ,fly at 90 m altitude",
+        "class": "path",
+        "reason": "The task involves moving continuously in a defined relative direction (north east) for 450 meters while maintaining 90 m altitude, with no fixed target location or area coverage.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.7602145333564,
+                19.96154159787387
+              ],
+              "altitude": 90,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 26,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "533",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Move east 120 metres, zoom 2x, take a photo.",
+        "class": "path",
+        "reason": "The drone executes photography while moving along an eastward 120 m displacement.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75831814460449,
+                19.95867999630912
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "CAMERA_ZOOM",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 2,
+                    "zoom": 2,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 1,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 27,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "534",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Move east 120 metres, zoom 2x, take a photo.",
+        "class": "path",
+        "reason": "The task involves moving east 120 metres while performing a photo capture, so the main activity occurs during continuous movement.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75831814460449,
+                19.95867999630912
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "CAMERA_ZOOM",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 2,
+                    "zoom": 2,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 1,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 28,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "535",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Move east 120 metres, zoom 2x, take a photo.",
+        "class": "path",
+        "reason": "The drone moves along a route (east 120 metres) while performing a photo capture, so the main task occurs during continuous motion.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75831814460449,
+                19.95867999630912
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "CAMERA_ZOOM",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": 2,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 1,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 29,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "536",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Move north 300 metres and take a photo every 25 metres.",
+        "class": "path",
+        "reason": "The drone moves along a northward route while capturing photos at fixed intervals.",
+        "category": "relative_direction",
+        "complexity": 0.65,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.961377964817757
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 12,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 30,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "537",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Move north 300 metres and take a photo every 25 metres.",
+        "class": "path",
+        "reason": "The drone performs photography while moving along a straight route, so the main task occurs during transit.",
+        "category": "relative_direction",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 31,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "538",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Move north 300 metres and take a photo every 25 metres.",
+        "class": "path",
+        "reason": "Move northward along a route while capturing photos every 25 metres.",
+        "category": "relative_direction",
+        "complexity": 0.8,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.961377964817757
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "IMAGE_DISTANCE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 1,
+                    "zoom": null,
+                    "distance": 2
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 32,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "539",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Move north 300 metres and take a photo every 25 metres.",
+        "class": "path",
+        "reason": "The drone moves along a fixed route while capturing photos at regular intervals.",
+        "category": "relative_direction",
+        "complexity": 0.65,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.961377964817757
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "IMAGE_DISTANCE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": 25.0
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 33,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "540",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Move west 200 metres and record video the whole way.",
+        "class": "path",
+        "reason": "The drone records video continuously while moving along a westward path, so the main task occurs during motion rather than at a stop.",
+        "category": "relative_direction",
+        "complexity": 0.3,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75525642565924,
+                19.958679989747548
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "VIDEO_START",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 34,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "541",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Go east 200 metres at 45 m AGL.",
+        "class": "path",
+        "reason": "Movement uses a compass direction with distance (east 200 m) and altitude; no fixed target or task.",
+        "category": "relative_direction",
+        "complexity": 0.15,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75908357434075,
+                19.958679989747548
+              ],
+              "altitude": 45,
+              "altitude_mode": "AGL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 35,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "542",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Go north 100 metres at speed 6, then east 200 metres at speed 3.",
+        "class": "path",
+        "reason": "The drone performs sequential directional movements (north then east) with no fixed stop to perform a task.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 200,
+          "total_duration": 18.181818181818183,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.959579321605922
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75908358524863,
+                19.959579311352964
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 36,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "543",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go 20 m in the north wit 6m/s speed ,then turn right go 7m with 5m/s speed and the takeoff speed should be 2m/s",
+        "class": "path",
+        "reason": "The mission involves moving along a route with two segments (north 20 m, then right 7 m) without stopping to perform a task.",
+        "category": "relative_direction",
+        "complexity": 0.4,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 7,
+          "total_duration": 0.6363636363636364,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.958859864321187
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75723697517829,
+                19.958859864308625
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 37,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "544",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go 20 m in the north wit 6m/s speed ,then turn right go 7m with 5m/s speed and the takeoff speed should be 2m/s",
+        "class": "path",
+        "reason": "The drone performs movement through directions (north and a right turn) along a route without stopping at a fixed location.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 7,
+          "total_duration": 0.5,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.958859864321187
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 6.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75723697517829,
+                19.958859864308625
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 5.0,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 38,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "578",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go straight ,turn right 40m gimbal down,start video ,go 50m stop video,return to home.",
+        "class": "path",
+        "reason": "The drone moves along a route while performing video capture, starting and stopping the camera during motion.",
+        "category": "relative_direction",
+        "complexity": 0.65,
+        "model_for_extraction": "gpt-5-nano",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 50,
+          "total_duration": 4.545454545454546,
+          "finish_action": {
+            "type": "",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.95903972864237
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "GIMBAL_DOWN",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "VIDEO_START",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75717,
+                19.95948938944533
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "VIDEO_STOP",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 39,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "631",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Fly 50 meters north, then hover for 10 seconds then click 4 images .",
+        "class": "point",
+        "reason": "The drone moves north and then performs image capture while hovering, so the main task occurs while stationary.",
+        "category": "relative_direction",
+        "complexity": 0.3,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 40,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "632",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Fly 50 meters north, then hover for 10 seconds then click 4 images .",
+        "class": "point",
+        "reason": "The drone moves north 50m and then stops to perform image capture at the location.",
+        "category": "relative_direction",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 41,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "633",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "Fly 50 meters north, then hover for 10 seconds then click 4 images .",
+        "class": "point",
+        "reason": "The drone moves to a location, then hovers and photographs at a fixed point.",
+        "category": "relative_direction",
+        "complexity": 0.4,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.75717,
+                19.95912966080296
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 10,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                },
+                {
+                  "sequence": 2,
+                  "type": "IMAGE_CAPTURE_SINGLE",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": null,
+                    "interval": null,
+                    "count": 4,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 42,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "642",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "fly at 30m qith speed of 6m/s and go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "path",
+        "reason": "The mission involves a sequence of relative directional moves (right 300 m, then left 20 m) with a brief hover and return, focusing on movement rather than area coverage or structure inspection.",
+        "category": "relative_direction",
+        "complexity": 0.35,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 43,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "643",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "takeoff 30m qith speed of 6m/s and go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "path",
+        "reason": "The mission's primary objective is moving along a route (right 300 m, then left 20 m) with a brief hover, not stationary work or exhaustive area coverage.",
+        "category": "relative_direction",
+        "complexity": 0.4,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 44,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "644",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "point",
+        "reason": "The mission includes moving with a 20-second hover, implying tasks performed while stationary.",
+        "category": "relative_direction",
+        "complexity": 0.4,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 20,
+          "total_duration": 1.8181818181818181,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.76004036151097,
+                19.958679976931972
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75984900407691,
+                19.958679976829448
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 20,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 45,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "645",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "path",
+        "reason": "The mission primarily involves moving along a route with directional offsets (right 300m, left 20m) with a brief hover, not a stationary inspection or area coverage.",
+        "category": "relative_direction",
+        "complexity": 0.4,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 20,
+          "total_duration": 1.8181818181818181,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.76004036151097,
+                19.958679976931972
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75984900407691,
+                19.958679976829448
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 20,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 46,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "646",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "path",
+        "reason": "The mission relies on directional offsets and route movement (right 300m, left 20m) with a brief hover, indicating the primary task is performed while moving along a path.",
+        "category": "relative_direction",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 20,
+          "total_duration": 1.8181818181818181,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.76004036151097,
+                19.958679976931972
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75984900407691,
+                19.958679976829448
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 20,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 47,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "647",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "path",
+        "reason": "Mission uses relative direction moves (right/left with distances) and a brief hover, not fixed locations.",
+        "category": "relative_direction",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 20,
+          "total_duration": 1.8181818181818181,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.76004036151097,
+                19.958679976931972
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75984900407691,
+                19.958679976829448
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 20,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 48,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "648",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "path",
+        "reason": "Movement along a route using relative directions with a brief hover pause.",
+        "category": "relative_direction",
+        "complexity": 0.35,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 20,
+          "total_duration": 1.8181818181818181,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.76004036151097,
+                19.958679976931972
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75984900407691,
+                19.958679976829448
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 20,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 49,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "649",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "path",
+        "reason": "Movement is defined by relative directions (right 300m, left 20m) with a brief hover, not a fixed location inspection.",
+        "category": "relative_direction",
+        "complexity": 0.4,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 20,
+          "total_duration": 1.8181818181818181,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.76004036151097,
+                19.958679976931972
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75984900407691,
+                19.958679976829448
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 20,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 50,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "650",
+        "user_id": 1,
+        "site_id": 1,
+        "org_id": 1,
+        "prompt": "go right 300m then go left 20m,hover there for 20s and return to safe location",
+        "class": "point",
+        "reason": "The mission requires a 20-second hover at a location during the movement.",
+        "category": "relative_direction",
+        "complexity": 0.3,
+        "model_for_extraction": "gpt-4o",
+        "dock_coordinates": {
+          "lat": 19.95868,
+          "lon": 73.75717
+        },
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 20,
+          "total_duration": 1.8181818181818181,
+          "finish_action": {
+            "type": "RTSL",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.76004036151097,
+                19.958679976931972
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.75984900407691,
+                19.958679976829448
+              ],
+              "altitude": 40,
+              "altitude_mode": "REL",
+              "speed": 4,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 20,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 20,
+            "altitude_mode": "REL",
+            "speed": 3
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true
+        }
+      }
+    }
+  }
+]

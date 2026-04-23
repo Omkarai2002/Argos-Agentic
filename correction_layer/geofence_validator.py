@@ -1,22 +1,25 @@
 # geofence_validator.py
 
-import psycopg
+import mysql.connector
 import math
 from typing import Dict
-from app.config import PROMPT_COMPLETION_DATABASE_CONFIG
-
+from app.config import PROMPT_COMPLETION_DATABASE_CONFIG,PRODUCTION_DB_CONFIG
+import psycopg
 
 class GeofenceValidator:
 
     def __init__(self):
+        
         self.dbname = PROMPT_COMPLETION_DATABASE_CONFIG["DB_NAME"]
         self.user = PROMPT_COMPLETION_DATABASE_CONFIG["DB_USER"]
         self.password = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PASSWORD"]
         self.host = PROMPT_COMPLETION_DATABASE_CONFIG["DB_HOST"]
         self.port = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PORT"]
-
-    # ---------------- DB ---------------- #
-
+        # self.dbname = PRODUCTION_DB_CONFIG["PRODUCTION_DB_NAME"]
+        # self.user = PRODUCTION_DB_CONFIG["PRODUCTION_DB_USER"]
+        # self.password = PRODUCTION_DB_CONFIG["PRODUCTION_DB_PASSWORD"]
+        # self.host = PRODUCTION_DB_CONFIG["PRODUCTION_HOST"]
+        # self.port = PRODUCTION_DB_CONFIG["PRODUCTION_PORT"]
     def get_connection(self):
         return psycopg.connect(
             dbname=self.dbname,
@@ -25,6 +28,13 @@ class GeofenceValidator:
             host=self.host,
             port=self.port
         )
+#         return mysql.connector.connect(
+#     database=self.dbname,
+#     user=self.user,
+#     password=self.password,
+#     host=self.host,
+#     port=self.port
+# )
 
     def fetch_geofences(self, site_id):
         conn = self.get_connection()

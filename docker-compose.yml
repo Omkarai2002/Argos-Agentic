@@ -1,0 +1,11 @@
+version: "3.14"
+
+services:
+  app:
+    build: .
+    container_name: socket-app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: always

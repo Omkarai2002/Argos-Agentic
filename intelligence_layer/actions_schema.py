@@ -4,7 +4,7 @@ ACTION_SCHEMA = {
     "GIMBAL_DOWN":         {"type": "GIMBAL_DOWN",         "params": None},
     "GIMBAL_RECENTER":     {"type": "GIMBAL_RECENTER",     "params": None},
     "CAMERA_ZOOM":         {"type": "CAMERA_ZOOM",         "params": {"zoom": 50}},
-    "IMAGE_CAPTURE_SINGLE":{"type": "IMAGE_CAPTURE_SINGLE","params": {"interval": 0, "count": 1}},
+    "IMAGE_CAPTURE_SINGLE":{"type": "IMAGE_SINGLE","params": {"interval": 0, "count": 1}},
     "IMAGE_DISTANCE":      {"type": "IMAGE_DISTANCE",      "params": {"distance": 5}},
     "IMAGE_INTERVAL":      {"type": "IMAGE_INTERVAL",      "params": {"interval": 2}},
     "IMAGE_STOP":          {"type": "IMAGE_STOP",          "params": None},

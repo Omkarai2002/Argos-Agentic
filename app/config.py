@@ -10,16 +10,23 @@ PROMPT_COMPLETION_DATABASE_CONFIG = {
     "DB_HOST": os.getenv("DB_HOST"),
     "DB_PORT": int(os.getenv("DB_PORT"))
 }
+PRODUCTION_DB_CONFIG={
+    "PRODUCTION_DB_NAME": os.getenv("PRODUCTION_DB_NAME"),
+    "PRODUCTION_DB_USER": os.getenv("PRODUCTION_DB_USER"),
+    "PRODUCTION_DB_PASSWORD": os.getenv("PRODUCTION_DB_PASSWORD"),
+    "PRODUCTION_HOST": os.getenv("PRODUCTION_HOST"),
+    "PRODUCTION_PORT": int(os.getenv("PRODUCTION_PORT"))
+}
 MAX_TOKEN_LIMIT_FOR_PROMPT_COMPLETION = 8192
 MIN_TOKEN_LIMIT_FOR_PROMPT_COMPLETION = 2
 MODEL_NAME_FOR_PROMPT_COMPLETION = "gpt-4o-mini"
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-TEMPERATURE_FOR_PROMPT_COMPLETION = 0.3
+TEMPERATURE_FOR_PROMPT_COMPLETION = 0
 MODEL_FOR_EMBEDDING = "text-embedding-3-large"
 MODEL_FOR_CLASSIFICATION ="gpt-5-nano"
 TEMPERATURE_FOR_CLASSIFICATION=0
-SMALL_MODEL="gpt-5-nano"
-MEDIUM_MODEL="gpt-4o-mini"
+SMALL_MODEL="gpt-4o"
+MEDIUM_MODEL="gpt-4o"
 LARGE_MODEL="gpt-4o"
 XLARGE_MODEL="gpt-4.1"
 COMPLEXITY_THRESHOLD_FOR_POINT_MISSION=0.8
@@ -27,9 +34,12 @@ COMPLEXITY_THRESHOLD_FOR_PATH_MISSION=0.8
 COMPLEXITY_THRESHOLD_FOR_GRID_MISSION=0.8
 COMPLEXITY_THRESHOLD_FOR_3D_MISSION=0.8
 TEMPERATURE_FOR_JSON_EXTRACTION=0
+import os
+
+ARGOS_SOCKET_URL = os.getenv("ARGOS_SOCKET_URL", "http://localhost:3000")
+P2F_TOKEN = os.getenv("P2F_SECRET_TOKEN", "your-secret-token-here")
 WORK_PATTERN_PROMPT = """
 You are a mission intent analyzer for autonomous drones.
-
 Classify the following mission into exactly ONE work pattern:
 
 1. stop_and_work
@@ -47,22 +57,28 @@ Classify the following mission into exactly ONE work pattern:
    - The main task involves inspecting or scanning a structure or volume across
      height or vertical extent (towers, turbines, buildings, facades).
 
-Categorize the mission :
+CATEGORIES:
 
-1) absolute_location  
-- The instruction contains ONLY fixed locations or named destinations.  
-- Example: "Go to Location A, then go to Location B and take a photo."  
-- No directional or relative movement terms should be present.
+1) absolute_location
+   - The instruction refers ONLY to named places, landmarks, coordinates, or fixed destinations.
+   - Movement is expressed purely as "go to X", "fly to X", "visit X", "go straight to X".
+   - Contains NO relative directional offsets (left, right, north 200 m, east 100 m, etc.)
+   - Example: "Go to Location A, then go straight to Location B and take a photo."
 
-2) relative_direction  
-- The instruction contains ONLY movement based on direction, distance, or orientation.  
-- Example: "Go right 200 meters, then move north 100 meters."  
-- No named locations should be present.
+2) relative_direction
+   - The instruction refers ONLY to movement defined by direction, bearing, or distance offset.
+   - Contains NO named locations, landmarks, place names, or coordinates.
+   - Movement is expressed as compass directions (north, south, east, west),
+     relative offsets (left, right, forward, backward) WITH a distance,
+     or explicit distance-based moves.
+   - Example: "Go right 200 metres, then move north 100 metres."
 
-3) intent_understanding  
-- A HYBRID instruction that contains BOTH absolute locations AND relative directions.  
-- Example: "Fly to Location A, then go right 400 meters and take a photo."
+3) intent_understanding
+   - The instruction is a HYBRID that contains BOTH a named/fixed location
+     AND at least one directional OFFSET (a direction paired with a distance or displacement).
+   - Example: "Fly to Location A, then go right 400 metres and take a photo."
 
+---
 ---
 
 ### Instructions:
@@ -91,101 +107,143 @@ JSON:
   "complexity":"enter the complexity score between 0 to 1 over here ,the more complex or more action based the prompt--> {mission_text} is like long heavy to understand by the model more should be the confidence threshold it should only be a floating value between 0 to 1 and no text or any value other than that "
 }}
 """
-
 JSON_EXTRACTION_PROMPT = """
-You are a very intelligent strict drone-mission intent extraction engine.
+You are a strict drone-mission intent extraction engine.
+Your ONLY job is to convert natural language drone instructions into structured JSON.
 
-Your ONLY job is to intelligently convert the user’s natural language request into a simplified JSON.
+════════════════════════════════════════
+OUTPUT SCHEMA
+════════════════════════════════════════
 
-You must follow EXACTLY this structure:
-
-JSON:
 {
   "finish": {
-    "type": null,
-    "duration": null
+    "type": null,        // See FINISH TYPES below
+    "duration": null     // seconds, only for HOVER finish
   },
-
   "takeoff": {
-    "altitude": null,
+    "altitude": null,    // meters
     "mode": null,
-    "speed": null
+    "speed": null        // m/s
   },
-
   "camera": {
-    "pitch": null,
+    "pitch": null,       // degrees
     "yaw_mode": null,
-    "poi": null
+    "poi": null          // place name only if explicitly mentioned
   },
-
   "waypoints": []
 }
 
-WAYPOINT FORMAT:
-
-Each waypoint must be an object inside the "waypoints" array:
-
+────────────────────────────────────────
+WAYPOINT SCHEMA (each item in waypoints[])
+────────────────────────────────────────
 {
-  "name": null,
-  "altitude":null
-  "altitude_mode": null,
-  "speed": null,
-  "radius": null,
+  "name": null,           // place name only if user explicitly mentions it
+  "altitude": null,       // meters
+  "altitude_mode": null,  // "AGL" or "ASL" only
+  "speed": null,          // m/s
+  "radius": null,         // meters
   "actions": []
 }
 
-ACTION FORMAT:
-
-Each action must be inside "actions":
-
+────────────────────────────────────────
+ACTION SCHEMA (each item in actions[])
+────────────────────────────────────────
 {
   "type": null,
-  "pitch": null,
-  "yaw": null,
-  "duration": null,
-  "interval":null,
-  "count":null,
-  "zoom":null,
-  "distance":null
+  "pitch": null,      // degrees  — GIMBAL_CONTROL only
+  "yaw": null,        // degrees  — GIMBAL_CONTROL only
+  "duration": null,   // seconds  — HOVER only
+  "interval": null,   // seconds  — IMAGE_INTERVAL only
+  "count": null,      // integer  — IMAGE_INTERVAL / IMAGE_DISTANCE only
+  "zoom": null,       // 0–100    — CAMERA_ZOOM only
+  "distance": null    // meters   — IMAGE_DISTANCE only
 }
 
-STRICT RULES:
+════════════════════════════════════════
+ALLOWED ACTION TYPES & WHEN TO USE THEM
+════════════════════════════════════════
 
-1. Output ONLY the JSON .
-2. Do NOT output explanations, markdown, or comments.
-3. Do NOT invent values.
-4. Only populate fields explicitly mentioned by the user.
-5. If a value is not mentioned, leave it as null or omit it from that object.
-6. Do NOT add extra keys.
-7. Do NOT add counters like nwaypoints or nact.
-8. Do NOT use numbered keys.
-9. Waypoints must be an array.
-10. Actions must be an array.
-11. Never infer GPS coordinates. Use place names only if provided.
-12. Allowed action types:
-    HOVER, GIMBAL_CONTROL,GIMBAL_DOWN,GIMBAL_RECENTER,IMAGE_CAPTURE_SINGLE,IMAGE_DISTANCE,IMAGE_INTERVAL,IMAGE_STOP,VIDEO_START,VIDEO_STOP
-13. In Allowed action types :
-    GIMBAL_CONTROL(Intelligently capture the pitch and yaw ),GIMBAL_DOWN(when the user says to tilt the angle down or look down),GIMBAL_RECENTER(when the user says to recenter),
-    IMAGE_CAPTURE_SINGLE(when the user has told to just click images without mentioning time),IMAGE_INTERVAL(when the user wants to capture image in intervals-interval and count),
-    IMAGE_DISTANCE(when the user wants to capture images after the some distance- distance and count expected),CAMERA_ZOOM(when the user says to zoom in it is between 0 to 100)
-13. Allowed finish types:
-    HOVER, LAND, RTL, RTDS, PL,RTSL
-14. LAND is ONLY allowed in finish.type, never inside waypoint actions.
-15. Never guess altitude_mode, speed, radius, or durations,if any of these is not given ,keep it as null.
-16. Never hallucinate actions.
-17. Use full field names (altitude_mode, radius, yaw_mode).
-18. Missing values must remain null.
-19. If user does not specify waypoints, return an empty list.
-20. The values sould be converted ones ,like km should be converted in m,hours should be in sec.
-21. Location must ONLY contain place names explicitly mentioned by the user.
-  If no place name is given, leave name null.
-22. Allowed altitude_mode AGL,ASL.
-23. If the user specifies a starting point using phrases like "from", "start from", "begin at", or similar,
-  that location represents the current drone position and MUST NOT be added as a waypoint.
-  Only destination or action locations become waypoints.
-24. Output must be valid JSON syntax.
+HOVER               → User says "wait", "hold", "hover for X seconds". Requires duration.
+GIMBAL_CONTROL      → User gives explicit pitch and/or yaw angles. Populate pitch and yaw.
+GIMBAL_DOWN         → User says "look down", "tilt down", "point camera down". No params.
+GIMBAL_RECENTER     → User says "recenter", "reset gimbal", "look straight". No params.
+CAMERA_ZOOM         → User says "zoom in/out" or gives a zoom level. zoom = 0–100.
+IMAGE_CAPTURE_SINGLE→ User says "take a photo", "capture image", "click a picture" (no interval/distance mentioned).
+IMAGE_INTERVAL      → User says "take photos every X seconds". Requires interval. count if mentioned.
+IMAGE_DISTANCE      → User says "take photos every X meters". Requires distance. count if mentioned.
+IMAGE_STOP          → User says "stop capturing", "stop photos". No params.
+VIDEO_START         → User says "start recording", "record video". No params.
+VIDEO_STOP          → User says "stop recording", "stop video". No params.
 
-You are an intent extractor, not a mission planner.
+════════════════════════════════════════
+ALLOWED FINISH TYPES & EXACT MEANINGS
+════════════════════════════════════════
+
+HOVER   → End mission by hovering in place (requires duration).
+LAND    → Land at current position.
+RTL     → Return to Launch point (the physical takeoff point).
+RTDS    → Return to Docking Station / "return to home", "go back to home", "return to base".
+RTSL    → Return to Safe Location (a pre-defined safe zone, NOT the home/launch point).
+PL      → Precision Land.
+
+CRITICAL FINISH MAPPING RULES:
+- "return to home"      → RTDS
+- "go home"             → RTDS
+- "return to base"      → RTDS
+- "return to launch"    → RTL
+- "return to safe"      → RTSL
+- "land here"           → LAND
+- LAND is ONLY valid in finish.type. NEVER use LAND inside waypoint actions.
+
+════════════════════════════════════════
+WAYPOINT RULES
+════════════════════════════════════════
+
+1. STARTING POINT IS NEVER A WAYPOINT.
+   - If the user says "from X", "start from X", "fly from X", "begin at X", or "launch from X",
+     X is the drone's current position — DO NOT create a waypoint for it.
+   - Example: "Fly from home to Tower A" → waypoints = [Tower A]. Home is NOT a waypoint.
+   - Example: "From the park, go to the lake" → waypoints = [lake]. Park is NOT a waypoint.
+
+2. RETURN/HOME LOCATIONS ARE NEVER WAYPOINTS.
+   - "Return to home", "go back", "go to home location" describe finish behavior → set finish.type only.
+   - DO NOT create a waypoint for home, docking station, or safe location.
+
+3. ONLY real intermediate stops or destination locations become waypoints.
+
+4. If the user mentions NO destination or stop, waypoints = [].
+
+5. Never infer or fabricate GPS coordinates. Use place names only as the user stated them.
+
+════════════════════════════════════════
+UNIT CONVERSION
+════════════════════════════════════════
+
+Always convert to SI base units before writing values:
+- km → m  (1 km = 1000 m)
+- hours → seconds  (1 hour = 3600 s)
+- minutes → seconds  (1 min = 60 s)
+- km/h → m/s  (divide by 3.6)
+- All altitudes in meters, all speeds in m/s, all durations in seconds.
+
+════════════════════════════════════════
+STRICT RULES
+════════════════════════════════════════
+
+1.  Output ONLY valid JSON. No markdown, no code fences, no explanations.
+2.  Do NOT invent or hallucinate values. Only populate what the user explicitly states.
+3.  Fields not mentioned by the user must be null (or [] for arrays).
+4.  Do NOT add extra keys outside the schema.
+5.  Do NOT add counters, numbered keys, or metadata fields.
+6.  waypoints must always be an array (even if empty).
+7.  actions must always be an array (even if empty).
+8.  altitude_mode must only be "AGL" or "ASL" — never guess it.
+9.  Never infer radius, speed, or altitude unless the user states them.
+10. Each action must only contain fields relevant to its type. Null out irrelevant fields.
+11. Relate actions to the correct waypoint based on user context.
+12. If a phrase describes finishing behavior (land, return, hover at end), it goes in finish — not as a waypoint action.
+
+You are an intent extractor. Extract only what the user said. Never plan, never assume.
 """
 ALLOWED_ACTIONS = [
     'HOVER',

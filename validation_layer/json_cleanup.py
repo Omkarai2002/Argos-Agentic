@@ -12,9 +12,17 @@ class EnterDataToJSON:
     def parse_json(self, chain, extracted_json:Dict)->Dict:
 
         # finish
+    
         finish = chain.get("finish")
         if finish and finish.get("type"):
+            print("this is finish:", finish)
             extracted_json["finish_action"] = finish
+
+        model_output = chain.get("model_for_extraction_json_output", {})
+        finish_relative = model_output.get("finish")
+
+        if finish_relative and finish_relative.get("type"):
+            print("this is finish:", finish_relative)
 
         # takeoff
         takeoff = chain.get("takeoff")
@@ -30,7 +38,9 @@ class EnterDataToJSON:
             extracted_json["camera_profile"] = camera
 
         waypoints_relative_pos = chain.get("model_for_extraction_json_output", {}).get("waypoints", [])
+        print("waypoints_relative_pos:",waypoints_relative_pos)
         waypoints_absolute_pos=chain.get("waypoints",[])
+        print("waypoints_absolute_pos:",waypoints_absolute_pos)
         if waypoints_relative_pos:
             waypoints=chain["model_for_extraction_json_output"].get("waypoints")
         elif waypoints_absolute_pos:
@@ -57,6 +67,7 @@ class EnterDataToJSON:
                 temp_dict["location"] = wp.get("name")
                 print("name:",temp_dict["location"])
                 altitude = wp.get("altitude")
+                print("altitude:",altitude)
                 temp_dict["altitude"] = int(altitude) if altitude is not None else None
                 altitude_mode=wp.get("altitude_mode")
                 temp_dict["altitude_mode"] = str(altitude_mode) if altitude_mode is not None else None
@@ -64,34 +75,38 @@ class EnterDataToJSON:
                 temp_dict["speed"] = float(speed) if speed is not None else None
                 radius = wp.get("radius")
                 temp_dict["radius"] = float(radius) if radius is not None else None
+                actions = wp.get("actions")
+                print("actions:", actions)
 
-                actions=wp.get("actions")
-                print("actions:",actions)
                 if actions:
-                    for i, act in enumerate(actions):
+                    temp_act = []   # moved here
+
+                    for j, act in enumerate(actions):
 
                         if not isinstance(act, dict):
                             continue
 
                         temp_dict_act = {}
 
-                        temp_dict_act["sequence"] = i + 1
+                        temp_dict_act["sequence"] = j + 1
                         temp_dict_act["type"] = str(act.get("type"))
 
-                        # CREATE params FIRST
-                        temp_dict_act["params"] = {}
-
-                        temp_dict_act["params"]["pitch"] = float(act.get("pitch")) if act.get("pitch") else None
-                        temp_dict_act["params"]["yaw"] = float(act.get("yaw")) if act.get("yaw") else None
-                        temp_dict_act["params"]["duration"] = int(act.get("duration")) if act.get("duration") else None
-                        temp_dict_act["params"]["interval"] = int(act.get("interval")) if act.get("interval") else None
-                        temp_dict_act["params"]["count"] = int(act.get("count")) if act.get("count") else None
-                        temp_dict_act["params"]["zoom"] = int(act.get("zoom")) if act.get("zoom") else None
-                        temp_dict_act["params"]["distance"] = float(act.get("distance")) if act.get("distance") else None
+                        temp_dict_act["params"] = {
+                            "pitch": float(act.get("pitch")) if act.get("pitch") else None,
+                            "yaw": float(act.get("yaw")) if act.get("yaw") else None,
+                            "duration": int(act.get("duration")) if act.get("duration") else None,
+                            "interval": int(act.get("interval")) if act.get("interval") else None,
+                            "count": int(act.get("count")) if act.get("count") else None,
+                            "zoom": int(act.get("zoom")) if act.get("zoom") else None,
+                            "distance": float(act.get("distance")) if act.get("distance") else None,
+                        }
 
                         temp_act.append(temp_dict_act)
-        
-                temp_dict["actions"] = temp_act
+
+                    temp_dict["actions"] = temp_act
+
+                else:
+                    temp_dict["actions"] = None  # ✅ explicit reset
                 extracted_json["waypoints"].append(temp_dict)
 
         return extracted_json
