@@ -4,7 +4,7 @@ import logging
 from app.config import PROMPT_COMPLETION_DATABASE_CONFIG,PRODUCTION_DB_CONFIG
 from .annotations_calculation import GeometryCenterCalculator
 import mysql.connector
-import psycopg
+#import psycopg
 logger = logging.getLogger(__name__)
 
 
@@ -12,31 +12,31 @@ class ConnectToDb:
 
     def __init__(self):
         
-        self.dbname = PROMPT_COMPLETION_DATABASE_CONFIG["DB_NAME"]
-        self.user = PROMPT_COMPLETION_DATABASE_CONFIG["DB_USER"]
-        self.password = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PASSWORD"]
-        self.host = PROMPT_COMPLETION_DATABASE_CONFIG["DB_HOST"]
-        self.port = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PORT"]
-        # self.dbname = PRODUCTION_DB_CONFIG["PRODUCTION_DB_NAME"]
-        # self.user = PRODUCTION_DB_CONFIG["PRODUCTION_DB_USER"]
-        # self.password = PRODUCTION_DB_CONFIG["PRODUCTION_DB_PASSWORD"]
-        # self.host = PRODUCTION_DB_CONFIG["PRODUCTION_HOST"]
-        # self.port = PRODUCTION_DB_CONFIG["PRODUCTION_PORT"]
+        # self.dbname = PROMPT_COMPLETION_DATABASE_CONFIG["DB_NAME"]
+        # self.user = PROMPT_COMPLETION_DATABASE_CONFIG["DB_USER"]
+        # self.password = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PASSWORD"]
+        # self.host = PROMPT_COMPLETION_DATABASE_CONFIG["DB_HOST"]
+        # self.port = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PORT"]
+        self.dbname = PRODUCTION_DB_CONFIG["PRODUCTION_DB_NAME"]
+        self.user = PRODUCTION_DB_CONFIG["PRODUCTION_DB_USER"]
+        self.password = PRODUCTION_DB_CONFIG["PRODUCTION_DB_PASSWORD"]
+        self.host = PRODUCTION_DB_CONFIG["PRODUCTION_HOST"]
+        self.port = PRODUCTION_DB_CONFIG["PRODUCTION_PORT"]
     def get_connection(self):
-        return psycopg.connect(
-            dbname=self.dbname,
-            user=self.user,
-            password=self.password,
-            host=self.host,
-            port=self.port
-        )
-#         return mysql.connector.connect(
-#     database=self.dbname,
-#     user=self.user,
-#     password=self.password,
-#     host=self.host,
-#     port=self.port
-# )
+        # return psycopg.connect(
+        #     dbname=self.dbname,
+        #     user=self.user,
+        #     password=self.password,
+        #     host=self.host,
+        #     port=self.port
+        # )
+        return mysql.connector.connect(
+    database=self.dbname,
+    user=self.user,
+    password=self.password,
+    host=self.host,
+    port=self.port
+)
 
     # ----------------------------------
     # Get all geofence names (for fuzzy)
@@ -107,6 +107,7 @@ class ConnectToDb:
 
             # Fetch waypoint names safely
             waypoint_names = self.get_waypoint_names(site_id) or []
+            print("waypoint_names_from_db:",waypoint_names)
             waypoint_names = [
                 name.lower() for name in waypoint_names
                 if isinstance(name, str)
@@ -121,7 +122,7 @@ class ConnectToDb:
             for wp in waypoints:
                 try:
                     location = wp.get("location")
-
+                    print("locations_from_db:",location)
                     # If already coordinates, skip
                     if isinstance(location, list):
                         continue
@@ -180,40 +181,44 @@ class ConnectToDb:
                         continue
 
                     # Calculate center safely
-                    try:
-                        center = GeometryCenterCalculator.calculate(annotation_row)
-                        wp["location"] = center
-                    except Exception:
-                        wp["location"] = None
-                        continue
+                    print("annotation_row:",annotation_row)
+                    center = GeometryCenterCalculator.calculate(annotation_row)
+                    print("center_calculate:",center)
+                    wp["location"] = center
+                    # except Exception as e:
+                    #     print("error from db_manage 0:",e)
+                    #     wp["location"] = None
+                    #     continue
 
-                except Exception:
+                except Exception as e:
+                    print("error from db_manage 1:",e)
                     # If anything unexpected happens in one waypoint
                     wp["location"] = None
                     continue
 
             return validated
 
-        except Exception:
+        except Exception as e:
+            print("error from db_manage 2:",e)
             # Absolute fallback safeguard
             return validated
 
 
 # ---------------- Test ----------------
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    c = ConnectToDb()
+#     c = ConnectToDb()
 
-    validated = {
-        "site_id": 1,
-        "model_for_extraction_json_output": {
-            "waypoints": [
-                {"sequence": 1, "location": "dock"},
-                {"sequence": 2, "location": "warehouse loading dock"},
-                {"sequence": 3, "location": "control room access"}
-            ]
-        }
-    }
+#     validated = {
+#         "site_id": 1,
+#         "model_for_extraction_json_output": {
+#             "waypoints": [
+#                 {"sequence": 1, "location": "dock"},
+#                 {"sequence": 2, "location": "warehouse loading dock"},
+#                 {"sequence": 3, "location": "control room access"}
+#             ]
+#         }
+#     }
 
-    print(c.find_waypoint_closest_and_update(validated))
+#     print(c.find_waypoint_closest_and_update(validated))

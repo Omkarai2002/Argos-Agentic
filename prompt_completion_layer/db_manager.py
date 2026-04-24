@@ -10,7 +10,7 @@ from typing import Optional
 import logging
 from app.config import PROMPT_COMPLETION_DATABASE_CONFIG,PRODUCTION_DB_CONFIG
 from .models import PromptCompletionResponse, CompletionCheckResult
-import psycopg
+#import psycopg
 logger = logging.getLogger(__name__)
 
 
@@ -19,31 +19,31 @@ class PromptCompletionDB:
     
     def __init__(self):
         
-        self.dbname = PROMPT_COMPLETION_DATABASE_CONFIG["DB_NAME"]
-        self.user = PROMPT_COMPLETION_DATABASE_CONFIG["DB_USER"]
-        self.password = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PASSWORD"]
-        self.host = PROMPT_COMPLETION_DATABASE_CONFIG["DB_HOST"]
-        self.port = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PORT"]
-        # self.dbname = PRODUCTION_DB_CONFIG["PRODUCTION_DB_NAME"]
-        # self.user = PRODUCTION_DB_CONFIG["PRODUCTION_DB_USER"]
-        # self.password = PRODUCTION_DB_CONFIG["PRODUCTION_DB_PASSWORD"]
-        # self.host = PRODUCTION_DB_CONFIG["PRODUCTION_HOST"]
-        # self.port = PRODUCTION_DB_CONFIG["PRODUCTION_PORT"]
+        # self.dbname = PROMPT_COMPLETION_DATABASE_CONFIG["DB_NAME"]
+        # self.user = PROMPT_COMPLETION_DATABASE_CONFIG["DB_USER"]
+        # self.password = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PASSWORD"]
+        # self.host = PROMPT_COMPLETION_DATABASE_CONFIG["DB_HOST"]
+        # self.port = PROMPT_COMPLETION_DATABASE_CONFIG["DB_PORT"]
+        self.dbname = PRODUCTION_DB_CONFIG["PRODUCTION_DB_NAME"]
+        self.user = PRODUCTION_DB_CONFIG["PRODUCTION_DB_USER"]
+        self.password = PRODUCTION_DB_CONFIG["PRODUCTION_DB_PASSWORD"]
+        self.host = PRODUCTION_DB_CONFIG["PRODUCTION_HOST"]
+        self.port = PRODUCTION_DB_CONFIG["PRODUCTION_PORT"]
     def get_connection(self):
-        return psycopg.connect(
-            dbname=self.dbname,
-            user=self.user,
-            password=self.password,
-            host=self.host,
-            port=self.port
-        )
-#         return mysql.connector.connect(
-#     database=self.dbname,
-#     user=self.user,
-#     password=self.password,
-#     host=self.host,
-#     port=self.port
-# )
+        # return psycopg.connect(
+        #     dbname=self.dbname,
+        #     user=self.user,
+        #     password=self.password,
+        #     host=self.host,
+        #     port=self.port
+        # )
+        return mysql.connector.connect(
+    database=self.dbname,
+    user=self.user,
+    password=self.password,
+    host=self.host,
+    port=self.port
+)
     def save_prompt_completion(
         self,
         response: PromptCompletionResponse,

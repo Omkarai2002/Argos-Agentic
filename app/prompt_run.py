@@ -92,8 +92,9 @@ class MissionEngine:
             return {
                 "event": "argos-ai:response",
                 "type": "rejected",
-                "payload": "Prompt is Empty",
+                "payload": {"message":"Prompt is Empty",
                 "cid":cid
+                }
             }
 
         validated = {
@@ -119,8 +120,10 @@ class MissionEngine:
             return {
                 "event": "argos-ai:response",
                 "type": "rejected",
-                "payload": result,
+                "payload": {
+                    "message":str(result),
                 "cid":cid
+                }
             }
 
         # CRITICAL FIX — propagate DB record ID
@@ -168,8 +171,9 @@ class MissionEngine:
         return {
             "event": "argos-ai:response",
             "type": "rejected",
-            "payload": {"step":"Invalid prompt state",
-                        "cid":cid}
+            "payload": {"message":"Invalid prompt state",
+                        "cid":cid
+                        }
         }
     def set_nested_value(self, obj, path, value):
 
@@ -198,17 +202,20 @@ class MissionEngine:
             return {
                 "event": "argos-ai:response",
                 "type": "rejected",
-                "payload": "Session expired"
+                "payload": {"message":"session expired",
+                            "cid":cid
+                            }
             }
 
         choice = str(data.get("param"))
-
+        print("choice_from_argos:",choice)
         validated = session["validated"]
         original_data = session["data"]
+        print("original_data",original_data)
 
         runner = PromptRunner(
             original_data["user_id"],
-            original_data["org_id"],
+            original_data["organization_id"],
             original_data["site_id"]
         )
 
@@ -244,7 +251,8 @@ class MissionEngine:
                 "event": "argos-ai:response",
                 "type":"rejected",
                 "payload": {"message":"Prompt rejected by user",
-                            "cid":cid}
+                            "cid":cid
+                            }
             }
 
         # ---------------- EDIT ----------------
@@ -255,7 +263,8 @@ class MissionEngine:
                 "type":"retry",
                 "payload": {
                     "message": "Please enter new prompt",
-                    "cid":cid
+                    "cid":cid,
+                    "params":None
                 }
             }
 
@@ -304,7 +313,7 @@ class MissionEngine:
         # ---------------------------------------------------
         threshold = CheckThreshold(mission)
         result = threshold.check_waypoints()
-
+        print("result_status:",result["status"])
         if result["status"] != "need_location":
             # Nothing to fix, just continue pipeline
             validated = result["mission"]
@@ -368,7 +377,8 @@ class MissionEngine:
                     "type": "location",
                     "payload": {
                         "message": result["message"],
-                        "cid": cid
+                        "cid": cid,
+                        "params":None
                     }
                 }
 
@@ -392,7 +402,7 @@ class MissionEngine:
         asyncio.run_coroutine_threadsafe(
             self.sio.emit(
                 "argos-ai:progress",
-                {"step": message,"cid":cid,"user_id":user_id},
+                {"message": message,"cid":cid,"user_id":user_id},
             ),
             self.loop
         )
@@ -469,8 +479,8 @@ class MissionEngine:
                 result["mission"]["model_for_extraction_json_output"]["type"]="point"  
             def save_entry(new_data):
                 # Load existing data
-                if os.path.exists("/home/ostajanpure/Desktop/prompt_to_fly/output/absolute.json"):
-                    with open("/home/ostajanpure/Desktop/prompt_to_fly/output/absolute.json", "r") as f:
+                if os.path.exists("output/absolute.json"):
+                    with open("output/absolute.json", "r") as f:
                         try:
                             data = json.load(f)
                         except json.JSONDecodeError:
@@ -489,7 +499,7 @@ class MissionEngine:
                 data.append(entry)
 
                 # Write back with formatting
-                with open("/home/ostajanpure/Desktop/prompt_to_fly/output/absolute.json", "w") as f:
+                with open("output/absolute.json", "w") as f:
                     json.dump(data, f, indent=2)
             save_entry(result)
 
@@ -522,8 +532,8 @@ class MissionEngine:
                 result["mission"]["model_for_extraction_json_output"]["type"]="point"  
             def save_entry(new_data):
                 # Load existing data
-                if os.path.exists("/home/ostajanpure/Desktop/prompt_to_fly/output/relative.json"):
-                    with open("/home/ostajanpure/Desktop/prompt_to_fly/output/relative.json", "r") as f:
+                if os.path.exists("output/relative.json"):
+                    with open("output/relative.json", "r") as f:
                         try:
                             data = json.load(f)
                         except json.JSONDecodeError:
@@ -542,7 +552,7 @@ class MissionEngine:
                 data.append(entry)
 
                 # Write back with formatting
-                with open("/home/ostajanpure/Desktop/prompt_to_fly/output/relative.json", "w") as f:
+                with open("output/absolute.json", "w") as f:
                     json.dump(data, f, indent=2)
             save_entry(result)
         if validated["category"]=="intent_understanding":
@@ -572,8 +582,8 @@ class MissionEngine:
                 result["mission"]["model_for_extraction_json_output"]["type"]="point"  
             def save_entry(new_data):
                 # Load existing data
-                if os.path.exists("/home/ostajanpure/Desktop/prompt_to_fly/output/intent.json"):
-                    with open("/home/ostajanpure/Desktop/prompt_to_fly/output/intent.json", "r") as f:
+                if os.path.exists("output/intent.json"):
+                    with open("output/intent.json", "r") as f:
                         try:
                             data = json.load(f)
                         except json.JSONDecodeError:
@@ -592,7 +602,7 @@ class MissionEngine:
                 data.append(entry)
 
                 # Write back with formatting
-                with open("/home/ostajanpure/Desktop/prompt_to_fly/output/intent.json", "w") as f:
+                with open("output/intent.json", "w") as f:
                     json.dump(data, f, indent=2)
             save_entry(result)
             
@@ -614,7 +624,8 @@ class MissionEngine:
                 "type": "location",
                 "payload": {
                     "message": result["message"],
-                    "cid":cid
+                    "cid":cid,
+                    "params":None
                 }
             }
 

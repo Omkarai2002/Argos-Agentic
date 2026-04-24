@@ -8,7 +8,7 @@ load_dotenv()
 class Neo4jMissionDB:
 
     def __init__(self):
-        self.uri = "bolt://localhost:7687"
+        self.uri = "bolt://graph-db:7687"
         self.username = "neo4j"
         self.password = os.getenv("NEO4J_PASSWORD")
 

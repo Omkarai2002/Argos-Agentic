@@ -9966,5 +9966,3873 @@
         }
       }
     }
+  },
+  {
+    "serial_no": 74,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "723",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Create a surveillance mission where the drone takes off at 40m altitude with 2m/s from Inspection Holding Bay, cruises at 8.5 m/s to Temporary Storage Court, stabilizes at 50 m altitude, performs a clockwise loiter with a 22 m radius for 80 seconds, then returns at reduced speed of 5 m/s and lands at Inspection Holding Bay.",
+        "class": "point",
+        "reason": "Surveillance is performed primarily during a stationary loiter at a fixed location between movement legs.",
+        "category": "absolute_location",
+        "complexity": 0.65,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "LAND",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 50,
+              "altitude_mode": "AGL",
+              "speed": 8.5,
+              "radius": 22.0,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 80,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 2
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 75,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "724",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Create a surveillance mission where the drone takes off at 40m altitude with 2m/s from Inspection Holding Bay, cruises at 8.5 m/s to Temporary Storage Court, stabilizes at 50 m altitude, performs a clockwise loiter with a 22 m radius for 80 seconds, then returns at reduced speed of 5 m/s and lands at Inspection Holding Bay.",
+        "class": "path",
+        "reason": "Surveillance is performed while the drone is moving along a loitered circular path and between fixed locations.",
+        "category": "absolute_location",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "point",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "LAND",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 50,
+              "altitude_mode": "AGL",
+              "speed": 8.5,
+              "radius": 22.0,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 80,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 2
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 76,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "727",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to inspection holding bay at the speed of 3 m/s and altitude of 20 m. from there go to Temporary Storage Court at the speed of 3m/s and altitude of 25m, now go to Material Staging Pad at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves between named locations along a route, with a final hover, indicating a movement-driven task rather than stationary inspection.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": null,
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": null,
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 77,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "731",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The mission involves sequentially flying between named locations with altitude constraints, not performing a fixed-area coverage or stationary inspection.",
+        "category": "absolute_location",
+        "complexity": 0.45,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 78,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "c2b24056-839b-448b-b86c-13b1639358e2",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves sequentially between named destinations along a route, with only a brief hover at the end.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 79,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "177f9fca-bd1b-49da-befe-e37c1c402de0",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves sequentially to fixed locations (admin building, cricket ground, water tank) with waypoint-to-waypoint travel and a final hover, not performing stationary inspections at a single location.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 80,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "2fac0b30-d509-4791-a4fa-1a83a326fa82",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The mission primarily involves sequentially flying between named locations with no area coverage or inspection task.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 81,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "2be165b2-5db3-402a-bc52-987a82ee2d5f",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone travels sequentially between named locations (admin building \u2192 cricket ground \u2192 water tank) with a brief hover at the end.",
+        "category": "absolute_location",
+        "complexity": 0.35,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 82,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "fb3326ec-2222-45ac-8dcf-75f102af4c5a",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "Mission involves sequentially flying to fixed named locations with no use of relative directions or area coverage; movement between fixed destinations dominates the task.",
+        "category": "absolute_location",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 83,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "e0b5410d-dfc9-4839-8da0-330fd37e23c6",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "point",
+        "reason": "The drone travels to fixed named locations and hovers briefly at the second location, demonstrating stationary work between waypoints.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 84,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "45116df5-fb9e-4c3d-ad41-67951bdd50d7",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves sequentially between named destinations (admin building, cricket ground, water tank) with a brief hover, not performing the task while stationary.",
+        "category": "absolute_location",
+        "complexity": 0.35,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 85,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "2c5950cf-a0f5-49cc-8003-197c4428de1a",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves sequentially between named locations with only a brief hover at the final waypoint, so the main task is movement along a route rather than stationary work.",
+        "category": "absolute_location",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 86,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "be7e8b64-b2f7-4b1c-a057-37d64aad8158",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone travels sequentially between fixed locations, performing the task while in motion rather than while stationary.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 87,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "c498111b-813b-4761-a8dd-880df3914abb",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves sequentially between fixed named locations with specified altitudes, performing a final hover rather than continuous area coverage.",
+        "category": "absolute_location",
+        "complexity": 0.3,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 88,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "0b53766e-b978-4037-b5fe-f5d113de8322",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves sequentially between fixed named locations with no relative offsets, performing motion between waypoints.",
+        "category": "absolute_location",
+        "complexity": 0.32,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 89,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "4fed1fa4-1706-46e3-8788-c3ec20ec7afb",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone travels sequentially between fixed named locations, performing the main task while moving rather than while stationary.",
+        "category": "absolute_location",
+        "complexity": 0.4,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 90,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "93dd78ae-1eec-44c7-939f-ed10d1c691cc",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The mission involves sequential travel between named locations with a final hover, i.e., movement along a route rather than stationary work at a single site.",
+        "category": "absolute_location",
+        "complexity": 0.5,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 91,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "84b81db2-5d5d-422a-b7cb-488295b19bad",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "3d",
+        "reason": "The drone stops at multiple named locations to proceed to the next destination, ending with a hover.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "3d",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 92,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "dc25e83c-510a-4c75-896c-43bcc9d6f938",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The mission mainly involves traveling between named locations along a route with only a brief hover pause.",
+        "category": "absolute_location",
+        "complexity": 0.38,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 93,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "c826a4c7-0ae1-44f6-889b-68cc27e920ef",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone travels sequentially between named locations with a brief final hover, constituting movement along a route rather than area coverage or structure inspection.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 94,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "dc54b4aa-3a8c-41e6-a387-875c3ba499f2",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone travels sequentially between fixed named destinations along a route with a brief hover at the end.",
+        "category": "absolute_location",
+        "complexity": 0.4,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 95,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "038a242f-5f43-4e83-a243-53d47df26c5c",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves sequentially between named locations (admin building, cricket ground, water tank) performing tasks while transitioning, with a final hover.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 96,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "bfd65b23-9bb2-4a4f-a79a-c66a60c16746",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone moves sequentially between fixed named locations (admin building -> cricket ground -> water tank) with the primary task occurring during travel.",
+        "category": "absolute_location",
+        "complexity": 0.6,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 97,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "7564d307-9291-4e85-9e71-b25134c9f693",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The mission follows sequential waypoint-to-waypoint travel with a final brief hover, and the main task is the moving between named locations rather than hovering to perform a fixed-area or structure inspection.",
+        "category": "absolute_location",
+        "complexity": 0.35,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 98,
+    "data": {
+      "status": "need_location",
+      "waypoint_index": 0,
+      "message": "Location missing for waypoint 1. Please enter location name.",
+      "mission": {
+        "db_record_id": "fd45b681-ce1d-4fea-88c5-d789be0d6655",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone progresses through a sequence of fixed destinations (admin building, cricket ground, water tank) with specified altitudes, performing the primary task while moving along a route; the brief hover at the final location is incidental.",
+        "category": "absolute_location",
+        "complexity": 0.3,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 500,
+          "total_duration": 400,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 99,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "2587f748-f164-4e18-91de-38f19316b7e9",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone traverses between named locations, performing movement across a route rather than executing work while stationary.",
+        "category": "absolute_location",
+        "complexity": 0.65,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 587,
+          "total_duration": 45.15384615384615,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.66966671345361,
+                19.96714406872374
+              ],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.66829451598599,
+                19.965027099296748,
+                0
+              ],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [
+                73.66725131331319,
+                19.962406135405832,
+                0
+              ],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 100,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "ddfcd74e-4731-4655-b8f2-6d100dfe18d8",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action",
+        "class": "path",
+        "reason": "The drone travels between named locations along a route with a brief hover at the final stop, not performing area coverage or structure inspection.",
+        "category": "absolute_location",
+        "complexity": 0.25,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "path",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 587,
+          "total_duration": 45.15384615384615,
+          "finish_action": {
+            "type": "RTDS",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.66966671345361,
+                19.96714406872374
+              ],
+              "altitude": 20,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.66829451598599,
+                19.965027099296748,
+                0
+              ],
+              "altitude": 25,
+              "altitude_mode": "AGL",
+              "speed": 3.0,
+              "radius": null,
+              "actions": null
+            },
+            {
+              "sequence": 3,
+              "location": [
+                73.66725131331319,
+                19.962406135405832,
+                0
+              ],
+              "altitude": 30,
+              "altitude_mode": "absolute",
+              "speed": 3.0,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 5,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 4
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 101,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "78c19497-7bcc-4724-aa69-f8c590847755",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Create a surveillance mission where the drone takes off at 40m altitude with 2m/s from admin building, cruises at 8.5 m/s to water tank, stabilizes at 50 m altitude, performs a clockwise loiter with a 22 m radius for 80 seconds, then returns at reduced speed of 5 m/s and lands at cricket ground.",
+        "class": "3d",
+        "reason": "Main surveillance task is performed while the drone is stationary/loitering at designated locations.",
+        "category": "absolute_location",
+        "complexity": 0.72,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "3d",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 311,
+          "total_duration": 20.06451612903226,
+          "finish_action": {
+            "type": "LAND",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.66725131331319,
+                19.962406135405832,
+                0
+              ],
+              "altitude": 50,
+              "altitude_mode": "AGL",
+              "speed": 8.5,
+              "radius": 22.0,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 80,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            },
+            {
+              "sequence": 2,
+              "location": [
+                73.66829451598599,
+                19.965027099296748,
+                0
+              ],
+              "altitude": 50,
+              "altitude_mode": "absolute",
+              "speed": 5.0,
+              "radius": null,
+              "actions": null
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 2
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 102,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "54c34171-b09e-40ed-bb99-36698cfcd975",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Create a surveillance mission where the drone takes off at 40m altitude with 2m/s from admin building, cruises at 8.5 m/s to water tank, stabilizes at 50 m altitude, performs a hover for 80 seconds, then returns at reduced speed of 5 m/s and lands at cricket ground.",
+        "class": "3d",
+        "reason": "The drone holds and hovers at a location to conduct surveillance before returning.",
+        "category": "absolute_location",
+        "complexity": 0.7,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "3d",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "LAND",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.66725131331319,
+                19.962406135405832,
+                0
+              ],
+              "altitude": 50,
+              "altitude_mode": "AGL",
+              "speed": 8.5,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 80,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 2
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "serial_no": 103,
+    "data": {
+      "status": "ok",
+      "mission": {
+        "db_record_id": "dff7aa76-9635-484d-a743-e72f6f6db3e9",
+        "user_id": 3,
+        "site_id": 2,
+        "org_id": 1,
+        "prompt": "Create a surveillance mission where the drone takes off at 40m altitude with 2m/s from admin building, then goes at 8.5 m/s to water tank at 50 m altitude, performs a hover for 80 seconds, then returns at reduced speed of 5 m/s and lands at cricket ground.",
+        "class": "3d",
+        "reason": "Surveillance is performed while the drone is stationary at the water tank after arriving from the admin building.",
+        "category": "absolute_location",
+        "complexity": 0.55,
+        "model_for_extraction": "gpt-4o",
+        "model_for_extraction_json_output": {
+          "type": "3d",
+          "name": "",
+          "city": "",
+          "label_id": 0,
+          "total_distance": 0,
+          "total_duration": 0.0,
+          "finish_action": {
+            "type": "LAND",
+            "duration": null
+          },
+          "waypoints": [
+            {
+              "sequence": 1,
+              "location": [
+                73.66725131331319,
+                19.962406135405832,
+                0
+              ],
+              "altitude": 50,
+              "altitude_mode": "AGL",
+              "speed": 8.5,
+              "radius": null,
+              "actions": [
+                {
+                  "sequence": 1,
+                  "type": "HOVER",
+                  "params": {
+                    "pitch": null,
+                    "yaw": null,
+                    "duration": 80,
+                    "interval": null,
+                    "count": null,
+                    "zoom": null,
+                    "distance": null
+                  }
+                }
+              ]
+            }
+          ],
+          "takeoff_config": {
+            "altitude": 40,
+            "altitude_mode": "REL",
+            "speed": 2
+          },
+          "route_config": {
+            "altitude": 40,
+            "altitude_mode": "AGL",
+            "speed": 4,
+            "radius": 2
+          },
+          "mission_config": {
+            "mode": "orbit",
+            "base_path": [
+              [
+                72.8777,
+                19.076
+              ]
+            ],
+            "layers": [
+              {
+                "altitude": 20,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 30,
+                "altitude_mode": "AGL"
+              },
+              {
+                "altitude": 40,
+                "altitude_mode": "AGL"
+              }
+            ],
+            "camera_profile": {
+              "pitch": 0,
+              "yaw_mode": "poi",
+              "poi": [
+                72.8777,
+                19.076
+              ]
+            },
+            "yaw_step": 0,
+            "limits": {
+              "max_vertical_speed": 0,
+              "layer_spacing": 0
+            }
+          },
+          "dock_id": 0,
+          "can_select_dock": true,
+          "is_hidden": false,
+          "is_private": true,
+          "camera_profile": {
+            "pitch": null,
+            "yaw_mode": null,
+            "poi": null
+          }
+        }
+      }
+    }
   }
 ]

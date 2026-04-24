@@ -88,7 +88,7 @@ async def on_user_message(data):
         await sio.emit("argos-ai:progress", {
             "cid": cid,
             "user_id":user_id,
-            "payload": {"step": "Processing prompt", "status": "running"}
+            "message": "Processing prompt"
         })
 
         # Run your existing MissionEngine (unchanged)
@@ -98,38 +98,42 @@ async def on_user_message(data):
             await sio.emit("argos-ai:response", {
                 "type": "rejected",
                 "cid": cid,
-                "payload": {"step": "No response from engine"}
+                "message": "No response from engine"
             })
             return
 
+        event = response.get('event', 'argos-ai:progress')
+        _type = response.get('type', 'unknown')
         # Send final result back to Argos
-        await sio.emit(response.get("event", 'argos-ai:progress'), {
-            "type": response.get('type', 'unknown'),
+        await sio.emit(event, {
+            "type": _type,
             "user_id":user_id,
             "cid": cid,
-            "event": response["event"],
-            "payload": response["payload"]
+            "message": response["payload"].get("message"),
+            "params": response["payload"] if _type == 'success' else response["payload"].get("params",None)
         })
     elif type == 'reply':
         if data['event'] == 'action:location':
             response = await mission_engine.handle_location_action(cid, data)
+            _type = response.get('type', 'unknown')
 
             await sio.emit(response.get("event", 'argos-ai:progress'), {
                 "type": response.get('type', 'unknown'),
                 "user_id": user_id,
                 "cid": cid,
-                "event": response["event"],
-                "payload": response["payload"]
+                "message": response["payload"].get("message"),
+                "params": response["payload"] if _type == 'success' else response["payload"].get("params",None)
             })
         elif data['event'] == 'action:validate':
             response = await mission_engine.handle_validate_action(cid, data)
+            _type = response.get('type', 'unknown')
 
             await sio.emit(response.get("event", 'argos-ai:progress'), {
                 "type": response.get('type', 'unknown'),
                 "user_id": user_id,
                 "cid": cid,
-                "event": response["event"],
-                "payload": response["payload"]
+                "message": response["payload"].get("message"),
+                "params": response["payload"] if _type == 'success' else response["payload"].get("params",None)
             })
         else:
             pass
@@ -138,7 +142,7 @@ async def on_user_message(data):
 
 
 @sio.on("argos-ai:user-typing")
-def on_user_typing(data):
+async def on_user_typing(data):
     # Argos confirmed our token is valid
     # @TODO: find  suggestions
     timestamp=data["timestamp"]
@@ -147,8 +151,13 @@ def on_user_typing(data):
         ts = TextState(data["input"], 5)
         predicted=router.suggest(ts)
         print("predicted:",predicted)
-        latency=time.time() - timestamp
-        sio.emit('argos-ai:type-suggestion',{ 'user_id': data["user_id"], 'relevant':predicted['suggestions'][0] if len(predicted["suggestions"])>0 else "", 'suggestions': [],"latency":latency })
+        latency = round((time.time() - timestamp) * 1000, 2)
+        await sio.emit('argos-ai:type-suggestion', {
+            'user_id': data["user_id"],
+            'relevant': predicted['suggestions'][0] if len(predicted["suggestions"])>0 else "",
+            'suggestions': [],
+            "latency": latency
+        })
         print(f"user typing : {data}")
     except Exception as e:
         print(e)

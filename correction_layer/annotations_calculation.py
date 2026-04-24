@@ -1,6 +1,7 @@
 # annotations_calculation.py
 
 from typing import Dict, List
+import json
 
 
 class GeometryCenterCalculator:
@@ -19,11 +20,13 @@ class GeometryCenterCalculator:
         """
 
         shape = row["shape"].lower()
-        geom = row["geometry"]
+        geom = json.loads(row["geometry"]) if isinstance(row["geometry"], str) else row["geometry"]
+        print('geometry_type:', type(row["geometry"]))
         altitude = row.get("height") or 0
-
+        print('geometry:', shape, geom, altitude)
         # Shapes that already store center
         if shape in {"circle", "ellipse", "cylinder", "box"}:
+            print('geometry center:', geom["center"])
             return GeometryCenterCalculator._with_alt(geom["center"])
 
         # Point
@@ -59,11 +62,13 @@ class GeometryCenterCalculator:
         if len(points[0]) == 3:
             alt = sum(p[2] for p in points) / len(points)
         
-
+        print("polygon_coord:",[lon, lat])
         return [lon, lat]
 
     @staticmethod
     def _with_alt(center: List[float]) -> List[float]:
+        print("center_normal:", center)
         if len(center) == 3:
+            print("center 3:",center)
             return center
         return [center[0], center[1]]

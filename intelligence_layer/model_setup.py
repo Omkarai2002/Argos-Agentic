@@ -62,7 +62,7 @@ def add_to_json(validated):
     validated["result"]=waypoints_array
     
     
-    validator = GraphValidator(uri="bolt://localhost:7687",
+    validator = GraphValidator(uri="bolt://graph-db:7687",
         user="neo4j",
         password=os.getenv("NEO4J_PASSWORD"))
     validated["graphdb_data"] = [{} for _ in range(len(validated["result"]))]
