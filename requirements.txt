@@ -20,4 +20,4 @@ openai==2.15.0
 psycopg==3.3.2
 pydantic==2.12.5
 python-socketio==5.16.1
-
+pytest
