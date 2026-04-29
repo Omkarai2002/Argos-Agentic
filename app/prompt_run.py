@@ -575,7 +575,7 @@ class MissionEngine:
             validated = validator.validate(validated)
             threshold = CheckThreshold(validated)
             result = threshold.check_waypoints()
-            print("started the push")
+            print("started the push to actions")
             print("validated_result:",result)
             if result["mission"]["model_for_extraction_json_output"]["type"]=="point" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])>=2:
                 result["mission"]["model_for_extraction_json_output"]["type"]="path"
