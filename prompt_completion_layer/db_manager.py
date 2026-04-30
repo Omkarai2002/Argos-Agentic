@@ -45,27 +45,30 @@ class PromptCompletionDB:
     port=self.port
 )
     def save_prompt_completion(
-        self,
-        response: PromptCompletionResponse,
-        user_id: int,
-        site_id: int,
-        org_id: int,
-        status: str = None
+    self,
+    response: PromptCompletionResponse,
+    user_id: int,
+    site_id: int,
+    org_id: int,
+    status: str = None
     ) -> int:
         """
         Save prompt completion result to database.
-        
+
         Args:
             response: PromptCompletionResponse object
             user_id: User ID
             site_id: Site ID
             org_id: Organization ID
             status: Status (APPROVED, REJECTED, PENDING)
-                   If None, derived from completion result
-        
+                If None, derived from completion result
+
         Returns:
             ID of inserted record
         """
+        conn = None
+        cursor = None
+
         try:
             # Determine status from completion result if not provided
             if status is None:
@@ -73,43 +76,48 @@ class PromptCompletionDB:
                     status = "APPROVED"
                 else:
                     status = "REJECTED"
-            
+
             conn = self.get_connection()
             cursor = conn.cursor()
-            
-            # Insert record
+
+            # MySQL-compatible INSERT query
             query = """
-            INSERT INTO prompt_conversations 
-            (user_id, status, initial_prompt, site_id, org_id, created_at)
+            INSERT INTO prompt_conversations
+            (user_id, status, initial_prompt, site_id, organization_id, created_at)
             VALUES (%s, %s, %s, %s, %s, %s)
-            RETURNING id;
             """
-            
-            cursor.execute(
-                query,
-                (
-                    user_id,
-                    status,
-                    response.original_prompt,
-                    site_id,
-                    org_id,
-                    datetime.utcnow()
-                )
+
+            values = (
+                user_id,
+                status,
+                response.original_prompt,
+                site_id,
+                org_id,
+                datetime.utcnow()
             )
-            
-            record_id = cursor.fetchone()[0]
+
+            cursor.execute(query, values)
             conn.commit()
-            
+
+            # MySQL way to get inserted ID
+            record_id = cursor.lastrowid
+
             logger.info(f"Saved prompt completion to DB: record_id={record_id}")
-            
-            cursor.close()
-            conn.close()
-            
+
             return record_id
-            
+
         except Exception as e:
+            if conn:
+                conn.rollback()
+
             logger.error(f"Error saving to database: {str(e)}")
             raise
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
     
     def update_prompt_final(
         self,
@@ -251,7 +259,7 @@ class PromptCompletionDB:
             
             query = """
             SELECT id, user_id, status, initial_prompt, final_prompt,
-                   site_id, org_id, created_at, updated_at, ended_at
+                   site_id, organization_id, created_at, updated_at, ended_at
             FROM prompt_conversations 
             WHERE id = %s;
             """
