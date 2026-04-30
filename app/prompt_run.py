@@ -282,117 +282,85 @@ class MissionEngine:
             }
         }
     async def handle_location_action(self, cid, data):
-
         session = self.sessions.get(cid)
 
         if not session:
             return {
                 "event": "argos-ai:response",
-                "type":"rejected",
-                "payload": {
-                    "message": "Session expired",
-                    "cid": cid
-                }
+                "type": "rejected",
+                "payload": {"message": "Session expired", "cid": cid}
             }
-
+        print("handle_location_action_triggered")
         mission = session["mission"]
-        location_name = data.get("param", { 'name': '' })['name']
-
+        location_name = data.get("param", {'name': ''})
+        
+        # Handle both {'name': 'x'} and plain string
+        if isinstance(location_name, dict):
+            location_name = location_name.get('name', '')
+        
         if not location_name:
             return {
                 "event": "argos-ai:response",
-                "type":"rejected",
+                "type": "rejected",
+                "payload": {"message": "No location provided", "cid": cid}
+            }
+
+        # Get the waypoint index that was missing
+        waypoint_index = session.get("waypoint_index", 0)
+        waypoints = mission["model_for_extraction_json_output"].get("waypoints", [])
+
+        if not waypoints or waypoint_index >= len(waypoints):
+            return {
+                "event": "argos-ai:response",
+                "type": "rejected",
+                "payload": {"message": "Invalid waypoint index", "cid": cid}
+            }
+
+        print(f"FIXING WAYPOINT INDEX: {waypoint_index} with location: {location_name}")
+        print("location_name_for_handle_location:",location_name)
+        # Apply user input to the correct waypoint
+        waypoints[waypoint_index]["location"] = location_name
+
+        # Convert location → coordinates
+        connect = ConnectToDb()
+        mission = connect.find_waypoint_closest_and_update(mission)
+
+        # Re-run validations
+        validator = GeofenceValidator()
+        mission = validator.validate(mission)
+
+        # CRITICAL: Save updated mission back to session immediately
+        session["mission"] = mission
+
+        # Re-run threshold check
+        threshold = CheckThreshold(mission)
+        result = threshold.check_waypoints()
+
+        print("DEBUG threshold result after fix:", result)
+
+        if result["status"] == "need_location":
+            # Another waypoint still missing — update session with new index
+            session["waypoint_index"] = result["waypoint_index"]
+            session["mission"] = result["mission"]  # save again with threshold updates
+
+            return {
+                "event": "argos-ai:action",
+                "type": "location",
                 "payload": {
-                    "message": "No location provided",
-                    "cid": cid
+                    "message": result["message"],
+                    "cid": cid,
+                    "params": None
                 }
             }
 
-        # ---------------------------------------------------
-        # STEP 1: Always recompute missing waypoint (CRITICAL)
-        # ---------------------------------------------------
-        threshold = CheckThreshold(mission)
-        result = threshold.check_waypoints()
-        print("result_status:",result["status"])
-        if result["status"] != "need_location":
-            # Nothing to fix, just continue pipeline
-            validated = result["mission"]
-        else:
-            waypoint_index = result["waypoint_index"]
-
-            waypoints = mission["model_for_extraction_json_output"].get("waypoints", [])
-
-            if not waypoints:
-                return {
-                    "event": "argos-ai:response",
-                    "type":"rejected",
-                    "payload": {
-                        "message": "Mission has no waypoints.",
-                        "cid": cid
-                    }
-                }
-
-            # Safety fallback
-            if waypoint_index >= len(waypoints):
-                waypoint_index = 0
-
-            print("FIXING WAYPOINT INDEX:", waypoint_index)
-
-            # ---------------------------------------------------
-            # STEP 2: Apply user input to correct waypoint
-            # ---------------------------------------------------
-            waypoints[waypoint_index]["location"] = location_name
-
-            print("AFTER USER INPUT:", waypoints[waypoint_index])
-
-            # ---------------------------------------------------
-            # STEP 3: Convert location → coordinates
-            # ---------------------------------------------------
-            connect = ConnectToDb()
-            mission = connect.find_waypoint_closest_and_update(mission)
-
-            print("AFTER DB UPDATE:", mission["model_for_extraction_json_output"]["waypoints"])
-
-            # ---------------------------------------------------
-            # STEP 4: Re-run validations
-            # ---------------------------------------------------
-            validator = GeofenceValidator()
-            mission = validator.validate(mission)
-
-            threshold = CheckThreshold(mission)
-            result = threshold.check_waypoints()
-
-            print("DEBUG threshold result:", result)
-
-            # ---------------------------------------------------
-            # STEP 5: If still missing → ask again (NEXT waypoint)
-            # ---------------------------------------------------
-            if result["status"] == "need_location":
-
-                # Update session with NEW missing index
-                session["mission"] = mission
-
-                return {
-                    "event": "argos-ai:action",
-                    "type": "location",
-                    "payload": {
-                        "message": result["message"],
-                        "cid": cid,
-                        "params":None
-                    }
-                }
-
-            validated = result["mission"]
-
-        # ---------------------------------------------------
-        # STEP 6: Final success
-        # ---------------------------------------------------
+        # All waypoints resolved
         del self.sessions[cid]
+        validated = result["mission"]
 
-        print("Sending mission result to frontend")
+        print("All waypoints resolved, sending result to frontend")
 
         return {
-            "event": "argos-ai:result",
+            "event": "argos-ai:response",
             "type": "success",
             "payload": validated["model_for_extraction_json_output"],
             "cid": cid
@@ -433,9 +401,15 @@ class MissionEngine:
 
         print(f"✅ Entry {serial_no} saved")
     def run_optimization(self,local_validated):
+        try:
             v = add_to_json(local_validated)
+            print(f"optimize_parameters starting for waypoint: {local_validated}")
             v = optimize_parameters(v)
+            print(f"optimize_parameters DONE")
             return v
+        except Exception as e:
+            logger.error(f"Optimization failed: {e}", exc_info=True)
+            return local_validated 
     
     def _continue_pipeline_sync(self, data, validated,cid):
         self.emit_progress(data["user_id"],cid, "model selection initiated")
@@ -462,8 +436,21 @@ class MissionEngine:
             validator = GeofenceValidator()
             validated = validator.validate(validated)
             print("geofence_validator:",validated)
-            optimized_validated = future.result()
-            print("optimized_validated",optimized_validated["final_result"])
+            try:
+                optimized_validated = future.result(timeout=5)  # 60s max
+                print("optimized_validated", optimized_validated["final_result"])
+                try:
+                    validated = match_update(validated, optimized_validated["final_result"])
+                    print("matched:", validated)
+                    print("optimized_validated",optimized_validated["final_result"])
+                except Exception as e:
+                    print(f"match_update failed, using original: {e}")
+                    validated = validated
+                    print("optimized_validated",optimized_validated["final_result"])
+            except Exception as e:
+                print(f"Optimization future failed or timed out: {e}, skipping optimization")
+                # Don't block — just continue with unoptimized validated
+            
             try:
                 validated=match_update(validated,optimized_validated["final_result"])
                 print("matched:",validated)
@@ -607,9 +594,7 @@ class MissionEngine:
                     json.dump(data, f, indent=2)
             save_entry(result)
             
-
-
-            
+        print("mission_is_getting_complete")  
         self.emit_progress(data["user_id"],cid, "Mission pipeline complete")
         if result["status"] == "need_location":
 

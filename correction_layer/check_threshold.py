@@ -77,18 +77,14 @@ class CheckThreshold:
         #WAYPOINT CHECK 
         for i in range(len(wayp)):
             
-            if self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"] == []:
-
+            loc = self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"]
+            if loc is None or loc == [] or loc == "":
                 return {
                     "status": "need_location",
                     "waypoint_index": i,
                     "message": f"Location missing for waypoint {i+1}. Please enter location name.",
                     "mission": self.validated
                 }
-
-            loc=self.validated["model_for_extraction_json_output"]["waypoints"][i]["location"]
-            if not loc:
-                new_loc=input(f"location not mentioned for waypoint {i+1},enter location name within geofence:")
 
             try:
                 alt=self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude"]

@@ -117,7 +117,7 @@ class ConnectToDb:
                 "model_for_extraction_json_output", {}
             ).get("waypoints", [])
 
-            THRESHOLD = 0.6
+            THRESHOLD = 0.8
 
             for wp in waypoints:
                 try:
@@ -141,6 +141,7 @@ class ConnectToDb:
 
                     # If exact match exists
                     if location_lower in waypoint_names:
+                        
                         best_name = location_lower
                     else:
                         # Build similarity scores safely

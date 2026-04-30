@@ -114,6 +114,7 @@ async def on_user_message(data):
         })
     elif type == 'reply':
         if data['event'] == 'action:location':
+            print("response_trigerred_in_action")
             response = await mission_engine.handle_location_action(cid, data)
             _type = response.get('type', 'unknown')
 
