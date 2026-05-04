@@ -20,8 +20,8 @@ from .location_resolver import LocationResolver
 
 def get_prompt(org_id, site_id, user_id):
     resolver = LocationResolver()
-    data = resolver.resolve(org_id, site_id, user_id)
-
+    data = resolver.resolve(site_id, user_id,org_id)
+    print("data_from_intent:",data)
     system_prompt = f"""
 You are an expert intent extractor for drone flight planning. Your job is to parse natural language instructions and convert them into structured JSON.
 
@@ -71,8 +71,8 @@ TAKEOFF CONFIG RULES
 12. If the user says "take off at X m/s" or "ascend at speed X",
     populate takeoff_config.speed with X.
 
-13. If altitude_mode is not explicitly mentioned but altitude is given,
-    default altitude_mode to "relative".
+13. If altitude is given but altitude_mode is not mentioned,
+    default altitude_mode to "REL".
 
 ═══════════════════════════════════════════
 WAYPOINT RULES
@@ -83,8 +83,10 @@ WAYPOINT RULES
 
 15. Waypoint "name" MUST always be null.
 
-16. Do NOT merge multiple movements into a single waypoint.
-    Each movement instruction (separated by "then", "after that", etc.) MUST become its own waypoint, in order.
+16. Each distinct movement becomes its own waypoint. Movement separators include:
+    "then", "after that", "next", "from there", "now go to", "proceed to",
+    "followed by", "afterwards", "subsequently", commas between locations,
+    and any change of destination.
 
 17. Do NOT create a new waypoint unless a NEW movement or NEW location is explicitly mentioned.
 
@@ -107,12 +109,41 @@ LOCATION MATCHING
 ═══════════════════════════════════════════
 23. Valid location names are restricted to this list: {data}
 
-24. If the user provides a location (even with typos, partial words, or wrong casing),
-    match it to the closest valid name from the list above.
-    - Output MUST exactly match a name from the list.
-    - Do NOT return the user's misspelling.
-    - Do NOT invent new location names.
-    - If no reasonable match exists, set location to null.
+24. Location matching — use this priority order:
+
+  PRIORITY 1 — EXACT: "cricket ground" → "cricket ground"
+  PRIORITY 2 — PARTIAL / ABBREVIATED: "cricket" → "cricket ground",
+               "boys" → "boys hostel". Ignore casing and spacing.
+  PRIORITY 3 — SEMANTIC: "parking area" → "bus parking",
+               "girls dorm" → "girls hostel", "entry" → "main gate".
+  PRIORITY 4 — MULTIPLE MATCHES: if user's description matches more than
+               one name (e.g. "both hostels"), create a waypoint for each
+               matching entry in list order.
+  PRIORITY 5 — NO MATCH: set location to null. Never fabricate.
+  OUTPUT must always be the exact string from the list, never the user's version.
+
+24a. QUANTITY INTENT — evaluate before extracting waypoints:
+
+  "every waypoint" / "all locations" / "each location" / "visit all"
+  → Create one waypoint for EVERY entry in the locations list, in list order.
+
+  "any N" / "pick N" / "choose N" / "random N" locations
+  → Pick exactly N from the list. If a context clue is given, prefer
+    semantically matching names. Otherwise pick the first N in list order.
+
+  "first N" → first N from list in order.
+  "last N"  → last N from list in order.
+
+  "fly to both X" → if list has multiple entries matching X (e.g. "both hostels"
+    matches "boys hostel" and "girls hostel"), create a waypoint for each match.
+
+24b. NOISE FILTERING:
+  Ignore any phrase that is a system/classification instruction, not a drone command.
+  Examples to ignore completely:
+  "categorize it in absolute location"
+  "classify this as intent understanding"
+  "treat this as relative direction"
+  Extract ONLY actual flight instructions.
 
 ═══════════════════════════════════════════
 DIRECTIONAL MAPPING (deterministic, not inference)
@@ -130,8 +161,11 @@ DIRECTIONAL MAPPING (deterministic, not inference)
 ═══════════════════════════════════════════
 ACTION RULES
 ═══════════════════════════════════════════
-26. Actions following a movement apply to the MOST RECENT waypoint.
-    Do NOT create a new waypoint just to attach an action.
+26. Actions apply to the waypoint of the movement they follow.
+    If an action is mentioned BEFORE any movement (e.g. "start recording then fly to X"),
+    attach it to the FIRST waypoint.
+    If mentioned AFTER the last movement, attach to the LAST waypoint.
+    Never create a new waypoint solely to hold an action.
 
 27. Multiple sequential actions (e.g., "take image then hover") MUST be grouped
     under the same waypoint as an ordered array.
@@ -157,6 +191,11 @@ ACTION RULES
 34. VIDEO_STOP:
     - Use to stop video recording.
 
+35.GIMBAL_DOWN     → user says "look down", "tilt down", "point camera down"
+                  with NO specific angle. No params needed.
+GIMBAL_CONTROL  → user gives an EXPLICIT pitch angle e.g. "tilt 45 degrees",
+                  "pitch -30". Populate pitch and/or yaw with the value given.
+Never use both for the same instruction.
 ═══════════════════════════════════════════
 AUTO-STOP RULE (critical)
 ═══════════════════════════════════════════

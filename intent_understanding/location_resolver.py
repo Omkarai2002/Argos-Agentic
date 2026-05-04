@@ -4,11 +4,11 @@ from app.config import PROMPT_COMPLETION_DATABASE_CONFIG,PRODUCTION_DB_CONFIG
 import mysql.connector
 #import psycopg
 # -----------------------------
-# 🧠 Logging Cursor (GLOBAL)
+# Logging Cursor (GLOBAL)
 # -----------------------------
 # class LoggingCursor(psycopg.Cursor):
 #     def execute(self, query, params=None):
-#         print("\n🧾 Executing SQL:")
+#         print("\nExecuting SQL:")
 #         print(query.strip())
 
 #         if params:
@@ -52,7 +52,7 @@ class LocationResolver:
         # Optional: print first row
         # if clean_list:
         #     print(clean_list)
-
+        print("db_result:",results)
         return results
 
     def close(self):
@@ -61,10 +61,13 @@ class LocationResolver:
 
 
 # if __name__ == "__main__":
+#     validated={'db_record_id': 'ebb37bbc-cd25-468d-b88b-63947c4a7906', 'user_id': 3, 'site_id': 2, 'org_id': 1, 'prompt': 'Fly to admin building at the speed of 3 m/s and altitude of 20 m. from there go to cricket ground at the speed of 3m/s and altitude of 25m, now go to water tank at the speed of 3m/s and altitude of 30m, then hover there for 5 sec and rtds as finish action', 'class': 'path', 'reason': 'The drone follows a fixed sequence of named locations without using relative offsets.', 'category': 'absolute_location', 'complexity': 0.6, 'model_for_extraction': 'gpt-4o', 'model_for_extraction_json_output': {'type': '', 'name': '', 'city': '', 'label_id': 0, 'total_distance': 500, 'total_duration': 400, 'finish_action': {'type': 'RTDS', 'duration': None}, 'waypoints': [{'sequence': 1, 'location': None, 'altitude': 20, 'altitude_mode': None, 'speed': 3.0, 'radius': None, 'actions': None}, {'sequence': 2, 'location': [73.67101753283364, 19.96210195236348, 0], 'altitude': 25, 'altitude_mode': None, 'speed': 3.0, 'radius': None, 'actions': None}, {'sequence': 3, 'location': None, 'altitude': 30, 'altitude_mode': None, 'speed': 3.0, 'radius': None, 'actions': [{'sequence': 1, 'type': 'HOVER', 'params': {'pitch': None, 'yaw': None, 'duration': 5, 'interval': None, 'count': None, 'zoom': None, 'distance': None}}]}], 'takeoff_config': {'altitude': None, 'altitude_mode': None, 'speed': None}, 'route_config': {'altitude': 40, 'altitude_mode': 'AGL', 'speed': 4, 'radius': 2}, 'mission_config': {'mode': 'orbit', 'base_path': [[72.8777, 19.076]], 'layers': [{'altitude': 20, 'altitude_mode': 'AGL'}, {'altitude': 30, 'altitude_mode': 'AGL'}, {'altitude': 40, 'altitude_mode': 'AGL'}], 'camera_profile': {'pitch': 0, 'yaw_mode': 'poi', 'poi': [72.8777, 19.076]}, 'yaw_step': 0, 'limits': {'max_vertical_speed': 0, 'layer_spacing': 0}}, 'dock_id': 0, 'can_select_dock': True, 'is_hidden': False, 'is_private': True, 'camera_profile': {'pitch': None, 'yaw_mode': None, 'poi': None}}}
 #     resolver = LocationResolver()
-
+#     org_id=validated["org_id"]
+#     site_id=validated["site_id"]
+#     user_id=validated["user_id"]
 #     try:
-#         data = resolver.resolve()
+#         data = resolver.resolve(site_id,user_id,org_id)
 #     except Exception as e:
 #         print("🔥 Error:", str(e))
 #     finally:

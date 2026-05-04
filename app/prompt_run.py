@@ -424,6 +424,7 @@ class MissionEngine:
             self.emit_progress(data["user_id"],cid, "model selected")
             mission_json = PromptToJsonConvert(validated)
             validated = mission_json.convert()
+            print("mission_json:",mission_json)
             self.emit_progress(data["user_id"],cid, "mission added to the graph db")
             graphdb.initialize()
             graphdb.insert_mission(validated)
@@ -492,8 +493,8 @@ class MissionEngine:
 
         if validated["category"]=="relative_direction":
             validated["dock_coordinates"] = {
-        "lat": 19.95868,
-        "lon": 73.75717
+        "lat": 19.966591,
+        "lon": 73.667184
     }   
             pipeline_output = run_pipeline_relative(validated["prompt"])
             print("pipeline_ouput",pipeline_output)
@@ -544,8 +545,8 @@ class MissionEngine:
             save_entry(result)
         if validated["category"]=="intent_understanding":
             validated["dock_coordinates"] = {
-        "lat": 19.95868,
-        "lon": 73.75717
+        "lat": 19.966591,
+        "lon": 73.667184
     }   
             pipeline_output = run_pipeline_intent(validated)
             validated["model_for_extraction_json_output"] = pipeline_output.copy()

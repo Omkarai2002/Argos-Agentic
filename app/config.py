@@ -1,6 +1,7 @@
 import os
 import json
 import dotenv
+
 dotenv.load_dotenv()
 
 PROMPT_COMPLETION_DATABASE_CONFIG = {
@@ -258,7 +259,6 @@ ALLOWED_ACTIONS = [
     'VIDEO_START',
     'VIDEO_STOP'
 ]
-
 
 
 

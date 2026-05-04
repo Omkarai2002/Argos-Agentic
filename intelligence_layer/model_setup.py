@@ -17,7 +17,7 @@ structured_llm = llm.with_structured_output(MissionPlan)
 def extract_intent(user_prompt: str, org_id, site_id, user_id):
     
     resolver = LocationResolver()
-    data = resolver.resolve(org_id, site_id, user_id)
+    data = resolver.resolve(site_id,user_id,org_id)
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", f"""

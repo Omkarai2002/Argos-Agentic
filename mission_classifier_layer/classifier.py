@@ -26,8 +26,6 @@ from typing import Dict,Any
 class Classifier:
     validated:dict
     
-    def test(self):
-        return validated
 
     def build_work_pattern_chain(self):
         llm=ChatOpenAI(

@@ -41,11 +41,14 @@ RULE 2 — WAYPOINT NAME IS ALWAYS NULL.
 RULE 3 — LAND IS ONLY ALLOWED IN finish.type.
   Never use LAND as an action. Never create a waypoint for LAND.
 
-RULE 4 — "COME BACK" / "RETURN" IS A MOVEMENT INSTRUCTION.
-  It creates a new waypoint (angle_degrees = 180 from current heading, or as stated).
-  It is NOT a finish.type. Do not assign finish.type unless user explicitly says
-  "RTL", "return to launch", "hover at end", "land at end", etc.
-
+RULE 4 — "COME BACK" / "RETURN" / "GO BACK":
+  These are relative movement instructions.
+  → Create a new waypoint.
+  → angle_degrees = 180 (opposite of the most recent travel direction).
+  → distance_meters = same as the most recent waypoint's distance_meters,
+    unless the user specifies a different distance.
+  → This is NOT a finish.type.
+   
 RULE 5 — ACTIONS ALWAYS ATTACH TO THE MOST RECENT WAYPOINT.
   Maintain a strict "current waypoint pointer". When a new action is mentioned,
   it ALWAYS goes into the actions[] of the most recently created waypoint.
