@@ -6,7 +6,6 @@ from app.config import PROMPT_COMPLETION_DATABASE_CONFIG,PRODUCTION_DB_CONFIG
 from correction_layer.annotations_calculation import GeometryCenterCalculator
 logger = logging.getLogger(__name__)
 
-
 class ConnectToDb:
 
     def __init__(self):
@@ -102,14 +101,7 @@ class GpsCalculation:
             "lon": math.degrees(lon2)
         }
 
-
     def indivisual_waypoint_gps_fetch(self, validated):
-        """
-        Converts waypoints (absolute + relative)
-        into absolute GPS coordinates
-        """
-
-        # Initial reference point (dock)
         lat = validated["dock_coordinates"]["lat"]
         lon = validated["dock_coordinates"]["lon"]
 
@@ -117,57 +109,71 @@ class GpsCalculation:
 
         for i in range(len(waypoints)):
             wp = waypoints[i]
-
             wp_type = wp.get("type")
 
             if wp_type == "absolute":
                 location = wp.get("location")
-                
-                try:
-                    c=ConnectToDb()
-                    annotation_row=c.get_center_of_annotations(name=location,validated=validated)
-                    print("annotations_row:",annotation_row)
-                    center = GeometryCenterCalculator.calculate(annotation_row)
-                    print("center_for_annotations:",center)
-                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"]  = center[0:2]
-                except Exception:
-                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"] = None
-                    continue
+
                 if not location:
                     raise ValueError(f"Missing location for absolute waypoint at index {i}")
-                
-                # Don't resolve coordinates — keep location name as-is
-                # The flight controller will handle named locations
-                # Just update lat/lon reference for any subsequent relative waypoints
-                # coords = self.get_location_coordinates(location, validated)
-                # lat = coords["lat"]
-                # lon = coords["lon"]
 
-                # DON'T set wp["coordinates"] for absolute waypoints
+                # ✅ Handle both old str format and new Location dict format
+                if isinstance(location, dict):
+                    location_name = location.get("name")
+                else:
+                    location_name = location  # legacy plain string
+
+                if not location_name:
+                    raise ValueError(
+                        f"Absolute waypoint at index {i} has no resolvable name "
+                        f"(location={location})"
+                    )
+
+                try:
+                    c = ConnectToDb()
+                    annotation_row = c.get_center_of_annotations(name=location_name, validated=validated)
+                    
+                    print("annotations_row:", annotation_row)
+                    center = GeometryCenterCalculator.calculate(annotation_row)
+                    print("center_for_annotations:", center)
+
+                    # center is [lon, lat, ...] based on how relative reads it
+                    resolved_lon, resolved_lat = center[0], center[1]
+                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"] = [resolved_lon, resolved_lat]
+
+                    # ✅ Update reference so subsequent relative waypoints chain correctly
+                    lat = resolved_lat
+                    lon = resolved_lon
+
+                except Exception as e:
+                    # ✅ Raise instead of silently poisoning downstream waypoints
+                    raise ValueError(
+                        f"Failed to resolve absolute waypoint '{location}' at index {i}: {e}"
+                    ) from e
 
             elif wp_type == "relative":
                 distance = wp.get("distance_meters")
                 degrees = wp.get("angle_degrees")
 
                 if distance is None or degrees is None:
-                    raise ValueError(f"Invalid relative waypoint at index {i}")
-                if i==0:
-                    new_gps = self.get_new_gps(lat, lon, distance, degrees)
-                    print("new_gps:",new_gps)
-                    lat = new_gps["lat"]
-                    lon = new_gps["lon"]
-                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"] = [lon,lat]
-                    print("validated_for_Omkar:",validated)
-                if i!=0:
-                    
-                    lon=validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"][0]
-                    lat=validated["model_for_extraction_json_output"]["waypoints"][i-1]["name"][1]
-                    new_gps = self.get_new_gps(lat, lon, distance, degrees)
-                    print("new_gps:",new_gps)
-                    lat = new_gps["lat"]
-                    lon = new_gps["lon"]
-                    
-                    validated["model_for_extraction_json_output"]["waypoints"][i]["name"] = [lon,lat]
+                    raise ValueError(f"Invalid relative waypoint at index {i}: missing distance or angle")
+
+                # ✅ Unified logic — always use current lat/lon reference, no i==0 special case needed
+                # For i==0, lat/lon is dock. For i>0, it was updated by previous waypoint.
+                if i > 0:
+                    prev_name = validated["model_for_extraction_json_output"]["waypoints"][i-1].get("name")
+                    if not prev_name or not isinstance(prev_name, (list, tuple)) or len(prev_name) < 2:
+                        raise ValueError(
+                            f"Cannot resolve relative waypoint at index {i}: "
+                            f"previous waypoint at index {i-1} has no resolved coordinates"
+                        )
+                    lon, lat = prev_name[0], prev_name[1]
+
+                new_gps = self.get_new_gps(lat, lon, distance, degrees)
+                print("new_gps:", new_gps)
+                lat = new_gps["lat"]
+                lon = new_gps["lon"]
+                validated["model_for_extraction_json_output"]["waypoints"][i]["name"] = [lon, lat]
 
             else:
                 raise ValueError(f"Unknown waypoint type at index {i}: {wp_type}")

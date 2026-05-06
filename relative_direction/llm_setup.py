@@ -119,7 +119,7 @@ SECTION 6 — ALLOWED ACTION TYPES AND THEIR FIELDS
   - NEVER use "count" for HOVER.
 
 ── GIMBAL_CONTROL ─────────────────────────────
-
+  -Use when the user mentions angle explicitly(eg. tilt the camera to some degrees so u have to include pitch(180 to -180) and yaw (0 to 360))
 ── GIMBAL_DOWN ────────────────────────────────
   - Use when user says "point camera down", "look down", "tilt down".
 

@@ -155,41 +155,40 @@ Confidence scoring:
         except Exception as e:
             logger.error(f"Error in check_completion: {str(e)}", exc_info=True)
             return self._error_result(str(e))
-
     def _convert_output_to_result(self, analysis_output: dict) -> CompletionCheckResult:
-        """
-        Convert LangChain parser output to CompletionCheckResult.
-        
-        Args:
-            analysis_output: Dictionary from JsonOutputParser
-            
-        Returns:
-            CompletionCheckResult object
-        """
         try:
             is_complete = analysis_output.get("is_complete")
             status = analysis_output.get("status")
-            confidence = float(analysis_output.get("confidence"))
-            #reasoning = analysis_output.get("reasoning")
+            confidence = float(analysis_output.get("confidence", 0.0))
+            reasoning = analysis_output.get("reasoning")
             suggestions = analysis_output.get("suggestions")
-            
-            return CompletionCheckResult(   
+
+            # Normalize suggestions to always be a list of strings
+            if suggestions is None:
+                suggestions_list = []
+            elif isinstance(suggestions, str):
+                suggestions_list = [suggestions]
+            elif isinstance(suggestions, list):
+                suggestions_list = suggestions
+            else:
+                suggestions_list = [str(suggestions)]
+
+            return CompletionCheckResult(
                 status=status,
                 is_complete=is_complete,
                 confidence=confidence,
-                #reasoning=reasoning,
-                suggestions=list[suggestions]
+                reasoning=reasoning,            # str or None, matches your model
+                suggestions=suggestions_list
             )
         except Exception as e:
             logger.error(f"Error converting output: {str(e)}")
             return self._error_result(str(e))
 
     def _error_result(self, error_msg: str) -> CompletionCheckResult:
-        """Return error result."""
         return CompletionCheckResult(
             status="rejected",
             is_complete=False,
             confidence=0.0,
-            reasoning=[f"Error during analysis: {error_msg}"],
+            reasoning=f"Error during analysis: {error_msg}",   # ✅ str not list
             suggestions=["Please try again or check your prompt"]
         )

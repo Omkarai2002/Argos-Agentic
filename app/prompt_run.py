@@ -356,7 +356,11 @@ class MissionEngine:
         # All waypoints resolved
         del self.sessions[cid]
         validated = result["mission"]
-
+        output = validated["model_for_extraction_json_output"]
+        if output["type"] == "point" and len(output.get("waypoints", [])) >= 2:
+            output["type"] = "path"
+        elif output["type"] == "path" and len(output.get("waypoints", [])) <= 1:
+            output["type"] = "point"
         print("All waypoints resolved, sending result to frontend")
 
         return {
@@ -461,6 +465,7 @@ class MissionEngine:
 
             result = threshold.check_waypoints()
             print("validated_result:",result)
+            print("length_of_waypoints:",len(result["mission"]["model_for_extraction_json_output"]["waypoints"]))
             if result["mission"]["model_for_extraction_json_output"]["type"]=="point" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])>=2:
                 result["mission"]["model_for_extraction_json_output"]["type"]="path"
             if result["mission"]["model_for_extraction_json_output"]["type"]=="path" and len(result["mission"]["model_for_extraction_json_output"]["waypoints"])<=1:
@@ -619,6 +624,10 @@ class MissionEngine:
         validated = result["mission"]
         validated=validated
         print("validate_last:",validated)
+        if validated["model_for_extraction_json_output"]["type"]=="point" and len(validated["model_for_extraction_json_output"]["waypoints"])>=2:
+            validated["model_for_extraction_json_output"]["type"]="path"
+        if validated["model_for_extraction_json_output"]["type"]=="path" and len(validated["model_for_extraction_json_output"]["waypoints"])<=1:
+            validated["model_for_extraction_json_output"]["type"]="point" 
         if not validated["model_for_extraction_json_output"]["waypoints"]:
             return {
                 "event": "argos-ai:response",

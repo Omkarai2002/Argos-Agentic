@@ -38,23 +38,57 @@ class Classifier:
         chain =prompt| llm | parser
         return chain
     
-    def doctrine_classifier(self,work_pattern:str,mission_text:str)->str:
-        text=mission_text.lower()
-        if work_pattern =="cover_area":
+    def doctrine_classifier(self, work_pattern: str, mission_text: str) -> str:
+        text = mission_text.lower()
+
+        # Terms that imply actual vertical structural inspection
+        structural_terms = [
+            "tower", "turbine", "facade", "wind turbine",
+            "cell tower", "telecom tower", "chimney", "pole",
+            "mast", "pylon"
+        ]
+
+        # Words that indicate the drone is actively inspecting/scanning a structure
+        inspection_verbs = [
+            "inspect", "scan", "survey the structure", "check the",
+            "examine", "assess the", "audit the"
+        ]
+
+        # Named destinations that are NOT structures for inspection purposes
+        destination_only_terms = [
+            "admin building", "water tank", "office", "gate",
+            "warehouse", "canteen", "parking", "entrance"
+        ]
+
+        is_structural = any(term in text for term in structural_terms)
+        is_inspecting = any(verb in text for verb in inspection_verbs)
+        is_just_destination = any(term in text for term in destination_only_terms)
+
+        if work_pattern == "cover_area":
             return "grid"
-        if work_pattern =="move_and_work":
+
+        if work_pattern == "move_and_work":
             return "path"
-        if work_pattern =="inspect_structure":
-            return "3d"
-        if work_pattern =="stop_and_work":
-            structural_terms =[
-                "tower","turbine","facade","building",
-                "wind turbine","cell tower","telecom tower"
-            ]
-            if any (term in text for term in structural_terms):
+
+        if work_pattern == "inspect_structure":
+            # Only return 3d if it's truly a structural inspection,
+            # not just visiting a named place that sounds like a structure
+            if is_structural and is_inspecting and not is_just_destination:
+                return "3d"
+            # LLM misclassified — downgrade based on waypoint intent
+            return "path" if self._has_multiple_destinations(text) else "point"
+
+        if work_pattern == "stop_and_work":
+            if is_structural and is_inspecting:
                 return "3d"
             return "point"
+
         return "point"
+
+    def _has_multiple_destinations(self, text: str) -> bool:
+        """Rough check for multiple destinations implying a path."""
+        conjunctions = [" then ", " and then ", " after that ", " next "]
+        return any(c in text for c in conjunctions)
     
     def classify_mission(self) -> dict:
         mission_text=self.validated["prompt"]

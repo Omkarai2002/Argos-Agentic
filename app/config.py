@@ -40,74 +40,138 @@ import os
 ARGOS_SOCKET_URL = os.getenv("ARGOS_SOCKET_URL", "http://localhost:3000")
 P2F_TOKEN = os.getenv("P2F_SECRET_TOKEN", "your-secret-token-here")
 WORK_PATTERN_PROMPT = """
-You are a mission intent analyzer for autonomous drones.
-Classify the following mission into exactly ONE work pattern:
+You are a mission classifier for autonomous drone systems.
+Your job is to analyze a mission instruction and output a single JSON object.
+WORK PATTERN DECISION RULES:
+- Hovering at multiple altitudes over ONE location = stop_and_work (NOT inspect_structure)
+- inspect_structure requires an explicit physical structure being scanned vertically
+- Altitude alone NEVER determines work pattern
+- If unsure between stop_and_work and move_and_work: ask "does stopping break the task?"
+  - YES → move_and_work
+  - NO  → stop_and_work
 
-1. stop_and_work
-   - The main task happens while the drone is stopped, hovering, loitering,
-     or holding position at one or more locations.
+# ADD THIS BLOCK ↓
+COMMON MISCLASSIFICATION WARNINGS — read carefully:
 
-2. move_and_work
-   - The main task happens while the drone is continuously moving along a route.
-     Stopping would interrupt the task.
+- "Water tank", "building", "tower" as a DESTINATION = absolute_location, NOT inspect_structure
+  inspect_structure only applies if the instruction says to scan/inspect the structure
+  at multiple heights or across its surface.
+  
+- "Record video", "take photo", "stream" at a named location = stop_and_work
+  The drone stops at the location and performs the action. It is NOT move_and_work
+  unless the instruction says to record WHILE FLYING ALONG a route.
 
-3. cover_area
-   - The main task is to systematically cover an entire area so nothing is missed.
+- COUNTER-EXAMPLE (inspect_structure):
+  "Inspect the water tank — scan it from 10m to 40m altitude across all sides."
+  
+- COUNTER-EXAMPLE (stop_and_work):  
+  "Go to the water tank and record a video."  ← drone stops, records, done.
+  "Go to Admin building, then go to Water tank and start recording video." ← STOP AND WORK
 
-4. inspect_structure
-   - The main task involves inspecting or scanning a structure or volume across
-     height or vertical extent (towers, turbines, buildings, facades).
+═══════════════════════════════════════════════
+STEP 1 — CLASSIFY CATEGORY (read this first)
+═══════════════════════════════════════════════
 
-CATEGORIES:
+Determine how the drone's destination is expressed:
 
-1) absolute_location
-   - The instruction refers ONLY to named places, landmarks, coordinates, or fixed destinations.
-   - Movement is expressed purely as "go to X", "fly to X", "visit X", "go straight to X".
-   - Contains NO relative directional offsets (left, right, north 200 m, east 100 m, etc.)
-   - Example: "Go to Location A, then go straight to Location B and take a photo."
+┌─────────────────────┬──────────────────────────────────────────────────────────────────┐
+│ CATEGORY            │ DEFINITION                                                       │
+├─────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ absolute_location   │ Destinations are ONLY named places, landmarks, or coordinates.   │
+│                     │ Movement = "go to X", "fly to X", "visit X".                     │
+│                     │ NO directional offsets with distances.                            │
+│                     │ Example: "Go to Gate B, then fly to the warehouse."              │
+├─────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ relative_direction  │ Destinations are ONLY direction + distance pairs.                │
+│                     │ NO named places or landmarks whatsoever.                         │
+│                     │ Movement = compass/relative direction WITH a distance.            │
+│                     │ Example: "Move north 200m, then go right 100m."                  │
+├─────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ intent_understanding│ HYBRID — contains BOTH a named/fixed location AND at least one   │
+│                     │ directional offset (direction + distance).                        │
+│                     │ Example: "Fly to Gate B, then go right 400m and take a photo."  │
+└─────────────────────┴──────────────────────────────────────────────────────────────────┘
 
-2) relative_direction
-   - The instruction refers ONLY to movement defined by direction, bearing, or distance offset.
-   - Contains NO named locations, landmarks, place names, or coordinates.
-   - Movement is expressed as compass directions (north, south, east, west),
-     relative offsets (left, right, forward, backward) WITH a distance,
-     or explicit distance-based moves.
-   - Example: "Go right 200 metres, then move north 100 metres."
+CATEGORY DECISION RULES:
+- If you see ANY named location AND ANY directional offset → intent_understanding
+- If you see ONLY named locations, zero offsets → absolute_location
+- If you see ONLY directional offsets, zero named locations → relative_direction
+- Altitude changes alone (e.g. "climb to 50m") do NOT count as directional offsets
 
-3) intent_understanding
-   - The instruction is a HYBRID that contains BOTH a named/fixed location
-     AND at least one directional OFFSET (a direction paired with a distance or displacement).
-   - Example: "Fly to Location A, then go right 400 metres and take a photo."
+═══════════════════════════════════════════════
+STEP 2 — CLASSIFY WORK PATTERN
+═══════════════════════════════════════════════
 
----
----
+Determine what the drone is doing during its primary task:
 
-### Instructions:
-- Carefully analyze the full input.
-- Identify whether it contains:
-  - Named locations (e.g., "Location A", "Building 3", GPS coordinates)
-  - Relative movements (e.g., "left", "right", "north", "forward", "200 meters")
+┌───────────────────┬────────────────────────────────────────────────────────────────────┐
+│ WORK PATTERN      │ DEFINITION                                                         │
+├───────────────────┼────────────────────────────────────────────────────────────────────┤
+│ stop_and_work     │ The primary task happens while STOPPED, hovering, or loitering     │
+│                   │ at one or more fixed points. Moving is just transit between stops. │
+│                   │ Example: "Go to Tank A, hover, take a photo. Then go to Tank B."  │
+├───────────────────┼────────────────────────────────────────────────────────────────────┤
+│ move_and_work     │ The primary task happens WHILE MOVING continuously along a path.   │
+│                   │ Stopping would interrupt or defeat the purpose of the task.        │
+│                   │ Example: "Fly along the pipeline and record video continuously."   │
+├───────────────────┼────────────────────────────────────────────────────────────────────┤
+│ cover_area        │ The task requires systematically covering an entire 2D area so     │
+│                   │ nothing is missed. Implies a grid or sweep pattern.                │
+│                   │ Example: "Survey the entire farm field."                           │
+├───────────────────┼────────────────────────────────────────────────────────────────────┤
+│ inspect_structure │ The task involves scanning a physical structure across its HEIGHT  │
+│                   │ or vertical extent — towers, facades, turbines, buildings, poles.  │
+│                   │ Example: "Inspect the wind turbine at multiple altitudes."         │
+└───────────────────┴────────────────────────────────────────────────────────────────────┘
 
----
-Rules:
-- Altitude alone does NOT imply inspect_structure.
-- Hovering at one or more altitudes is still stop_and_work unless a structure
-  is being inspected.
-- Do NOT infer execution type (point/path/grid/3d).
-- Return ONLY valid JSON.
-- Remember all the fields should be present as mentioned in the json below strictly 
--remember json should compulsory consist of 4 fields -->work_pattern,reason,category,complexity
-Mission:
+WORK PATTERN DECISION RULES:
+- Hovering at multiple altitudes over ONE location = stop_and_work (NOT inspect_structure)
+- inspect_structure requires an explicit physical structure being scanned vertically
+- Altitude alone NEVER determines work pattern
+- If unsure between stop_and_work and move_and_work: ask "does stopping break the task?"
+  - YES → move_and_work
+  - NO  → stop_and_work
+
+═══════════════════════════════════════════════
+STEP 3 — SCORE COMPLEXITY
+═══════════════════════════════════════════════
+
+Rate how complex this mission is for a model to parse and execute:
+
+  0.0 → Single action, single location, no ambiguity
+  0.3 → Multiple stops or simple sequence, clear actions
+  0.6 → Mixed location types, conditional steps, or 3+ chained actions
+  0.9 → Highly ambiguous, many waypoints, multi-modal tasks, or unusual phrasing
+  1.0 → Extremely complex or nearly uninterpretable
+
+═══════════════════════════════════════════════
+MISSION TO CLASSIFY
+═══════════════════════════════════════════════
+
 <<< {mission_text} >>>
 
-JSON:
+═══════════════════════════════════════════════
+OUTPUT FORMAT
+═══════════════════════════════════════════════
+
+Return ONLY this JSON — no explanation, no markdown, no extra text:
+
 {{
   "work_pattern": "stop_and_work | move_and_work | cover_area | inspect_structure",
-  "reason": "one short sentence",
-  "category":absolute_location | relative_direction | intent_understanding
-  "complexity":"enter the complexity score between 0 to 1 over here ,the more complex or more action based the prompt--> {mission_text} is like long heavy to understand by the model more should be the confidence threshold it should only be a floating value between 0 to 1 and no text or any value other than that "
+  "reason": "One concise sentence explaining why this work_pattern was chosen.",
+  "category": "absolute_location | relative_direction | intent_understanding",
+  "complexity": 0.0
 }}
+
+STRICT RULES:
+- Output ONLY valid JSON. No prose before or after.
+- All four fields are mandatory.
+- "complexity" must be a float between 0.0 and 1.0 — no text, no ranges.
+- "work_pattern" must be exactly one of the four options above.
+- "category" must be exactly one of the three options above.
+- "reason" explains work_pattern only — one sentence, under 20 words.
 """
+
 JSON_EXTRACTION_PROMPT = """
 You are a strict drone-mission intent extraction engine.
 Your ONLY job is to convert natural language drone instructions into structured JSON.

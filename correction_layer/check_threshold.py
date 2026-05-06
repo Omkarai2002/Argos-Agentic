@@ -94,7 +94,7 @@ class CheckThreshold:
                 
             except:
                 self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude"]=40
-            if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude_mode"]:
+            if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude_mode"] or self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude_mode"] not in ["REL","ASL","AGL"]:
                 self.validated["model_for_extraction_json_output"]["waypoints"][i]["altitude_mode"]="REL"
             try:
                 spd=self.validated["model_for_extraction_json_output"]["waypoints"][i]["speed"]
@@ -142,14 +142,14 @@ class CheckThreshold:
 
                     if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="IMAGE_DISTANCE":
                         if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["distance"]:
-                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["distance"]=2
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["distance"]=4
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=None
 
-                        if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["distance"]:
-                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=None
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]:
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=4
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
@@ -162,15 +162,13 @@ class CheckThreshold:
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
-                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=None
-                        if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]:
-                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=None
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]:
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
                             self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=None
-                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=None    
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=4    
 
                     if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="VIDEO_START":
                         self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=None
@@ -187,6 +185,36 @@ class CheckThreshold:
                         self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
                         self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=None
                         self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=None  
+                    
+                    if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="GIMBAL_CONTROL":
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]:
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["distance"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=180
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=None
+
+                        if not self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]:
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["count"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=90
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=None
+                            self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=None 
+
+                    if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="GIMBAL_DOWN":
+                    
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=None
+                    
+                    if self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["type"]=="GIMBAL_RECENTER":
+                    
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["interval"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["zoom"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["yaw"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["pitch"]=None
+                        self.validated["model_for_extraction_json_output"]["waypoints"][i]["actions"][j]["params"]["duration"]=None
         gps_points=self.parse_distance()               
         try:
             gps_points = self.parse_distance()

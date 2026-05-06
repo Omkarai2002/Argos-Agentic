@@ -90,7 +90,7 @@ WAYPOINT SCHEMA (each item in waypoints[])
 {{
   "name": null,           // place name only if user explicitly mentions it
   "altitude": null,       // meters
-  "altitude_mode": null,  // "AGL" or "ASL" only
+  "altitude_mode": null,  // "AGL","REL" or ASL" only
   "speed": null,          // m/s
   "radius": null,         // meters
   "actions": []
@@ -206,6 +206,16 @@ PRIORITY 4 — MULTIPLE CANDIDATES:
 PRIORITY 5 — NO MATCH:
   If no location in the list matches even loosely, set "name": null.
   NEVER fabricate, guess, or use a location not in the available list.
+  CRITICAL: Even if "name" is null, you MUST still create the waypoint object.
+  A failed location match does NOT mean the waypoint is skipped.
+  The waypoint must still appear in the waypoints array with "name": null
+  and all other fields (altitude, speed, radius, actions) populated
+  as usual based on the user's instruction.
+
+  Example:
+  User says "fly to Shivaji Park" but it is not in the list →
+  waypoint is created with "name": null, actions: [], etc.
+  Do NOT omit the waypoint entirely.
 
 ────────────────────────────────────────
 STEP 3 — WAYPOINT INCLUSION RULES
@@ -229,6 +239,9 @@ RULE 4 — PRESERVE ORDER:
 
 RULE 5 — NO WAYPOINTS IF NONE MENTIONED:
   If the user gives no destination at all, waypoints = []. 
+  NOTE: waypoints = [] ONLY when the user mentions zero destinations.
+  If the user mentions destinations that fail location matching,
+  those still produce waypoints with "name": null — they are NOT removed.
 
 
 1. STARTING POINT IS NEVER A WAYPOINT.
@@ -247,6 +260,48 @@ RULE 5 — NO WAYPOINTS IF NONE MENTIONED:
 
 5. Never infer or fabricate GPS coordinates. Use place names only as the user stated them.
 
+════════════════════════════════════════
+HOVER DISAMBIGUATION — READ CAREFULLY
+════════════════════════════════════════
+
+"hover" can mean two different things depending on POSITION in the instruction:
+
+  AS A WAYPOINT ACTION:
+  → "hover for X seconds" appears AT or AFTER a destination.
+  → "Fly to X and hover for 20 seconds" → waypoint action HOVER, duration=20
+  → "Go to Tower A, hover for 30 seconds, then continue" → waypoint action HOVER
+
+  AS A FINISH TYPE:
+  → "hover for X seconds" appears at the END of the mission with no more destinations after it.
+  → "Complete the mission and hover for 10 seconds" → finish.type=HOVER, duration=10
+  → "After all stops, hover in place for 1 minute" → finish.type=HOVER, duration=60
+
+  DECISION RULE:
+  - If there are destinations mentioned BEFORE the hover → it is a WAYPOINT ACTION.
+  - If the hover is the very last thing and no destination follows → it is a FINISH TYPE.
+  - When in doubt, prefer WAYPOINT ACTION over FINISH TYPE.
+
+  EXAMPLE — Correct output for "Fly to Nashik Central at 30m and hover for 20 seconds":
+  {{
+    "finish": {{"type": null, "duration": null}},
+    "waypoints": [
+      {{
+        "name": "Nashik Central",
+        "altitude": 30,
+        "altitude_mode": null,
+        "speed": null,
+        "radius": null,
+        "actions": [
+          {{
+            "type": "HOVER",
+            "duration": 20,
+            "pitch": null, "yaw": null, "interval": null,
+            "count": null, "zoom": null, "distance": null
+          }}
+        ]
+      }}
+    ]
+  }}
 ════════════════════════════════════════
 UNIT CONVERSION
 ════════════════════════════════════════
