@@ -13,11 +13,9 @@ from app.prompt_run import MissionEngine
 from app.config import ARGOS_SOCKET_URL, P2F_TOKEN
 
 LoggerFeature.setup_logging()
-
 logger = logging.getLogger(__name__)
 
 words = []
-#sentences = ["general science", "good morning"]
 
 router = SuggestionRouter(
     WordCompletionEngine(words),
@@ -25,9 +23,10 @@ router = SuggestionRouter(
     NGramEngine(top_k=1)
 )
 
-# P2F is now a CLIENT — connects INTO Argos
 sio = socketio.AsyncClient(reconnection=True, reconnection_delay=1, reconnection_delay_max=5)
 mission_engine = MissionEngine(sio)
+
+user_cache: dict[int, dict] = {}
 
 
 # ── Connection Events ─────────────────────────────────────────────
@@ -44,124 +43,127 @@ def disconnect():
 
 @sio.on("connected")
 def on_authenticated(data):
-    # Argos confirmed our token is valid
     print(f"Authenticated by Argos: {data}")
-    asyncio.create_task(heartbeat_loop())  # start heartbeat
+    asyncio.create_task(heartbeat_loop())
+
 
 @sio.on("argos-ai:user-register")
 def on_user_register(data):
-    # Argos confirmed our token is valid
     print(f"user data registered: {data}")
-    sio.emit("argos-ai:user-registered",{data})
+    sio.emit("argos-ai:user-registered", {data})
 
-@sio.on("argos-ai:user-disconnected")
-def on_user_disconnected(data):
-    # Argos confirmed our token is valid
-    print(f"user disconnected: {data}")
-     # start heartbeat
 
 @sio.on("argos-ai:user-connected")
 def on_user_connected(data):
-    # Argos confirmed our token is valid
     print(f"user connected: {data}")
+    user_id = data.get("user_id") or data.get("id")
+    if user_id and "user" in data:
+        user_cache[user_id] = data["user"]
+        print(f"Cached user data for user_id={user_id}")
+
+
+@sio.on("argos-ai:user-disconnected")
+def on_user_disconnected(data):
+    print(f"user disconnected: {data}")
+    user_id = data.get("user_id") or data.get("id")
+    if user_id and user_id in user_cache:
+        del user_cache[user_id]
+        print(f"Cleared cache for user_id={user_id}")
+
 
 @sio.on("argos-ai:user-message")
 async def on_user_message(data):
-    # Argos confirmed our token is valid
-
     print(f"user message: {data}")
-    type = data["type"]
-    cid = data.get('cid', '')
-    user_id = data["user_id"]
 
-    # Generate a random UUID (Version 4)
-    
-    if type == "prompt":
-        cid = str(uuid.uuid4())
-        print(f"Random UUID: {cid}")
-        prompt=data["message"]
+    msg_type = data["type"]
+    cid      = data.get("cid", "")
+    user_id  = data["user_id"]
 
-        print(f"Query received for user: {cid}")
-        print(f"Prompt: {prompt}")
+    # Inject cached user data into every message
+    data["user"] = user_cache.get(user_id, {})
 
-        # Send progress update → Argos will forward to browser
+    # ── Prompt ────────────────────────────────────────────────────
+    if msg_type == "prompt":
+        cid    = str(uuid.uuid4())
+        prompt = data["message"]
+
         await sio.emit("argos-ai:progress", {
-            "cid": cid,
-            "user_id":user_id,
+            "cid":     cid,
+            "user_id": user_id,
             "message": "Processing prompt"
         })
 
-        # Run your existing MissionEngine (unchanged)
         response = await mission_engine.main(cid, data)
 
         if not response:
             await sio.emit("argos-ai:response", {
-                "type": "rejected",
-                "cid": cid,
+                "type":    "rejected",
+                "cid":     cid,
                 "message": "No response from engine"
             })
             return
 
-        event = response.get('event', 'argos-ai:progress')
-        _type = response.get('type', 'unknown')
-        # Send final result back to Argos
+        event = response.get("event", "argos-ai:progress")
+        _type = response.get("type", "unknown")
+
         await sio.emit(event, {
-            "type": _type,
-            "user_id":user_id,
-            "cid": cid,
+            "type":    _type,
+            "user_id": user_id,
+            "cid":     cid,
             "message": response["payload"].get("message"),
-            "params": response["payload"] if _type == 'success' else response["payload"].get("params",None)
+            "params":  response["payload"] if _type == "success"
+                       else response["payload"].get("params", None)
         })
-    elif type == 'reply':
-        if data['event'] == 'action:location':
-            print("response_trigerred_in_action")
+
+    # ── Reply (human-in-loop) ─────────────────────────────────────
+    elif msg_type == "reply":
+        event_name = data.get("event", "")
+
+        if event_name == "action:location":
             response = await mission_engine.handle_location_action(cid, data)
-            _type = response.get('type', 'unknown')
-
-            await sio.emit(response.get("event", 'argos-ai:progress'), {
-                "type": response.get('type', 'unknown'),
-                "user_id": user_id,
-                "cid": cid,
-                "message": response["payload"].get("message"),
-                "params": response["payload"] if _type == 'success' else response["payload"].get("params",None)
-            })
-        elif data['event'] == 'action:validate':
+        elif event_name == "action:validate":
             response = await mission_engine.handle_validate_action(cid, data)
-            _type = response.get('type', 'unknown')
-
-            await sio.emit(response.get("event", 'argos-ai:progress'), {
-                "type": response.get('type', 'unknown'),
-                "user_id": user_id,
-                "cid": cid,
-                "message": response["payload"].get("message"),
-                "params": response["payload"] if _type == 'success' else response["payload"].get("params",None)
-            })
         else:
-            pass
-            
+            print(f"Unknown reply event: {event_name}")
+            return
+
+        _type = response.get("type", "unknown")
+
+        await sio.emit(response.get("event", "argos-ai:progress"), {
+            "type":    _type,
+            "user_id": user_id,
+            "cid":     cid,
+            "message": response["payload"].get("message"),
+            "params":  response["payload"] if _type == "success"
+                       else response["payload"].get("params", None)
+        })
+
+    else:
+        print(f"Unknown message type: {msg_type}")
 
 
+# ── Typing suggestions ────────────────────────────────────────────
 
 @sio.on("argos-ai:user-typing")
 async def on_user_typing(data):
-    # Argos confirmed our token is valid
-    # @TODO: find  suggestions
-    timestamp=data["timestamp"]
-
+    timestamp = data["timestamp"]
     try:
-        ts = TextState(data["input"], 5)
-        predicted=router.suggest(ts)
-        print("predicted:",predicted)
+        ts        = TextState(data["input"], 5)
+        predicted = router.suggest(ts)
+        print("predicted:", predicted)
         latency = round((time.time() - timestamp) * 1000, 2)
-        await sio.emit('argos-ai:type-suggestion', {
-            'user_id': data["user_id"],
-            'relevant': predicted['suggestions'][0] if len(predicted["suggestions"])>0 else "",
-            'suggestions': [],
-            "latency": latency
+        await sio.emit("argos-ai:type-suggestion", {
+            "user_id":     data["user_id"],
+            "relevant":    predicted["suggestions"][0] if len(predicted["suggestions"]) > 0 else "",
+            "suggestions": [],
+            "latency":     latency
         })
         print(f"user typing : {data}")
     except Exception as e:
         print(e)
+
+
+# ── Heartbeat ─────────────────────────────────────────────────────
 
 async def heartbeat_loop():
     while sio.connected:
@@ -174,19 +176,19 @@ async def heartbeat_loop():
 def on_pong():
     print("Pong received from Argos")
 
+
+# ── Connect ───────────────────────────────────────────────────────
+
 async def connect_with_retry():
     try:
         print(f"Connecting to Argos at {ARGOS_SOCKET_URL}...")
         await sio.connect(
             ARGOS_SOCKET_URL,
-            headers={
-                'X-Argos-Ai': 'argos-ai',
-            },
-            auth={"token": P2F_TOKEN},   # token sent on handshake
-            transports=["websocket","polling"]
+            headers={"X-Argos-Ai": "argos-ai"},
+            auth={"token": P2F_TOKEN},
+            transports=["websocket", "polling"]
         )
-        await sio.wait()                 # keep alive
-
+        await sio.wait()
     except Exception as e:
         print(f"Connection failed: {e}. Retrying in 5s...")
 
